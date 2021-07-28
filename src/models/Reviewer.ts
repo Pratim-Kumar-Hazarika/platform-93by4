@@ -29,9 +29,9 @@ const reviewerSchema = new Schema<IReviewer, Model<IReviewer>, IReviewer>(
       unique: true,
       lowercase: true,
     },
-    isVerified: {
+   isAllowedToReview: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     firstName: {
       type: String,
