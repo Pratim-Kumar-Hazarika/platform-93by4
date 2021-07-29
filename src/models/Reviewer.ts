@@ -60,6 +60,7 @@ const reviewerSchema = new Schema<IReviewer, Model<IReviewer>, IReviewer>(
     },
     portfolioReviewed: {
       type: Number,
+      default: 0,
     },
     portfolioAssigned: {
       type: Schema.Types.ObjectId,
