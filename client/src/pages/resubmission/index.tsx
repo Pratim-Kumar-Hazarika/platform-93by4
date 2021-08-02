@@ -54,7 +54,7 @@ const ReSubmissionWindow: React.FC = () => {
     try {
       const response = await reSubmissionLink({
         submissionNo: 0,
-        status: 'under review',
+        status: 'portfolio_under_review',
         portfolioUrl: inputRef.current.value,
       })
 

@@ -81,7 +81,7 @@ const SubmissionWindow: React.FC = () => {
           }, 2000)
         }
       }
-    } else if (authState?.user?.submissionData?.status === 'under review') {
+    } else if (authState?.user?.submissionData?.status === 'portfolio_under_review') {
       setIsLoading(true)
 
       router.push('/submission/congrats')
@@ -108,7 +108,7 @@ const SubmissionWindow: React.FC = () => {
   const submitPortfolioUrl = async (): Promise<void> => {
     try {
       const response = await submissionLink({
-        status: 'under review',
+        status: 'portfolio_under_review',
         portfolioUrl: inputRef.current.value,
         submissionNo: 0,
       })

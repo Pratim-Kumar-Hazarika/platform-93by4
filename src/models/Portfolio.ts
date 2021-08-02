@@ -3,7 +3,7 @@ import { Schema, model, Model, ObjectId, Date } from 'mongoose'
 
 type Status =
   | 'portfolio_not_submitted'
-  | 'under_review'
+  | 'portfolio_under_review'
   | 'getting_reviewed'
   | 'portfolio_needs_revision'
   | 'portfolio_revision_exceeded'
@@ -75,7 +75,7 @@ const PortfolioSchema = new Schema<
       type: String,
       enum: [
         'portfolio_not_submitted',
-        'under_review',
+        'portfolio_under_review',
         'getting_reviewed',
         'portfolio_needs_revision',
         'portfolio_revision_exceeded',

@@ -1,4 +1,4 @@
-import { PortfolioUrl } from './../models/Portfolio'
+import { IPortfolioUrl, PortfolioUrl } from './../models/Portfolio'
 import { User } from './../models/User'
 import { AuthRequest } from './../types/RequestWithUser.d'
 import { RequestHandler } from 'express'
@@ -14,15 +14,15 @@ export const submitHandler: RequestHandler = async (req: AuthRequest, res) => {
     'portfolioUrl'
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   )) as any
-  const currentSubmission = await PortfolioUrl.find()
-    .sort({ submissionNo: -1 })
-    .limit(1)
+  const currentSubmission = await PortfolioUrl.findOne(
+    {}
+  ).sort({ submissionNo: -1 }) as IPortfolioUrl
   let currentSubmissionCount
   try {
-    if (currentSubmission.length < 1) {
+    if (!currentSubmission?.submissionNo) {
       currentSubmissionCount = 0
     } else {
-      currentSubmissionCount = currentSubmission[0].submissionNo
+      currentSubmissionCount = currentSubmission.submissionNo
     }
     if (foundUser && foundUser.portfolioUrl) {
       return res.status(302).json({
@@ -72,17 +72,20 @@ export const reSubmitHandler: RequestHandler = async (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   )) as any
 
-  const currentSubmission = await PortfolioUrl.find()
-    .sort({ submissionNo: -1 })
-    .limit(1)
-  const currentSubmissionCount = currentSubmission[0].submissionNo
+  const currentSubmission = (await PortfolioUrl.findOne({}).sort(
+    { submissionNo: -1 }
+  )) as IPortfolioUrl
+  // if(!currentSubmission){
+  //   currentSubmission={}
+  // }
+  const currentSubmissionCount = currentSubmission.submissionNo
 
   try {
     const oldValues = foundUser.portfolioUrl
     const newValues = {
       portfolioUrl: portfolioUrl,
       submissionNo: currentSubmissionCount + 1,
-      status: 'under review',
+      status: 'portfolio_under_review',
     }
     if (foundUser && foundUser?.portfolioUrl.portfolioUrl === portfolioUrl) {
       console.log('count', currentSubmissionCount)
@@ -92,7 +95,7 @@ export const reSubmitHandler: RequestHandler = async (
 
       return res.status(200).json({
         submissionNo: currentSubmissionCount + 1,
-        status: 'under review',
+        status: 'portfolio_under_review',
         message: 'resubmission successfull',
       })
     }
@@ -102,7 +105,7 @@ export const reSubmitHandler: RequestHandler = async (
       await updatedData.save()
       return res.status(200).json({
         submissionNo: currentSubmissionCount + 1,
-        status: 'under review',
+        status: 'portfolio_under_review',
         message: 'resubmission successfull',
       })
     }

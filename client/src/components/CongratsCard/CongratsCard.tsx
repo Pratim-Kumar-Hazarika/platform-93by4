@@ -29,7 +29,7 @@ export function CongratsCard({
       </Text>
 
       <Text fontSize="14px" fontStyle="bold" color="white">
-        Current Status: {status}
+        Current Status: {status!.split("_").map(word=>word.charAt(0).toUpperCase() + word.slice(1)).join(" ")}
       </Text>
       <Flex
         pt="5"
