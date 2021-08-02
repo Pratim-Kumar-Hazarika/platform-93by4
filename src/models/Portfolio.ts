@@ -66,7 +66,7 @@ const PortfolioSchema = new Schema<
       type: Number,
       required: true,
       default: 0,
-    },,
+    },
     portfolioUrl: {
       type: String,
       unique: true,
@@ -91,7 +91,7 @@ const PortfolioSchema = new Schema<
     reviewComments: [
       {
         author: String,
-        comment: { type: String, trim: true, minlength: 20 }
+        comment: { type: String, trim: true, minlength: 20 },
         date: Schema.Types.Date,
       },
     ],
