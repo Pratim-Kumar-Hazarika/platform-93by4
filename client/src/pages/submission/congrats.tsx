@@ -18,7 +18,7 @@ const Congrats: React.FC = () => {
   }
 
   useEffect(() => {
-    if (authState?.user?.submissionData?.status !== 'under review') {
+    if (authState?.user?.submissionData?.status !== 'portfolio_under_review') {
       router.push('/submission/checklist')
     }
     setTimeout(() => {
@@ -26,7 +26,7 @@ const Congrats: React.FC = () => {
     }, 2000)
   }, [])
   useEffect(() => {
-    if (authState?.user?.submissionData?.status === 'under review') {
+    if (authState?.user?.submissionData?.status === 'portfolio_under_review') {
       fireworks()
     }
   }, [])
