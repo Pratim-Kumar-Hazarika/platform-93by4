@@ -32,7 +32,9 @@ const ReSubmissionWindow: React.FC = () => {
   const { authState, setAuthState } = useAuth()
 
   useEffect(() => {
-    if (authState?.user?.submissionData?.status !== 'needs revision') {
+    if (
+      authState?.user?.submissionData?.status !== 'portfolio_needs_revision'
+    ) {
       router.push('/dashboard')
     }
   }, [])
