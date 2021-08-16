@@ -1,5 +1,6 @@
 import { Box, Button, Heading, Text, Link, Flex } from '@chakra-ui/react'
 import NextLink from 'next/link'
+import { Tweets } from '../../utils/differentTweets'
 
 type userStatusProps = {
   submissionNo?: string
@@ -9,6 +10,8 @@ export function CongratsCard({
   submissionNo,
   status,
 }: userStatusProps): JSX.Element {
+
+  const tweet = Tweets[Math.floor(Math.random() * Tweets.length)]
   return (
     <Box
       borderWidth="1px"
@@ -43,7 +46,7 @@ export function CongratsCard({
       >
         <Heading fontSize="md" p={{ base: '3', md: '0' }}>
           <Link
-            href="https://twitter.com/intent/tweet?text=I%20am%20super%20excited%20to%20announce%20that%20I%20have%20completed%20levelZero%20of%20%40neogcamp%20and%20have%20successfully%20submitted%20my%20mark15%20portfolio.%0AWish%20me%20luck%20for%20admissions.%20%0A%23neogcamp%20%23webdevelopment%20%23neog2022"
+            href={"https://twitter.com/intent/tweet?text="+ tweet}
             isExternal
             color="cyan"
           >
