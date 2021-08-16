@@ -99,10 +99,10 @@ export class Email {
       } else {
         await this.newTransport().sendMail(
           nodemailerOptions,
-          (error,response) => {
+          (error, response) => {
             if (error) {
               console.log('Error occured while sending email', error)
-              } else {
+            } else {
               console.log(process.env.NODE_ENV)
               console.log('Response after sending email', response)
             }
