@@ -1,4 +1,3 @@
-import { Response } from 'express'
 import axios from 'axios'
 import { User } from '../context/AuthContext'
 import { LoginValues } from '../pages/auth/login'
