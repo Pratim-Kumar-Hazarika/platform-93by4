@@ -47,7 +47,7 @@ const ReSubmissionWindow: React.FC = () => {
       setCheckInput('')
       setDisabledButton(false)
     } else {
-      setCheckInput("That's not a URL")
+      setCheckInput('Please enter a valid URL')
       setDisabledButton(true)
     }
   }
@@ -88,15 +88,13 @@ const ReSubmissionWindow: React.FC = () => {
 
         router.push('./resubmission/congrats')
       }
-      console.log(response.data)
       return response.data
     } catch (err) {
-      console.log('err', err.response)
       if (err.response?.status === 409) {
         toast({
           title: 'Portfolio URL Exists',
           description:
-            'The link you have submitted already exists, please try again with different link!',
+            'The link you have submitted already exists, please try again with your own link!',
           status: 'error',
           duration: 5000,
           isClosable: true,
@@ -179,7 +177,7 @@ const ReSubmissionWindow: React.FC = () => {
               molestias quibusdam architecto! Recusandae beatae.
             </Text>
             <Flex
-              justifyContent="center"
+              justifyContent={['stretch', 'center']}
               alignItems="center"
               p="5"
               flexDirection={['column', 'row']}
@@ -190,6 +188,8 @@ const ReSubmissionWindow: React.FC = () => {
                 onChange={checkPortfolioUrl}
                 ref={inputRef}
                 border="none"
+                isInvalid={disableButton}
+                errorBorderColor={theme.colors.red['500']}
                 background={theme.colors.black['600']}
                 width="100%"
                 color={theme.colors.black['50']}
@@ -197,9 +197,21 @@ const ReSubmissionWindow: React.FC = () => {
               />
               <Alert isDisabled={disableButton} onClick={submitPortfolioUrl} />
             </Flex>
-            <Text color={theme.colors.red['500']} textAlign="center">
-              {checkInput}
-            </Text>
+            <Flex
+              justifyContent={['stretch', 'center']}
+              alignItems="center"
+              w="100%"
+              flexDirection={['column', 'row']}
+            >
+              <Text
+                color={theme.colors.red['500']}
+                textAlign="left"
+                w="85%"
+                maxW="380px"
+              >
+                {checkInput}
+              </Text>
+            </Flex>
           </Flex>
         </Box>
       </Layout>

@@ -9,7 +9,6 @@ import {
   Spinner,
 } from '@chakra-ui/react'
 import { useRef, useState, useEffect, MutableRefObject } from 'react'
-import axios from 'axios'
 import { Layout, Breadcrumbs, Alert } from '../../components'
 import { useRouter } from 'next/router'
 import { isUrlValid } from '../../utils/utils'
@@ -81,7 +80,9 @@ const SubmissionWindow: React.FC = () => {
           }, 2000)
         }
       }
-    } else if (authState?.user?.submissionData?.status === 'portfolio_under_review') {
+    } else if (
+      authState?.user?.submissionData?.status === 'portfolio_under_review'
+    ) {
       setIsLoading(true)
 
       router.push('/submission/congrats')
@@ -100,7 +101,7 @@ const SubmissionWindow: React.FC = () => {
       setCheckInput('')
       setDisabledButton(false)
     } else {
-      setCheckInput("That's not a URL")
+      setCheckInput('Please enter a valid URL')
       setDisabledButton(true)
     }
   }
@@ -142,7 +143,6 @@ const SubmissionWindow: React.FC = () => {
         router.push('./submission/congrats')
       }
     } catch (err) {
-      console.log({ err })
       if (err.response?.status === 302) {
         toast({
           title: 'Your portfolio is already submitted!',
@@ -155,7 +155,7 @@ const SubmissionWindow: React.FC = () => {
         toast({
           title: 'Portfolio URL Exists',
           description:
-            'The link you have submitted already exists, please try again with different link!',
+            'The link you have submitted already exists, please try again with your own link!',
           status: 'error',
           duration: 5000,
           isClosable: true,
@@ -209,7 +209,7 @@ const SubmissionWindow: React.FC = () => {
         background={theme.colors.black['700']}
         border="none"
       >
-        <Flex flexDirection="column">
+        <Flex flexDirection="column" justifyContent="center">
           <Flex>
             <Heading
               as="h2"
@@ -223,7 +223,7 @@ const SubmissionWindow: React.FC = () => {
           </Flex>
           <Flex
             justifyContent={['stretch', 'center']}
-            alignItems="center"
+            alignItems="baseline"
             p="5"
             flexDirection={['column', 'row']}
             gap="1rem"
@@ -233,6 +233,8 @@ const SubmissionWindow: React.FC = () => {
               onChange={checkPortfolioUrl}
               ref={inputRef}
               border="none"
+              isInvalid={disableButton}
+              errorBorderColor={theme.colors.red['500']}
               background={theme.colors.black['600']}
               width="100%"
               color={theme.colors.black['50']}
@@ -240,9 +242,21 @@ const SubmissionWindow: React.FC = () => {
             />
             <Alert isDisabled={disableButton} onClick={submitPortfolioUrl} />
           </Flex>
-          <Text color={theme.colors.red['500']} textAlign="center">
-            {checkInput}
-          </Text>
+          <Flex
+            justifyContent={['stretch', 'center']}
+            alignItems="center"
+            w="100%"
+            flexDirection={['column', 'row']}
+          >
+            <Text
+              color={theme.colors.red['500']}
+              textAlign="left"
+              w="85%"
+              maxW="380px"
+            >
+              {checkInput}
+            </Text>
+          </Flex>
         </Flex>
       </Box>
     </Layout>

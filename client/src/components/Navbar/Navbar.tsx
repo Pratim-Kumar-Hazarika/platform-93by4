@@ -1,7 +1,5 @@
 import {
   Flex,
-  WrapItem,
-  Avatar,
   Text,
   Link as ChakraLink,
   Menu,
@@ -13,15 +11,14 @@ import {
 } from '@chakra-ui/react'
 import { theme } from '../../themes'
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import NextLink from 'next/link'
 import Router, { useRouter } from 'next/router'
 import { useAuth } from '../../context/AuthContext'
 import { logout } from './../../services/axiosService'
 import { CgProfile, CgLogOut } from 'react-icons/cg'
-import { RiDashboardFill } from 'react-icons/ri'
-import Logo from '../../assests/svgs/neogcamp.svg'
+import { RiDashboardFill, RiContactsFill } from 'react-icons/ri'
+import NeogLogo from './NeogLogo'
 
 export function Navbar() {
   const { authState } = useAuth()
@@ -35,11 +32,7 @@ export function Navbar() {
     setLoginStatus(authState?.user?.firstName || 'Login')
   }, [authState])
 
-  console.log(authState?.user?.firstName)
-  console.log(loginStatus)
-
   const authRedirect = () => {
-    console.log(loginStatus)
     return loginStatus === 'Login' ? router.push('/auth/login') : undefined
   }
   useEffect(() => {
@@ -59,6 +52,7 @@ export function Navbar() {
         setLoginStatus('Login')
         localStorage.removeItem('neogSubmission')
         localStorage.removeItem('mark15')
+        localStorage.removeItem('x-auth-token')
         router.push('/')
         Router.reload()
       })
@@ -90,9 +84,9 @@ export function Navbar() {
         padding={'0 1rem'}
         justifyContent={'space-between'}
       >
-        <Link href="/" passHref>
+        <Link href={authState?.isAuthenticated ? '/dashboard' : '/'} passHref>
           <ChakraLink>
-            <Image src={Logo} alt="neog logo" />
+            <NeogLogo />
           </ChakraLink>
         </Link>
         <Flex alignItems="center">
@@ -119,8 +113,13 @@ export function Navbar() {
               </Flex>
             </MenuButton>
             <MenuList bg="black.800" hidden={loginStatus === 'Login' && true}>
-              <NextLink href="/dashboard">
-                <MenuItem icon={<RiDashboardFill />}>Dashboard</MenuItem>
+              {router.pathname !== '/dashboard' && (
+                <NextLink href="/dashboard">
+                  <MenuItem icon={<RiDashboardFill />}>Dashboard</MenuItem>
+                </NextLink>
+              )}
+              <NextLink href="/contact">
+                <MenuItem icon={<RiContactsFill />}>Contact</MenuItem>
               </NextLink>
               <MenuItem icon={<CgLogOut />} onClick={onHandleLogout}>
                 Logout

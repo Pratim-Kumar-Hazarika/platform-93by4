@@ -5,15 +5,17 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Image,
   Button,
   Link,
   FormErrorMessage,
   useToast,
   InputRightElement,
   InputGroup,
-  Skeleton,
+  Box,
+  Text,
+  Image,
 } from '@chakra-ui/react'
+import { SEO } from '../../components/Layout/SEO'
 import NextLink from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field, FormikHelpers } from 'formik'
@@ -24,11 +26,12 @@ import { useAuth } from '../../context/AuthContext'
 import { useRouter } from 'next/router'
 import { theme } from '../../themes'
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai'
+
 export interface LoginValues {
   email: string
   password: string
 }
-// @TODO - move this to seperate file
+
 const SignInSchema = yup.object().shape({
   email: yup
     .string()
@@ -44,7 +47,6 @@ export default function Login() {
   const toast = useToast()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [showPassword, setShowpassword] = useState<boolean>(false)
-  const [imgLoaded, setImgLoaded] = useState<boolean>(false)
 
   useEffect(() => {
     if (authState?.isAuthenticated) {
@@ -65,7 +67,6 @@ export default function Login() {
     }
     await login(data)
       .then((res) => {
-        console.log(res.data)
         if (res.status === 200) {
           setState({
             isAuthenticated: true,
@@ -78,6 +79,7 @@ export default function Login() {
             },
             isLoading: false,
           })
+          localStorage.setItem('x-auth-token', res.data.token)
           setIsLoading(false)
           toast({
             title: 'Login Successful!',
@@ -88,165 +90,190 @@ export default function Login() {
         }
       })
       .catch((error) => {
-        console.log(error.response.data)
         setIsLoading(false)
         setState({
           isAuthenticated: false,
           user: null,
           isLoading: false,
         })
-        toast({
-          title: 'Failed to log you in.',
-          description: error.response.data.msg,
-          status: 'error',
-          isClosable: true,
-        })
+        if (error.response.data.code === 'EMAIL_NOT_VERIFIED') {
+          return toast({
+            title: 'Failed to log you in.',
+            description: error.response.data.msg,
+            status: 'error',
+            isClosable: true,
+            duration: 9000,
+            render: () => (
+              <Box color="white" rounded="md" p={3} bg="blue.500">
+                <Text>
+                  Your Email address needs verification. Please click on the
+                  link sent to you.
+                </Text>
+                <Flex justifyContent="space-between" alignItems="center">
+                  <Text>Did not recieve link ?</Text>
+                  <Link href="/auth/email-verification/resend-link">
+                    <Button>Click here to resend</Button>
+                  </Link>
+                </Flex>
+              </Box>
+            ),
+          })
+        } else {
+          toast({
+            title: 'Failed to log you in.',
+            description: error.response.data.msg,
+            status: 'error',
+            isClosable: true,
+          })
+        }
       })
-  }
-
-  function handleImageLoad() {
-    setImgLoaded(true)
   }
 
   return (
     <>
+      <SEO
+        title="Login | NeoG Camp"
+        description="Start your journey into NeoG Camp."
+      />
       <Navbar />
       <AuthLayout>
-        <Flex flex={1} d={{ base: 'none', md: 'flex' }}>
-          {!imgLoaded && <Skeleton height="100%" width="100%" />}
-          <Image
-            height={!imgLoaded ? '' : '100%'}
-            alt={'Login Image'}
-            objectFit={'cover'}
-            src="/auth.jpg"
-            width="100%"
-            d={!imgLoaded ? 'none' : 'inherit'}
-            onLoad={handleImageLoad}
-          />
-        </Flex>
+        <Flex w="100vw" maxW="1000px">
+          <Flex flex={1.2} d={{ base: 'none', md: 'flex' }}>
+            <Image
+              height={'100%'}
+              alt={'Login Image'}
+              objectFit={'cover'}
+              src="/login-image.jpg"
+              width="100%"
+              boxSize="80vh"
+              d={'inherit'}
+            />
+          </Flex>
 
-        <Flex
-          p={['2rem', '2rem 3rem']}
-          flex={1}
-          align={'center'}
-          justify={'center'}
-        >
-          <Stack spacing={8} w={'full'} maxW={'lg'}>
-            <Heading fontSize={'4xl'} color={theme.colors.brand['500']}>
-              Log In
-            </Heading>
-            <Formik
-              initialValues={{
-                email: '',
-                password: '',
-              }}
-              validationSchema={SignInSchema}
-              onSubmit={(values: LoginValues) => handleSubmit(values)}
-            >
-              <Form>
-                <Stack spacing={8}>
-                  <Field name="email">
-                    {/* These have no typedefinitions from formik itself. */}
-                    {({ field, form }: { field: any; form: any }) => (
-                      <FormControl
-                        isInvalid={form.errors.email && form.touched.email}
-                      >
-                        <FormLabel
-                          htmlFor="email"
-                          color={theme.colors.black['50']}
+          <Flex
+            p={['2rem', '2rem 3rem']}
+            flex={1}
+            align={'center'}
+            justify={'center'}
+          >
+            <Stack spacing={8} w={'full'} maxW={'lg'}>
+              <Heading fontSize={'4xl'} color={theme.colors.brand['500']}>
+                Log In
+              </Heading>
+              <Formik
+                initialValues={{
+                  email: '',
+                  password: '',
+                }}
+                validationSchema={SignInSchema}
+                onSubmit={(values: LoginValues) => handleSubmit(values)}
+              >
+                <Form>
+                  <Stack spacing={8}>
+                    <Field name="email">
+                      {({ field, form }: { field: any; form: any }) => (
+                        <FormControl
+                          isInvalid={form.errors.email && form.touched.email}
                         >
-                          Email Address
-                        </FormLabel>
-                        <Input
-                          {...field}
-                          id="email"
-                          placeholder="you@example.com"
-                          type="email"
-                        />
-
-                        <FormErrorMessage>{form.errors.email}</FormErrorMessage>
-                      </FormControl>
-                    )}
-                  </Field>
-
-                  <Field name="password">
-                    {({ field, form }: { field: any; form: any }) => (
-                      <FormControl
-                        isInvalid={
-                          form.errors.password && form.touched.password
-                        }
-                      >
-                        <FormLabel
-                          htmlFor="password"
-                          color={theme.colors.black['50']}
-                        >
-                          Password
-                        </FormLabel>
-                        <InputGroup>
+                          <FormLabel
+                            htmlFor="email"
+                            color={theme.colors.black['50']}
+                          >
+                            Email Address
+                          </FormLabel>
                           <Input
                             {...field}
-                            id="password"
-                            placeholder="Your password"
-                            type={showPassword ? 'text' : 'password'}
+                            id="email"
+                            placeholder="you@example.com"
+                            type="email"
                           />
-                          <InputRightElement mr="4">
-                            <Button
-                              h="1.75rem"
-                              size="sm"
-                              onClick={() => setShowpassword(!showPassword)}
-                            >
-                              {showPassword ? (
-                                <AiOutlineEyeInvisible />
-                              ) : (
-                                <AiOutlineEye />
-                              )}
-                            </Button>
-                          </InputRightElement>
-                        </InputGroup>
-                        <FormErrorMessage>
-                          {form.errors.password}
-                        </FormErrorMessage>
-                      </FormControl>
-                    )}
-                  </Field>
 
-                  <Stack spacing={6}>
-                    <Stack
-                      direction={{ base: 'column', sm: 'row' }}
-                      align={'start'}
-                      justify={'space-between'}
-                    >
-                      <NextLink href="/auth/forgot-password/" passHref>
-                        <Link
-                          color={theme.colors.brand['500']}
-                          fontStyle="italic"
-                          fontSize="sm"
+                          <FormErrorMessage>
+                            {form.errors.email}
+                          </FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+
+                    <Field name="password">
+                      {({ field, form }: { field: any; form: any }) => (
+                        <FormControl
+                          isInvalid={
+                            form.errors.password && form.touched.password
+                          }
                         >
-                          Forgot Password ?
-                        </Link>
-                      </NextLink>
-                    </Stack>
-                    <Flex justify="space-between" align="center">
-                      <NextLink href="/auth/signup" passHref>
-                        <Link color={theme.colors.brand['500']}>
-                          Create an account
-                        </Link>
-                      </NextLink>
-                      <Button
-                        type="submit"
-                        colorscheme={'blue'}
-                        variant={'solid'}
-                        isLoading={isLoading}
-                        loadingText="Signing you in"
+                          <FormLabel
+                            htmlFor="password"
+                            color={theme.colors.black['50']}
+                          >
+                            Password
+                          </FormLabel>
+                          <InputGroup>
+                            <Input
+                              {...field}
+                              id="password"
+                              placeholder="Your password"
+                              type={showPassword ? 'text' : 'password'}
+                            />
+                            <InputRightElement mr="4">
+                              <Button
+                                h="1.75rem"
+                                size="sm"
+                                onClick={() => setShowpassword(!showPassword)}
+                              >
+                                {showPassword ? (
+                                  <AiOutlineEyeInvisible />
+                                ) : (
+                                  <AiOutlineEye />
+                                )}
+                              </Button>
+                            </InputRightElement>
+                          </InputGroup>
+                          <FormErrorMessage>
+                            {form.errors.password}
+                          </FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+
+                    <Stack spacing={6}>
+                      <Stack
+                        direction={{ base: 'column', sm: 'row' }}
+                        align={'start'}
+                        justify={'space-between'}
                       >
-                        Login
-                      </Button>
-                    </Flex>
+                        <NextLink href="/auth/forgot-password/" passHref>
+                          <Link
+                            color={theme.colors.brand['500']}
+                            fontStyle="italic"
+                            fontSize="sm"
+                          >
+                            Forgot Password?
+                          </Link>
+                        </NextLink>
+                      </Stack>
+                      <Flex justify="space-between" align="center">
+                        <NextLink href="/auth/signup" passHref>
+                          <Link color={theme.colors.brand['500']}>
+                            Create an account
+                          </Link>
+                        </NextLink>
+                        <Button
+                          type="submit"
+                          colorscheme={'blue'}
+                          variant={'solid'}
+                          isLoading={isLoading}
+                          loadingText="Signing you in"
+                        >
+                          Login
+                        </Button>
+                      </Flex>
+                    </Stack>
                   </Stack>
-                </Stack>
-              </Form>
-            </Formik>
-          </Stack>
+                </Form>
+              </Formik>
+            </Stack>
+          </Flex>
         </Flex>
       </AuthLayout>
     </>

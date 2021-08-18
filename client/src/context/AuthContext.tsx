@@ -21,12 +21,12 @@ export interface IAuthState {
   user: User | null
   isAuthenticated: boolean
   isLoading: boolean
+  token?: string | null
 }
 
 interface IAuthContext {
   authState: IAuthState | undefined
   setState: (authInfo: IAuthState) => void
-  logoutUser: () => void
   setAuthState: Dispatch<SetStateAction<IAuthState>>
 }
 
@@ -40,12 +40,12 @@ const defaultAuthState: IAuthState = {
   },
   isAuthenticated: false,
   isLoading: true,
+  token: '',
 }
 
 const AuthContext = createContext<IAuthContext>({
   authState: defaultAuthState,
   setState: () => {},
-  logoutUser: () => {},
   setAuthState: () => {},
 })
 
@@ -77,7 +77,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               isAuthenticated: true,
               isLoading: false,
             })
-            console.log(user)
           })
           .catch((err) => {
             setAuthState({
@@ -85,10 +84,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               isAuthenticated: false,
               isLoading: false,
             })
-            console.log({ err })
           })
       } catch (error) {
-        console.log({ error })
         setAuthState({
           user: null,
           isAuthenticated: false,
@@ -107,21 +104,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
   }
 
-  async function logoutUser() {
-    await logout()
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
   return (
     <AuthContext.Provider
       value={{
         authState: authState,
         setState: (authInfo: IAuthState) => setAuthInfo(authInfo),
-        logoutUser,
         setAuthState,
       }}
     >

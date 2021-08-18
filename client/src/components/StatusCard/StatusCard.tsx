@@ -1,8 +1,8 @@
 import React from 'react'
-import { Flex, Heading, Spacer, Text } from '@chakra-ui/react'
-import Image from 'next/image'
-import DashboardImage from '../../images/dashboard-girl.svg'
+import { Flex, Heading, Spacer, Text, Image } from '@chakra-ui/react'
 import { theme } from '../../themes'
+import StatusIllustration from './StatusIllustration'
+
 export function StatusCard({ status, bgColor, step, submissionNo }: any) {
   return (
     <Flex
@@ -16,31 +16,24 @@ export function StatusCard({ status, bgColor, step, submissionNo }: any) {
         justifyContent="center"
         width={['100%', '100%', '60%']}
       >
-        <a
-          href={
-            status.status == 'portfolio_needs_revision' ? '/resubmission' : ''
-          }
+        {' '}
+        <Heading
+          fontSize={['xl', '2xl', '3xl']}
+          color={theme.colors.brand['500']}
         >
           {' '}
+          Current Status:{' '}
           <Heading
             fontSize={['xl', '2xl', '3xl']}
-            color={theme.colors.brand['500']}
+            as="span"
+            color={status?.color == 'red' ? '#F13C3C' : theme.colors.white}
           >
-            {' '}
-            Current Status :{' '}
-            <Heading
-              fontSize={['xl', '2xl', '3xl']}
-              as="span"
-              color={status?.color == 'red' ? '#F13C3C' : theme.colors.white}
-            >
-              {' ' + status.statusText}
-              <br />
-            </Heading>
+            {' ' + status.statusText}
+            <br />
           </Heading>
-        </a>
-
+        </Heading>
         <Text
-          fontSize="xl"
+          fontSize="lg"
           fontWeight="500"
           color={theme.colors.white}
           py={2}
@@ -49,12 +42,12 @@ export function StatusCard({ status, bgColor, step, submissionNo }: any) {
           {status.statusDescription} <br />
           {submissionNo !== null &&
             status.status == 'portfolio_under_review' &&
-            'Submission Number : #' + submissionNo}
+            'Submission Number: #' + submissionNo}
         </Text>
       </Flex>
       <Spacer />
       <Flex justifyContent="center" margin={['2rem', ' 1rem', '0rem']}>
-        <Image src={DashboardImage} />
+        <StatusIllustration />
       </Flex>
     </Flex>
   )

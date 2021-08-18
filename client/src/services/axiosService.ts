@@ -6,11 +6,30 @@ import { SignUpValues } from '../pages/auth/signup'
 import { submissionValues } from '../pages/submission'
 import { reSubmissionValues } from '../pages/resubmission'
 
-// todo - replace this with process.env.NEXT_APP_BACKEND_LOCAL
+if (typeof window !== 'undefined') {
+  console.log('LOCAL TOKEN', localStorage.getItem('x-auth-token'))
+}
+
 const apiClient = axios.create({
-  baseURL: 'http://localhost:5000/api/',
+  baseURL: `${process.env.API_URL}/api/`,
   withCredentials: true,
+  headers: {
+    'x-auth-token':
+      typeof window !== 'undefined' && localStorage.getItem('x-auth-token'),
+  },
 })
+
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('x-auth-token')
+    if (token) {
+      config.headers['x-auth-token'] = token
+    }
+    return config
+  },
+  (error) => Promise.reject(error)
+)
+
 /**
  * Auth Services
  * */
@@ -61,6 +80,13 @@ export const sendPasswordResetRequest = async (
   return response
 }
 
+export const resendEmailVerificationLink = async (email: string) => {
+  const response = await apiClient.post('/auth/email-verification/resend', {
+    email,
+  })
+  return response
+}
+
 export const getUser = async () => {
   const response = await apiClient.get<User>('/auth/user-info')
   return response.data
@@ -71,6 +97,9 @@ export const getDashboard = async () => {
 }
 
 export const logout = async () => {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('x-auth-token')
+  }
   const response = await apiClient.post('/auth/logout')
   return response
 }
@@ -89,10 +118,11 @@ export const submissionLink = async (submissionData: submissionValues) => {
   return response
 }
 
-export const reSubmissionLink = async (reSubmissionData: reSubmissionValues) => {
+export const reSubmissionLink = async (
+  reSubmissionData: reSubmissionValues
+) => {
   const response = await apiClient.post('resubmit', {
     ...reSubmissionData,
   })
   return response
 }
-

@@ -1,12 +1,32 @@
-import { Box, Button, Heading, Stack, Text } from '@chakra-ui/react'
-import Image from 'next/image'
+import {
+  Box,
+  Button,
+  Heading,
+  Stack,
+  Text,
+  Center,
+  Spinner,
+} from '@chakra-ui/react'
 import { FiExternalLink } from 'react-icons/fi'
 import { Layout } from '../components'
 import { Footer } from '../components/Footer/Footer'
-import illustration from '../../public/svgs/landingPage.svg'
 import NextLink from 'next/link'
+import { useAuth } from '../context/AuthContext'
+import router from 'next/router'
+import LandingIllustration from '../components/Illustrations/LandingIllustration'
 
 export default function Home() {
+  const { authState } = useAuth()
+
+  if (authState?.isAuthenticated) {
+    router.push('/dashboard')
+    return (
+      <Center minH="100vh">
+        <Spinner />
+      </Center>
+    )
+  }
+
   return (
     <Layout>
       <Stack
@@ -84,7 +104,7 @@ export default function Home() {
           h={{ base: 'auto', lg: '500px' }}
           px={4}
         >
-          <Image src={illustration} layout="responsive" />
+          <LandingIllustration />
         </Box>
       </Stack>
     </Layout>

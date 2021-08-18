@@ -1,5 +1,5 @@
-import { Flex, Heading, Text, chakra } from '@chakra-ui/react'
-import Image from 'next/image'
+import { Flex, Heading, Text, chakra, Image } from '@chakra-ui/react'
+import { RiCheckboxBlankCircleLine, RiCheckboxCircleFill } from 'react-icons/ri'
 import { ChecksType } from '../../data/staticData/mark15'
 import { theme } from '../../themes'
 
@@ -40,24 +40,18 @@ export function CardText({
             minW="24px"
           >
             {checkedCount === checklist?.length ? (
-              <Image
-                src={'/svgs/circleCheck.svg'}
-                height={'24'}
-                width={'24'}
-                alt={'link-svg'}
+              <RiCheckboxCircleFill
+                style={{ height: '24px', width: '24px', color: '#00F0FF' }}
               />
             ) : (
-              <Image
-                src={'/svgs/circle.svg'}
-                height={'24'}
-                width={'24'}
-                alt={'link-svg'}
+              <RiCheckboxBlankCircleLine
+                style={{ height: '24px', width: '24px' }}
               />
             )}
           </Flex>
         )}
         <Heading
-          color={checkedCount === checklist?.length ? 'brand.500' : 'black.300'}
+          color={checkedCount === checklist?.length ? 'brand.500' : 'white'}
           fontSize={'1.3rem'}
           minW="110px"
         >
@@ -67,7 +61,6 @@ export function CardText({
           <Text
             color={theme.colors.black['100']}
             marginTop={'0.5rem'}
-            textTransform={'capitalize'}
             fontSize={'0.85rem'}
           >
             {subTitle}
