@@ -109,7 +109,7 @@ export default function SignUp() {
       <Navbar />
       <AuthLayout>
         <Flex w="100vw" maxW="1000px">
-          <Flex flex={1.2} d={{ base: 'none', md: 'flex' }}>
+          <Flex flex={1.2} d={{ base: 'none', lg: 'flex' }}>
             <Image
               height={'100%'}
               alt={'Login Image'}
