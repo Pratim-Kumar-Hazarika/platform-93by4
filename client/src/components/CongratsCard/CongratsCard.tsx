@@ -1,6 +1,6 @@
 import { Box, Button, Heading, Text, Link, Flex } from '@chakra-ui/react'
 import NextLink from 'next/link'
-import { Tweets } from '../../utils/differentTweets'
+import { Tweets } from '../../data/staticData/differentTweets'
 
 type userStatusProps = {
   submissionNo?: string

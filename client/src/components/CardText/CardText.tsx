@@ -11,6 +11,7 @@ interface CardTextPropType {
   subTitle?: string | JSX.Element
   checklist?: ChecksType[]
   checkedCount?: number
+  centeredCardText?:boolean
 }
 
 export function CardText({
@@ -20,6 +21,7 @@ export function CardText({
   projectName,
   checklist,
   checkedCount,
+  centeredCardText
 }: CardTextPropType) {
   return (
     <>
@@ -51,7 +53,7 @@ export function CardText({
           </Flex>
         )}
         <Heading
-          color={checkedCount === checklist?.length ? 'brand.500' : 'white'}
+          color={checkedCount === checklist?.length || !centeredCardText ? 'brand.500' : 'white'}
           fontSize={'1.3rem'}
           minW="110px"
         >
@@ -67,7 +69,7 @@ export function CardText({
           </Text>
         )}
       </Flex>
-      {collapsible && (
+      {collapsible && centeredCardText && (
         <Flex flex={'1'} justifyContent={'center'}>
           <Text color="brand.500" paddingLeft={'3.5rem'}>
             {checkedCount}/{checklist?.length}{' '}
