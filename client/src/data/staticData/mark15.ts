@@ -20,7 +20,7 @@ export const CheckListData: CheckListType[] = [
     checks: [
       {
         id: '1a',
-        text: 'Take Username as input.',
+        text: 'The quiz can be "Do you know me" or a similar CLI QUIZ on any other topic too. Take Username as input.',
       },
       {
         id: '1b',
@@ -28,7 +28,7 @@ export const CheckListData: CheckListType[] = [
       },
       {
         id: '1c',
-        text: "Display the user's current score.",
+        text: 'Display the final score to the user',
       },
     ],
   },
@@ -51,7 +51,7 @@ export const CheckListData: CheckListType[] = [
       },
       {
         id: '2d',
-        text: "Display the user's current score.",
+        text: 'Display the final score to the user',
       },
     ],
   },
@@ -98,10 +98,6 @@ export const CheckListData: CheckListType[] = [
       {
         id: '4d',
         text: 'It is mandatory to put all your projects, blogs and social media handles majorly Twitter, LinkedIn in your portfolio.',
-      },
-      {
-        id: '4e',
-        text: 'It is mandatory to make your portfolio responsive. Making apps and projects responsive is optional.',
       },
     ],
   },
@@ -328,7 +324,7 @@ export const CheckListData: CheckListType[] = [
       },
       {
         id: '13c',
-        text: 'You have to put date DD/MM/YYYY format and check whether the date can be a palindrome date or not. ',
+        text: 'You must use one of these formats to put dates eg: MM/DD/YYYY, DD/MM/YYYY, MM/DD/YY, etc. Having atleast one date-format out of these is mandatory, adding extra date formats is a bonus (optional). Make sure to check whether the date can be a palindrome date or not',
       },
       {
         id: '13d',
