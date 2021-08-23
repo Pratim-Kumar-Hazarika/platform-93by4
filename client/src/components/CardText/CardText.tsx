@@ -11,7 +11,7 @@ interface CardTextPropType {
   subTitle?: string | JSX.Element
   checklist?: ChecksType[]
   checkedCount?: number
-  centeredCardText?:boolean
+  centeredCardText?: boolean
 }
 
 export function CardText({
@@ -21,7 +21,7 @@ export function CardText({
   projectName,
   checklist,
   checkedCount,
-  centeredCardText
+  centeredCardText,
 }: CardTextPropType) {
   return (
     <>
@@ -53,7 +53,11 @@ export function CardText({
           </Flex>
         )}
         <Heading
-          color={checkedCount === checklist?.length || !centeredCardText ? 'brand.500' : 'white'}
+          color={
+            checkedCount === checklist?.length || !centeredCardText
+              ? 'brand.500'
+              : 'white'
+          }
           fontSize={'1.3rem'}
           minW="110px"
         >

@@ -10,7 +10,6 @@ export function CongratsCard({
   submissionNo,
   status,
 }: userStatusProps): JSX.Element {
-
   const tweet = Tweets[Math.floor(Math.random() * Tweets.length)]
   return (
     <Box
@@ -25,7 +24,8 @@ export function CongratsCard({
     >
       <Heading as="h1" size="lg" color="#00F0FF" fontFamily="Inter">
         Yay! Portfolio is successfully{' '}
-        {status !== 'portfolio_needs_revision' ? 'submitted' : 'resubmission'}! 🎉
+        {status !== 'portfolio_needs_revision' ? 'submitted' : 'resubmission'}!
+        🎉
       </Heading>
       <Text fontSize="14px" fontStyle="bold" pt="2" pb="2" color="white">
         Submission Number: #{submissionNo}
@@ -46,7 +46,7 @@ export function CongratsCard({
       >
         <Heading fontSize="md" p={{ base: '3', md: '0' }}>
           <Link
-            href={"https://twitter.com/intent/tweet?text="+ tweet}
+            href={'https://twitter.com/intent/tweet?text=' + tweet}
             isExternal
             color="cyan"
           >

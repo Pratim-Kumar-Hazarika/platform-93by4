@@ -18,7 +18,7 @@ interface CardPropType extends CheckListType {
   link?: string
   index?: number
   lockIcon?: boolean
-  centeredCardText?:boolean
+  centeredCardText?: boolean
   setAllMarksChecked?: Dispatch<SetStateAction<string[]>>
 }
 
@@ -41,7 +41,7 @@ function CardComp({
   lockIcon,
   checkCount,
   setCheckCount,
-  centeredCardText=true
+  centeredCardText = true,
 }: CardCompPropType) {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false)
 
@@ -76,7 +76,7 @@ function CardComp({
             ) : (
               // </Link>
               <Link href={`${link}`} isExternal>
-                  <BiLinkExternal style={{ height: '30px', width: '30px' }} />
+                <BiLinkExternal style={{ height: '30px', width: '30px' }} />
               </Link>
             )}
           </Flex>
@@ -112,11 +112,13 @@ function CardComp({
           >
             {projectName}
           </Heading>
-          {checks && <CheckList
-            checklist={checks}
-            checkCount={checkCount}
-            setCheckCount={setCheckCount}
-          />}
+          {checks && (
+            <CheckList
+              checklist={checks}
+              checkCount={checkCount}
+              setCheckCount={setCheckCount}
+            />
+          )}
         </Flex>
       )}
     </Box>
