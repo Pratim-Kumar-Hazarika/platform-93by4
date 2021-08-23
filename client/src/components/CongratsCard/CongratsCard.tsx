@@ -25,7 +25,7 @@ export function CongratsCard({
     >
       <Heading as="h1" size="lg" color="#00F0FF" fontFamily="Inter">
         Yay! Portfolio is successfully{' '}
-        {status !== 'portfolio_needs_revision' ? 'submitted' : 'resubmission'}! 🎉
+        {status !== 'portfolio_needs_revision' ? 'submitted' : 'resubmitted'}! 🎉
       </Heading>
       <Text fontSize="14px" fontStyle="bold" pt="2" pb="2" color="white">
         Submission Number: #{submissionNo}
