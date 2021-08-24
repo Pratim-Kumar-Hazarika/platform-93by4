@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider resetCSS theme={theme}>
       <AuthProvider>
-          <Component {...pageProps} />
+        <Component {...pageProps} />
       </AuthProvider>
     </ChakraProvider>
   )

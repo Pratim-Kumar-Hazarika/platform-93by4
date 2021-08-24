@@ -73,7 +73,7 @@ function CardComp({
             ) : (
               // </Link>
               <Link href={`${link}`} isExternal>
-                  <BiLinkExternal style={{ height: '30px', width: '30px' }} />
+                <BiLinkExternal style={{ height: '30px', width: '30px' }} />
               </Link>
             )}
           </Flex>

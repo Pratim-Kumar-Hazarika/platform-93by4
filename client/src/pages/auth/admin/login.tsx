@@ -39,8 +39,7 @@ export default function Login() {
     responsibitiesCheck: false,
   })
   async function handleSubmit(data: LoginValues) {
-    await login(data)
-      .catch((error) => console.log(error.response.data))
+    await login(data).catch((error) => console.log(error.response.data))
   }
 
   return (
