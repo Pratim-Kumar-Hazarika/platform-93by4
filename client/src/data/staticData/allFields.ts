@@ -35,20 +35,6 @@ export const allFields: Array<AllFieldsType> = [
     rows: [
       [
         {
-          name: 'first-name',
-          type: 'text',
-          placeHolder: 'Adarsh',
-          editable: false,
-          label: 'First Name*',
-        },
-        {
-          name: 'email',
-          type: 'email',
-          placeHolder: 'adarsh101@gmail.com',
-          editable: false,
-          label: 'Email ID*',
-        },
-        {
           placeHolder: 'Ramesh',
           name: 'parent-name',
           type: 'text',
@@ -69,24 +55,10 @@ export const allFields: Array<AllFieldsType> = [
       ],
       [
         {
-          name: 'last-name',
+          placeHolder: 'Son/Daughter',
+          name: 'parent-relation',
           type: 'text',
-          placeHolder: 'Balika',
-          editable: false,
-          label: 'Last Name*',
-        },
-        {
-          name: 'portfolio-link',
-          type: 'text',
-          placeHolder: 'https://adarshbalika.com',
-          editable: false,
-          label: 'Portfolio Link*',
-        },
-        {
-          placeHolder: 'Gender',
-          name: 'parent-gender',
-          type: 'text',
-          label: "Parent / Guardian's Gender*",
+          label: "Parent / Guardian's Relation*",
         },
         {
           label: 'State of Residence*',
