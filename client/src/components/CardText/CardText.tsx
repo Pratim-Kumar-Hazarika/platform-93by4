@@ -74,8 +74,8 @@ export function CardText({
         )}
       </Flex>
       {collapsible && centeredCardText && (
-        <Flex flex={'1'} justifyContent={'center'}>
-          <Text color="brand.500" paddingLeft={'3.5rem'}>
+        <Flex flex={'1'} justifyContent={'flex-start'}>
+          <Text color="brand.500" paddingLeft={['3rem','0']}>
             {checkedCount}/{checklist?.length}{' '}
             <chakra.span d={{ base: 'none', md: 'inline' }}>
               task done

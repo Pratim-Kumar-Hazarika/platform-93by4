@@ -68,7 +68,7 @@ export const faqs = [
   {
     id: 10,
     question: "Where is Tanay's podcast?",
-    answer:`You can listen to Tanay's podcast to learn, get advice and listen to his experiences and stories : 
+    answer: `You can listen to Tanay's podcast to learn, get advice and listen to his experiences and stories : 
 
     1. [thinkingwithtanay (2021)](https://anchor.fm/tanaypratap)
     Tanay gets a lot of **questions**. He answers them here.

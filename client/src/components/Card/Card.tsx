@@ -82,7 +82,7 @@ function CardComp({
           </Flex>
         )}
         {collapsible && (
-          <Flex flex={'1'} justifyContent={'flex-end'} cursor={'pointer'}>
+          <Flex flex={'1'} justifyContent={'flex-end'} cursor={'pointer'} maxW="30px">
             <Image
               src={'/svgs/chevDown.svg'}
               height={'18'}
