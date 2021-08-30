@@ -7,7 +7,7 @@ import { CheckListType } from '../../data/staticData/mark15'
 import { theme } from '../../themes'
 import { handleMarksChecked } from './handlers'
 import router from 'next/router'
-
+import Markdown from 'markdown-to-jsx'
 interface CardPropType extends CheckListType {
   collapsible?: boolean
   status?: string
@@ -82,7 +82,12 @@ function CardComp({
           </Flex>
         )}
         {collapsible && (
-          <Flex flex={'1'} justifyContent={'flex-end'} cursor={'pointer'} maxW="30px">
+          <Flex
+            flex={'1'}
+            justifyContent={'flex-end'}
+            cursor={'pointer'}
+            maxW="30px"
+          >
             <Image
               src={'/svgs/chevDown.svg'}
               height={'18'}
@@ -110,7 +115,7 @@ function CardComp({
             fontWeight="600"
             color="white"
           >
-            {projectName}
+            <Markdown>{projectName}</Markdown>
           </Heading>
           {checks && (
             <CheckList

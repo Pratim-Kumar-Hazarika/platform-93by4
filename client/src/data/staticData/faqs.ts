@@ -50,13 +50,15 @@ export const faqs = [
     id: 8,
     question: 'How to be interview-ready for levelOne?',
     answer: `To get into levelOne you need to clear the interview. We really want you to succeed. Interviews are just to make sure that you are sincere and you have practiced programming.
+
     To prepare better, here are some links:
-    
+
     For beginner's route:
     [https://neog.camp/qualifier/camp-interview-tips](https://neog.camp/qualifier/camp-interview-tips)
-    
+
     For intermediates route:
-    (https://neog.camp/qualifier/camp-interview-tips-for-intermediate](https://neog.camp/qualifier/camp-interview-tips-for-intermediate)`,
+    [https://neog.camp/qualifier/camp-interview-tips-for-intermediate](https://neog.camp/qualifier/camp-interview-tips-for-intermediate)
+    `,
   },
   {
     id: 9,
@@ -68,30 +70,36 @@ export const faqs = [
   {
     id: 10,
     question: "Where is Tanay's podcast?",
-    answer: `You can listen to Tanay's podcast to learn, get advice and listen to his experiences and stories : 
+    answer: `
+    You can listen to Tanay's podcast to learn, get advice and listen to his experiences and stories :
 
     1. [thinkingwithtanay (2021)](https://anchor.fm/tanaypratap)
-    Tanay gets a lot of **questions**. He answers them here.
+    Tanay gets a lot of **question** . He answers them here.
+    
     2. [developer duvidha (2020](https://anchor.fm/developer-duvidha)
     Developer Duvidha is a Hindi Podcast that revolves around **common problems** faced by the developer community.
+    
     3. [teawithtanay (2019)](https://anchor.fm/teawithtanay)
-    Light-hearted conversations with people to learn about programming, **entrepreneurship**, and personal growth.
+    Light-hearted conversations with people to learn about programming,
+     **entrepreneurship**, and personal growth.
+    
     4. [productfm (2020)](https://anchor.fm/product.fm)
-    What does it take to build a **great tech product**?
+    What does it take to build a **great tech product** ?
     Nuggets of information from an engineer and PM at Microsoft on all things tech products - Speccing, Marketing, Pricing, Data, Experimentation. Everything. We have got you covered.`,
   },
   {
     id: 11,
     question: "What's the last date of submission?",
     answer: `30th Sep - Portfolio submission window for Beginner's route.
-    \n 25th Aug - Intermediate and roc8 route`,
+     \n 25th Aug - Intermediate and roc8 route`,
   },
   {
     id: 12,
     question: 'How can I improve my LinkedIn & Twitter profile?',
-    answer: `- **LinkedIn profile:** Should be updated, proper naming, professional photo. Look for blogs online on how to put proper LinkedIn profiles. 
+    answer: ` - **LinkedIn profile:** Should be updated, proper naming, professional photo. Look for blogs online on how to put proper LinkedIn profiles. 
     Post some of your projects made during your levelZero, some of your learnings too for bonus (optional) points.
     Remember: **LinkedIn is mandatory**. Put your best work here.
+
     - **Twitter profile:** If you have a really good portfolio, LinkedIn and blogs then you can skip this one. Otherwise, put a proper profile together. 
     Put a decent bio, choose a nice username, and put a profile pic too. 
     Again, see the Retweets from neoG Camp to see how others are doing it. If you don't get original ideas, see and get inspired!
@@ -129,8 +137,6 @@ export const faqs = [
     id: 17,
     question:
       'Blog topics for mark15? Are there any extra points for technical blogs?',
-    answer: `No, there aren't any extra points for writing technical blogs.
-
-    Anyone who writes two blogs on their own, with 200 or more words each. Then they are valid and get equal marks.`,
+    answer: `No, there aren't any extra points for writing technical blogs.Anyone who writes two blogs on their own, with 200 or more words each. Then they are valid and get equal marks.`,
   },
 ]
