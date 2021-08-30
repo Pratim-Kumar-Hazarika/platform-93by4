@@ -23,7 +23,7 @@ export const Breadcrumbs = ({
     >
       {breadcrumbProp.map((breadcrumb: BreadcrumbObj, index) => (
         <BreadcrumbItem key={index} color={theme.colors.black['400']}>
-          <BreadcrumbLink as = {Link} href={breadcrumb.breadcrumbLink}>
+          <BreadcrumbLink as={Link} href={breadcrumb.breadcrumbLink}>
             {breadcrumb.breadcrumbName}
           </BreadcrumbLink>
         </BreadcrumbItem>

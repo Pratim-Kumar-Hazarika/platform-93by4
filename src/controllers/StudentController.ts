@@ -87,7 +87,6 @@ export const reSubmitHandler: RequestHandler = async (
       status: 'portfolio_under_review',
     }
     if (foundUser && foundUser?.portfolioUrl.portfolioUrl === portfolioUrl) {
-
       const updatedData = new PortfolioUrl(extend(oldValues, newValues))
       await updatedData.save()
 
