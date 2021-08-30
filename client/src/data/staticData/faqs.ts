@@ -49,14 +49,14 @@ export const faqs = [
   {
     id: 8,
     question: 'How to be interview-ready for levelOne?',
-    answer: `To get into levelOne you need to clear the interview. We really want you to succeed. Interviews are just to make sure that you are sincere and you have practiced programming.
+    answer: `\n To get into levelOne you need to clear the interview. We really want you to succeed. Interviews are just to make sure that you are sincere and you have practiced programming.
 
-    To prepare better, here are some links:
+    \n To prepare better, here are some links:
 
-    For beginner's route:
+    \n For beginner's route:
     [https://neog.camp/qualifier/camp-interview-tips](https://neog.camp/qualifier/camp-interview-tips)
 
-    For intermediates route:
+    \n For intermediates route:
     [https://neog.camp/qualifier/camp-interview-tips-for-intermediate](https://neog.camp/qualifier/camp-interview-tips-for-intermediate)
     `,
   },
@@ -70,10 +70,9 @@ export const faqs = [
   {
     id: 10,
     question: "Where is Tanay's podcast?",
-    answer: `
-    You can listen to Tanay's podcast to learn, get advice and listen to his experiences and stories :
+    answer: `\n You can listen to Tanay's podcast to learn, get advice and listen to his experiences and stories :
 
-    1. [thinkingwithtanay (2021)](https://anchor.fm/tanaypratap)
+ \n 1. [thinkingwithtanay (2021)](https://anchor.fm/tanaypratap)
     Tanay gets a lot of **question** . He answers them here.
     
     2. [developer duvidha (2020](https://anchor.fm/developer-duvidha)
@@ -100,11 +99,10 @@ export const faqs = [
     Post some of your projects made during your levelZero, some of your learnings too for bonus (optional) points.
     Remember: **LinkedIn is mandatory**. Put your best work here.
 
-    - **Twitter profile:** If you have a really good portfolio, LinkedIn and blogs then you can skip this one. Otherwise, put a proper profile together. 
+    \n - **Twitter profile:** If you have a really good portfolio, LinkedIn and blogs then you can skip this one. Otherwise, put a proper profile together. 
     Put a decent bio, choose a nice username, and put a profile pic too. 
     Again, see the Retweets from neoG Camp to see how others are doing it. If you don't get original ideas, see and get inspired!
-    
-    **Note:** In case of a tie-breaker (if there are more than expected applicants for levelOne), your LinkedIn, Twitter, GitHub account will act as a tie-breaker at the end.`,
+    \n **Note:** In case of a tie-breaker (if there are more than expected applicants for levelOne), your LinkedIn, Twitter, GitHub account will act as a tie-breaker at the end.`,
   },
   {
     id: 13,
@@ -117,7 +115,7 @@ export const faqs = [
     question:
       'Where can I publish my blogs (does Instagram posts count as blogs)?',
     answer: `No, Instagram doesn't count for blogs. We only accept long-form written content but you can mention them (embed) in your portfolio.
-    You can write blogs on devto / Hashnode / Medium / Notion.`,
+    \n You can write blogs on devto / Hashnode / Medium / Notion.`,
   },
   {
     id: 15,
@@ -131,7 +129,7 @@ export const faqs = [
       'What would be the level of React questions which be asked to me in the interviews?',
     answer: `It is the same level of React that you are taught in levelZero. Questions will not come out of what is taught to you and what you have made in your portfolio.
 
-    Tip: Do go through practice questions to polish your React knowledge.`,
+    \n Tip: Do go through practice questions to polish your React knowledge.`,
   },
   {
     id: 17,
