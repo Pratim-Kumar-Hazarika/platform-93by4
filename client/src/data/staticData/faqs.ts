@@ -1,3 +1,6 @@
+export const faqHeading = "Frequently Asked Questions!"
+
+
 export const faqs = [
   {
     id: 1,

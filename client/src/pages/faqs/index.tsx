@@ -1,10 +1,13 @@
-import React from 'react'
 import { Card, Layout } from '../../components'
-import { faqs } from '../../data/staticData/faqs'
+import { faqHeading, faqs } from '../../data/staticData/faqs'
+import { Heading } from '@chakra-ui/react'
 
 function Faqs(): JSX.Element {
   return (
     <Layout>
+      <Heading as="h1" size="lg" color="#00F0FF" fontFamily="Inter" textAlign="center">
+        {faqHeading}
+      </Heading>
       {faqs.map((faq, index) => {
         return (
           <Card

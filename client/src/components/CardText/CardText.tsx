@@ -60,6 +60,7 @@ export function CardText({
           }
           fontSize={'1.3rem'}
           minW="110px"
+          textAlign={['left',]}
         >
           {title}
         </Heading>
