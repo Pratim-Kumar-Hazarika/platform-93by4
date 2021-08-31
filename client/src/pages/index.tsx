@@ -8,6 +8,7 @@ import {
   Spinner,
 } from '@chakra-ui/react'
 import { FiExternalLink } from 'react-icons/fi'
+import { BiMailSend } from 'react-icons/bi'
 import { Layout } from '../components'
 import { Footer } from '../components/Footer/Footer'
 import NextLink from 'next/link'
@@ -82,6 +83,21 @@ export default function Home() {
             </NextLink>
           </Stack>
           <a
+            href="https://neog.substack.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button
+              variant="link"
+              color="brand.400"
+              rightIcon={<BiMailSend fontSize="xl" />}
+              size="md"
+              mt={{ base: '12', md: '8' }}
+            >
+              Know regularly what's cooking in the camp
+            </Button>
+          </a>
+          <a
             href="https://neog.camp/level-one"
             target="_blank"
             rel="noopener noreferrer"
@@ -91,7 +107,7 @@ export default function Home() {
               color="gray.400"
               rightIcon={<FiExternalLink fontSize="xl" />}
               size="md"
-              mt={{ base: '12', md: '8' }}
+              mt={{ base: '4', md: '4' }}
             >
               Know more about the camp
             </Button>
