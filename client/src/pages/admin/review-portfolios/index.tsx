@@ -49,9 +49,7 @@ function ReviewerPortfolios() {
             mark15 checklist for you to do an awesome review.
           </Text>
         </Stack>
-        <Box>
-          <pre>{JSON.stringify(authState, null, 2)}</pre>
-        </Box>
+        <Box></Box>
         <Box bg={theme.colors.black['800']} mt={5} rounded={'sm'}>
           <Tabs isFitted variant="enclosed">
             <TabList mb="1em">
