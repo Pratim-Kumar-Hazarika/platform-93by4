@@ -4,8 +4,7 @@ export interface TokenUser extends JwtPayload {
   _id: string
   email: string
   // todo - make this robust to support only few roles "student" | "admin" | "reviewer"
-  role?: string | undefined
-  // todo - we won't want this undefined.
+  role?: string | number
 }
 
 export const JWT_SECRET = process.env.JWT_SECRET

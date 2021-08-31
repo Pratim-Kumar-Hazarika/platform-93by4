@@ -1,5 +1,5 @@
 import { IUser } from './User'
-import { Schema, model, Model, ObjectId, Date } from 'mongoose'
+import { Schema, model, Model, ObjectId } from 'mongoose'
 
 type Status =
   | 'portfolio_not_submitted'

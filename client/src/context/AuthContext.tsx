@@ -74,7 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 userId: user.userId,
                 submissionData: submissionParseData,
               },
-              isAuthenticated: true,
+              isAuthenticated: user.email ? true : false,
               isLoading: false,
             })
           })

@@ -8,8 +8,9 @@
  * its any here. todo -> change this to actual User type from mongoose
  * */
 import { Request } from 'express'
+import { IReviewer } from '../models/Reviewer'
 import { IUser } from '../models/User'
 
 export interface AuthRequest extends Request {
-  user?: IUser
+  user?: IUser | IReviewer
 }
