@@ -142,7 +142,7 @@ const SubmissionWindow: React.FC = () => {
         localStorage.removeItem('mark15')
         router.push('./submission/congrats')
       }
-    } catch (err: any) {
+    } catch (err) {
       if (err.response?.status === 302) {
         toast({
           title: 'Your portfolio is already submitted!',
