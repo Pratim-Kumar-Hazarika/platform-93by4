@@ -39,7 +39,7 @@ const ReSubmissionWindow: React.FC = () => {
   const [checkInput, setCheckInput] = useState<string>('')
   const { authState, setAuthState } = useAuth()
   const [reviewComment, setReviewComment] = useState<reviewComment[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   async function handleUserRequest() {
     const response = await getDashboard()
@@ -53,9 +53,11 @@ const ReSubmissionWindow: React.FC = () => {
   }
   useEffect(() => {
     handleUserRequest()
+    setTimeout(() => {
+      setIsLoading(false)
+    },1500)
   }, [])
   useEffect(() => {
-    setIsLoading(true)
     inputRef.current?.focus()
   }, [])
 
