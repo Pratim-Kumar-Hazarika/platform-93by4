@@ -55,7 +55,7 @@ const ReSubmissionWindow: React.FC = () => {
     handleUserRequest()
     setTimeout(() => {
       setIsLoading(false)
-    },1500)
+    }, 1500)
   }, [])
   useEffect(() => {
     inputRef.current?.focus()
