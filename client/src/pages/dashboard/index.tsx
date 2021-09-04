@@ -10,14 +10,18 @@ import {
   submissionSting,
 } from '../../data/staticData/admissionStages'
 import { theme } from '../../themes'
-import { getDashboard } from '../../services/axiosService'
+import { getDashboard, logout } from '../../services/axiosService'
 
 import withAuth from '../../context/WithAuth'
+import { useRouter } from 'next/router'
+import { useAuth } from '../../context/AuthContext'
 
 function Dashboard() {
   const [currentStatus, setCurrentStatus] = useState('portfolio_not_submitted')
   const [submissionNo, setSubmissionNo] = useState(null)
   const toast = useToast()
+  const router = useRouter()
+  const { setAuthState } = useAuth()
   useEffect(() => {
     async function fetch() {
       await getDashboard()
@@ -27,12 +31,21 @@ function Dashboard() {
             (setCurrentStatus(portfolio.status),
             setSubmissionNo(portfolio.submissionNo))
         })
-        .catch((err) =>
+        .catch((err) => {
+          // this is in case error happens, we would want their token to be removed
+          // so they can log in again.
+          localStorage.removeItem('x-auth-token')
+          setAuthState({
+            isAuthenticated: false,
+            isLoading: false,
+            user: null,
+          })
+          router.push('/')
           toast({
             title: 'Something went wrong.',
             description: 'Please try again.',
           })
-        )
+        })
     }
     fetch()
   }, [])

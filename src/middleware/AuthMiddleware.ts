@@ -1,5 +1,6 @@
 import { NextFunction, Response } from 'express'
-import jwt from 'jsonwebtoken'
+import jwt, { decode } from 'jsonwebtoken'
+import { Reviewer } from '../models/Reviewer'
 import { User } from '../models/User'
 import { AuthRequest } from '../types/RequestWithUser'
 import { TokenUser } from '../utils/authUtils'
@@ -30,21 +31,34 @@ export async function requiresAuth(
         msg: 'Token is invalid.',
       })
     }
+    // If incoming user has a role, then we find them in only reviewer/admin table
+    if (decodedUser.role) {
+      const reviewer = await Reviewer.findById(decodedUser.sub)
 
-    const user = await User.findById(decodedUser.sub)
+      if (!reviewer) {
+        return res.json({
+          msg: 'Token is invalid',
+        })
+      }
 
-    log.info(user)
+      req.user = reviewer
+      next()
+    } else {
+      const user = await User.findById(decodedUser.sub)
 
-    if (!user) {
-      return res.status(404).json({
-        msg: 'Token is invalid.',
-        success: false,
-      })
+      log.info(user)
+
+      if (!user) {
+        return res.status(404).json({
+          msg: 'Token is invalid.',
+          success: false,
+        })
+      }
+
+      req.user = user
+
+      next()
     }
-
-    req.user = user
-
-    next()
   } catch (error) {
     res.status(401).json({
       success: false,
