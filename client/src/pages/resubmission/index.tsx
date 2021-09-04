@@ -9,7 +9,7 @@ import {
   Center,
   Spinner,
 } from '@chakra-ui/react'
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, MutableRefObject } from 'react'
 import axios from 'axios'
 import { Layout, Breadcrumbs, Alert } from '../../components'
 import { useRouter } from 'next/router'
@@ -33,7 +33,7 @@ export interface reviewComment {
 
 const ReSubmissionWindow: React.FC = () => {
   const [disableButton, setDisabledButton] = useState<boolean>(true)
-  const inputRef = useRef<any>()
+  const inputRef = useRef() as MutableRefObject<HTMLInputElement>
   const router = useRouter()
   const toast = useToast()
   const [checkInput, setCheckInput] = useState<string>('')
