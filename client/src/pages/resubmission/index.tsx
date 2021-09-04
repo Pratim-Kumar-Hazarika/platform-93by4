@@ -6,8 +6,10 @@ import {
   Heading,
   Text,
   useToast,
+  Center,
+  Spinner,
 } from '@chakra-ui/react'
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, MutableRefObject } from 'react'
 import axios from 'axios'
 import { Layout, Breadcrumbs, Alert } from '../../components'
 import { useRouter } from 'next/router'
@@ -16,30 +18,47 @@ import { isUrlValid } from '../../utils/utils'
 import { ResubmissionData } from '../../data/strings/submission'
 import { useAuth } from '../../context/AuthContext'
 import withAuth from '../../context/WithAuth'
-import { reSubmissionLink } from '../../services/axiosService'
+import { getDashboard, reSubmissionLink } from '../../services/axiosService'
 
 export interface reSubmissionValues {
   submissionNo: number
   status: string
   portfolioUrl: string
 }
+export interface reviewComment {
+  author: string
+  comment: string
+  date: Date
+}
+
 const ReSubmissionWindow: React.FC = () => {
   const [disableButton, setDisabledButton] = useState<boolean>(true)
-  const inputRef = useRef<any>()
+  const inputRef = useRef() as MutableRefObject<HTMLInputElement>
   const router = useRouter()
   const toast = useToast()
   const [checkInput, setCheckInput] = useState<string>('')
   const { authState, setAuthState } = useAuth()
+  const [reviewComment, setReviewComment] = useState<reviewComment[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  useEffect(() => {
+  async function handleUserRequest() {
+    const response = await getDashboard()
+    setReviewComment(response.foundPortfolio?.portfolioUrl?.reviewComments)
     if (
-      authState?.user?.submissionData?.status !== 'portfolio_needs_revision'
+      response.foundPortfolio?.portfolioUrl?.status !==
+      'portfolio_needs_revision'
     ) {
       router.push('/dashboard')
     }
+  }
+  useEffect(() => {
+    handleUserRequest()
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1500)
   }, [])
   useEffect(() => {
-    inputRef.current.focus()
+    inputRef.current?.focus()
   }, [])
 
   const checkPortfolioUrl = (): void => {
@@ -89,7 +108,7 @@ const ReSubmissionWindow: React.FC = () => {
         router.push('./resubmission/congrats')
       }
       return response.data
-    } catch (err) {
+    } catch (err: any) {
       if (err.response?.status === 409) {
         toast({
           title: 'Portfolio URL Exists',
@@ -118,104 +137,104 @@ const ReSubmissionWindow: React.FC = () => {
     },
     { breadcrumbName: 'ReSubmission', breadcrumbLink: '/resubmission' },
   ]
-  return (
-    <>
-      <Layout>
-        <Breadcrumbs breadcrumbProp={breadcrumbsLinks} />
-        <Flex flexDirection="column" width="auto" pt="2">
-          <Heading
-            as="h1"
-            size="xl"
-            color={theme.colors.brand['500']}
-            fontFamily="Inter"
-            pb="1rem"
-          >
-            {ResubmissionData.heading}
-          </Heading>
-          <Text
-            color={theme.colors.black['50']}
-            fontSize="16px"
-            noOfLines={5}
-            pb="1rem"
-          >
-            {ResubmissionData.discription}
-          </Text>
-        </Flex>
-        <Box
-          borderWidth="1px"
-          borderRadius="lg"
-          overflow="hidden"
-          m={['2rem 0', '2rem']}
-          p="2rem"
-          background={theme.colors.black['700']}
-          border="none"
+  return isLoading ? (
+    <Center minH="100vh">
+      <Spinner />
+    </Center>
+  ) : (
+    <Layout>
+      <Breadcrumbs breadcrumbProp={breadcrumbsLinks} />
+      <Flex flexDirection="column" width="auto" pt="2">
+        <Heading
+          as="h1"
+          size="xl"
+          color={theme.colors.brand['500']}
+          fontFamily="Inter"
+          pb="1rem"
         >
-          <Flex flexDirection="column">
-            <Flex>
-              <Heading
-                as="h2"
-                size="md"
-                color={theme.colors.brand['500']}
-                fontFamily="Inter"
-                pb="1rem"
-              >
-                {ResubmissionData.title}
-              </Heading>
-            </Flex>
+          {ResubmissionData.heading}
+        </Heading>
+        <Text
+          color={theme.colors.black['50']}
+          fontSize="16px"
+          noOfLines={5}
+          pb="1rem"
+        >
+          {ResubmissionData.discription}
+        </Text>
+      </Flex>
+      <Box
+        borderWidth="1px"
+        borderRadius="lg"
+        overflow="hidden"
+        m={['2rem 0', '2rem']}
+        p="2rem"
+        background={theme.colors.black['700']}
+        border="none"
+      >
+        <Flex flexDirection="column">
+          <Flex>
             <Heading
-              as="h3"
-              size="sm"
-              color={theme.colors.black['50']}
+              as="h2"
+              size="md"
+              color={theme.colors.brand['500']}
               fontFamily="Inter"
               pb="1rem"
             >
-              {ResubmissionData.subTitle}
+              {ResubmissionData.title}
             </Heading>
-            <Text color={theme.colors.black['50']} fontSize="16px" pb="1rem">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Inventore, deleniti consequatur! Officiis consequuntur quia
-              molestias quibusdam architecto! Recusandae beatae.
-            </Text>
-            <Flex
-              justifyContent={['stretch', 'center']}
-              alignItems="center"
-              p="5"
-              flexDirection={['column', 'row']}
-              gap="1rem"
-            >
-              <Input
-                placeholder="https://adarshbalika.netlify.app"
-                onChange={checkPortfolioUrl}
-                ref={inputRef}
-                border="none"
-                isInvalid={disableButton}
-                errorBorderColor={theme.colors.red['500']}
-                background={theme.colors.black['600']}
-                width="100%"
-                color={theme.colors.black['50']}
-                maxWidth="300px"
-              />
-              <Alert isDisabled={disableButton} onClick={submitPortfolioUrl} />
-            </Flex>
-            <Flex
-              justifyContent={['stretch', 'center']}
-              alignItems="center"
-              w="100%"
-              flexDirection={['column', 'row']}
-            >
-              <Text
-                color={theme.colors.red['500']}
-                textAlign="left"
-                w="85%"
-                maxW="380px"
-              >
-                {checkInput}
-              </Text>
-            </Flex>
           </Flex>
-        </Box>
-      </Layout>
-    </>
+          <Heading
+            as="h3"
+            size="sm"
+            color={theme.colors.black['50']}
+            fontFamily="Inter"
+            pb="1rem"
+          >
+            {ResubmissionData.subTitle}
+          </Heading>
+          <Text color={theme.colors.black['50']} fontSize="16px" pb="1rem">
+            {reviewComment[reviewComment.length - 1]?.comment}
+          </Text>
+          <Flex
+            justifyContent={['stretch', 'center']}
+            alignItems="center"
+            p="5"
+            flexDirection={['column', 'row']}
+            gap="1rem"
+          >
+            <Input
+              placeholder="https://adarshbalika.netlify.app"
+              onChange={checkPortfolioUrl}
+              ref={inputRef}
+              border="none"
+              isInvalid={disableButton}
+              errorBorderColor={theme.colors.red['500']}
+              background={theme.colors.black['600']}
+              width="100%"
+              color={theme.colors.black['50']}
+              maxWidth="300px"
+            />
+            <Alert isDisabled={disableButton} onClick={submitPortfolioUrl} />
+          </Flex>
+          <Flex
+            justifyContent={['stretch', 'center']}
+            alignItems="center"
+            w="100%"
+            flexDirection={['column', 'row']}
+          >
+            <Text
+              color={theme.colors.red['500']}
+              textAlign="left"
+              w="85%"
+              maxW="380px"
+            >
+              {checkInput}
+            </Text>
+          </Flex>
+        </Flex>
+      </Box>
+    </Layout>
   )
 }
 

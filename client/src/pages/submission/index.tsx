@@ -48,7 +48,6 @@ const SubmissionWindow: React.FC = () => {
         )
       ) {
         setIsLoading(true)
-
         router.push('/dashboard')
         setTimeout(() => {
           setIsLoading(false)
@@ -142,7 +141,7 @@ const SubmissionWindow: React.FC = () => {
         localStorage.removeItem('mark15')
         router.push('./submission/congrats')
       }
-    } catch (err) {
+    } catch (err: any) {
       if (err.response?.status === 302) {
         toast({
           title: 'Your portfolio is already submitted!',
