@@ -19,6 +19,7 @@ import { ResubmissionData } from '../../data/strings/submission'
 import { useAuth } from '../../context/AuthContext'
 import withAuth from '../../context/WithAuth'
 import { getDashboard, reSubmissionLink } from '../../services/axiosService'
+import { removeSpaces } from '../../utils/removespace'
 
 export interface reSubmissionValues {
   submissionNo: number
@@ -62,7 +63,9 @@ const ReSubmissionWindow: React.FC = () => {
   }, [])
 
   const checkPortfolioUrl = (): void => {
-    if (isUrlValid(inputRef.current.value)) {
+    const inputValue = removeSpaces(inputRef.current.value)
+    inputRef.current.value = inputValue
+    if (isUrlValid(inputValue)) {
       setCheckInput('')
       setDisabledButton(false)
     } else {
