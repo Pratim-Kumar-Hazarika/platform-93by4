@@ -10,7 +10,6 @@ import {
   Spinner,
 } from '@chakra-ui/react'
 import React, { useRef, useState, useEffect, MutableRefObject } from 'react'
-import axios from 'axios'
 import { Layout, Breadcrumbs, Alert } from '../../components'
 import { useRouter } from 'next/router'
 import { theme } from '../../themes'

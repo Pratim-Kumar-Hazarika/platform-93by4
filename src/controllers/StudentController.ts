@@ -74,17 +74,24 @@ export const reSubmitHandler: RequestHandler = async (
   const currentSubmission = (await PortfolioUrl.findOne({}).sort({
     submissionNo: -1,
   })) as IPortfolioUrl
-  // if(!currentSubmission){
-  //   currentSubmission={}
-  // }
+
   const currentSubmissionCount = currentSubmission.submissionNo
 
   try {
     const oldValues = foundUser.portfolioUrl
+    const previousSubmissionArray = [
+      ...oldValues.previousSubmissions,
+      {
+        number: oldValues.submissionNo,
+        url: oldValues.portfolioUrl,
+        date: new Date(),
+      },
+    ]
     const newValues = {
       portfolioUrl: portfolioUrl,
       submissionNo: currentSubmissionCount + 1,
       status: 'portfolio_under_review',
+      previousSubmissions: previousSubmissionArray,
     }
     if (foundUser && foundUser?.portfolioUrl.portfolioUrl === portfolioUrl) {
       const updatedData = new PortfolioUrl(extend(oldValues, newValues))
