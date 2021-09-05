@@ -5,7 +5,13 @@ import { Heading } from '@chakra-ui/react'
 function Faqs(): JSX.Element {
   return (
     <Layout>
-      <Heading as="h1" size="lg" color="#00F0FF" fontFamily="Inter" textAlign="center">
+      <Heading
+        as="h1"
+        size="lg"
+        color="#00F0FF"
+        fontFamily="Inter"
+        textAlign="center"
+      >
         {faqHeading}
       </Heading>
       {faqs.map((faq, index) => {
