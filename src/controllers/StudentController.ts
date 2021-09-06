@@ -92,6 +92,7 @@ export const reSubmitHandler: RequestHandler = async (
       submissionNo: currentSubmissionCount + 1,
       status: 'portfolio_under_review',
       previousSubmissions: previousSubmissionArray,
+      resubmissionCount: oldValues.resubmissionCount + 1 
     }
     if (foundUser && foundUser?.portfolioUrl.portfolioUrl === portfolioUrl) {
       const updatedData = new PortfolioUrl(extend(oldValues, newValues))
