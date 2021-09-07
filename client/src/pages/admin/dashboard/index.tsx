@@ -46,7 +46,7 @@ function Dashboard() {
           },
         }
       })
-      router.push('/admin/review-portfolio')
+      router.push('/admin/review-portfolios')
     }
   }
 
