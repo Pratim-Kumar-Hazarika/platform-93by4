@@ -45,8 +45,14 @@ function ReviewerPortfolios() {
           <Heading mt="4">Review portfolio</Heading>
           <Text>
             Please click on the portfolio link and check if the student has
-            submitted a complete and personal portfolio or not. Here is the
-            mark15 checklist for you to do an awesome review.
+            submitted a complete and personal portfolio or not.{' '}
+            <Link
+              isExternal
+              href="https://tanvi-neogcamp.notion.site/neoG-Reviewer-s-Guide-538ac4e94d934473be2d7695e4bb65a6"
+            >
+              Here
+            </Link>{' '}
+            is the mark15 checklist for you to do an awesome review.
           </Text>
         </Stack>
         <Box></Box>

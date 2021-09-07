@@ -46,14 +46,14 @@ export const List = (props: LinkProps) => {
       </Stack>
       {!action
         ? link && (
-            <Link href={link}>
+            <ChakraLink href={link} isExternal>
               <IconButton
                 variant="link"
                 size="lg"
                 icon={linkIcon}
                 aria-label="External Link"
               ></IconButton>
-            </Link>
+            </ChakraLink>
           )
         : null}
       {action && (

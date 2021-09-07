@@ -46,6 +46,7 @@ function Dashboard() {
           },
         }
       })
+      router.push('/admin/review-portfolio')
     }
   }
 
@@ -77,7 +78,7 @@ function Dashboard() {
             icon={<BiBookBookmark />}
             title="Checkout reviewer guidelines."
             linkIcon={<FiExternalLink size="1.5rem" />}
-            link="/reviewer/guidelines"
+            link="https://tanvi-neogcamp.notion.site/neoG-Reviewer-s-Guide-538ac4e94d934473be2d7695e4bb65a6"
           >
             Go through this guide to learn more about reviewing a portfolio,
             marks distribution and things to look for.
