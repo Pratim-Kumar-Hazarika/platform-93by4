@@ -5,7 +5,7 @@ import { createToken } from '../utils/authUtils'
 import { AuthRequest } from '../types/RequestWithUser'
 import { PortfolioUrl } from '../models/Portfolio'
 import { ReviewBody } from '../validation/ReviewerValidation'
-import bcrypt from 'bcrypt'
+import { Email } from '../utils/mailer'
 /**
  * @description Signs in the reviewer user. Sends a token containing appropriate role.
  */
@@ -220,7 +220,7 @@ export const reviewSubmitHandler: RequestHandler = async (
 
   const portfolio = await PortfolioUrl.findOne({
     _id: portfolioId,
-  })
+  }).populate('user')
 
   const currentReviewer = await Reviewer.findOne({
     email,
@@ -283,7 +283,7 @@ export const reviewSubmitHandler: RequestHandler = async (
 
     await currentReviewer.save()
 
-    return res.json({
+    res.json({
       msg: 'Thank you for reviewing this portfolio.',
       code: 'REVIEW_COMPLETE',
     })
@@ -320,6 +320,17 @@ export const reviewSubmitHandler: RequestHandler = async (
       code: 'REVIEW_COMPLETE',
     })
   }
+
+  const response = await new Email({
+    email: portfolio.user.email,
+    firstName: portfolio.user.firstName,
+  }).send({
+    subject: '[neoG Camp] Your portfolio has been reviewed.',
+    template: 'review-finished',
+    variables: {
+      dashboardLink: 'https://admissions.neog.camp/',
+    },
+  })
 
   /**
    * [x] mark15Ready @type {boolean} -

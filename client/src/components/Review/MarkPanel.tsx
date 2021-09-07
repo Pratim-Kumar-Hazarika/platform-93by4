@@ -27,12 +27,7 @@ import { submitReview } from '../../services/axiosService'
 import { useRouter } from 'next/router'
 
 const MarkValidationSchema = yup.object().shape({
-  projects: yup
-    .number()
-    .positive('Marks must be positive.')
-    .min(1, 'Assign marks greater than 1.')
-    .max(15)
-    .required('Project marks are required.'),
+  projects: yup.number().default(15),
   blogs: yup
     .number()
     .positive('Marks must be positive.')
@@ -139,9 +134,9 @@ export function MarkPanel({ portfolioId }: { portfolioId: string }) {
                             >
                               <Input
                                 {...field}
+                                readOnly
+                                value="15"
                                 type="number"
-                                max="15"
-                                min="1"
                               />
                               <FormErrorMessage>
                                 {form.errors.projects}
