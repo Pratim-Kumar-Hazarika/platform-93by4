@@ -64,8 +64,8 @@ function Dashboard() {
       case 'portfolio_needs_revision':
         setCardLink('/resubmission')
         break
-      case 'portfolio_passed_interview_to_be_scheduled':
-        setCardLink('/interview')
+      case 'portfolio_passed':
+        setCardLink(undefined)
         break
       default:
         setCardLink(undefined)

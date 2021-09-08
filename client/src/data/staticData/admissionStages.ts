@@ -26,14 +26,15 @@ export const data: StatusType[] = [
     color: 'red',
     level: 1, // control the locks
     statusText: 'Portfolio Needs Revison', // show your header
-    statusDescription: 'Click on this and check the review feedback.',
+    statusDescription:
+      'Click on step 1 to see review comments and re-submit portfolio',
   },
   {
-    status: 'portfolio_passed_interview_to_be_scheduled',
-    level: 2, // control the locks
-    statusText: 'Portfolio Accepted', // show your header
+    status: 'portfolio_passed',
+    level: 1, // control the locks
+    statusText: 'Congrats! Portfolio is reviewed.', // show your header
     statusDescription:
-      'Hurray!! Interview step unlocked for you. Click on Step-2',
+      'You have cleared Step 1. Step 2 will be unlocked shortly.',
   },
   // {
   //   status: 'interview_scheduled',
