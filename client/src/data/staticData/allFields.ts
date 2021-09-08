@@ -62,6 +62,7 @@ export const allFields: Array<AllFieldsType> = [
       ],
       [
         {
+<<<<<<< HEAD
           placeHolder: 'Son',
           name: 'parent-relation',
           type: 'text',
@@ -70,6 +71,15 @@ export const allFields: Array<AllFieldsType> = [
         },
         {
           label: 'State of Residence',
+=======
+          placeHolder: 'Son/Daughter',
+          name: 'parent-relation',
+          type: 'text',
+          label: "Parent / Guardian's Relation*",
+        },
+        {
+          label: 'State of Residence*',
+>>>>>>> fdce0e268a518ce239b85eb241b22b76682e1d5a
           name: 'state',
           type: 'text',
           placeHolder: 'Maharashtra',
