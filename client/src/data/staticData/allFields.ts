@@ -2,14 +2,17 @@ export interface CheckBoxField {
   name: string
   type: 'checkbox'
   label: string
+  isRequired?: boolean
+  note?: string
 }
 
 export interface TextField {
   name: string
-  type: 'text' | 'email' | 'textarea'
+  type: 'text' | 'email' | 'textarea' | 'number'
   placeHolder: string
   editable?: boolean
   label?: string
+  isRequired?: boolean
 }
 
 export interface OptionField {
@@ -22,6 +25,7 @@ export interface SelectField {
   placeHolder: string
   type: 'select'
   options: Array<OptionField>
+  isRequired?: boolean
 }
 
 export interface AllFieldsType {
@@ -35,70 +39,48 @@ export const allFields: Array<AllFieldsType> = [
     rows: [
       [
         {
-          name: 'first-name',
-          type: 'text',
-          placeHolder: 'Adarsh',
-          editable: false,
-          label: 'First Name*',
-        },
-        {
-          name: 'email',
-          type: 'email',
-          placeHolder: 'adarsh101@gmail.com',
-          editable: false,
-          label: 'Email ID*',
-        },
-        {
           placeHolder: 'Ramesh',
           name: 'parent-name',
           type: 'text',
-          label: 'Parent / Guardian Name*',
+          label: 'Parent / Guardian Name',
+          isRequired: true,
         },
         {
-          placeHolder: 'Phone Number*',
+          placeHolder: '9999999999',
           name: 'phone',
           type: 'text',
-          label: 'Phone Number*',
+          label: 'Phone Number',
+          isRequired: true,
         },
         {
-          placeHolder: 'Country of Residence*',
+          placeHolder: 'India',
           name: 'country',
           type: 'text',
-          label: 'Country of Residence*',
+          label: 'Country of Residence',
+          isRequired: true,
         },
       ],
       [
         {
-          name: 'last-name',
+          placeHolder: 'Son',
+          name: 'parent-relation',
           type: 'text',
-          placeHolder: 'Balika',
-          editable: false,
-          label: 'Last Name*',
+          label: "Parent / Guardian's Gender",
+          isRequired: true,
         },
         {
-          name: 'portfolio-link',
-          type: 'text',
-          placeHolder: 'https://adarshbalika.com',
-          editable: false,
-          label: 'Portfolio Link*',
-        },
-        {
-          placeHolder: 'Gender',
-          name: 'parent-gender',
-          type: 'text',
-          label: "Parent / Guardian's Gender*",
-        },
-        {
-          label: 'State of Residence*',
+          label: 'State of Residence',
           name: 'state',
           type: 'text',
           placeHolder: 'Maharashtra',
+          isRequired: true,
         },
         {
           placeHolder: 'Mumbai',
           name: 'city',
           type: 'text',
-          label: 'City of Residence*',
+          label: 'City of Residence',
+          isRequired: true,
         },
       ],
     ],
@@ -111,13 +93,14 @@ export const allFields: Array<AllFieldsType> = [
           name: 'discord-id',
           type: 'text',
           placeHolder: 'Adarsh#1010',
-          label: 'Discord ID*',
+          label: 'Discord ID',
+          isRequired: true,
         },
         {
           name: 'twitter-url',
           type: 'text',
           placeHolder: 'https://twitter.com/adarsh101',
-          label: 'Twitter URL*',
+          label: 'Twitter URL',
         },
       ],
       [
@@ -125,13 +108,14 @@ export const allFields: Array<AllFieldsType> = [
           name: 'telegram-id',
           type: 'text',
           placeHolder: '123456',
-          label: 'Telegram ID*',
+          label: 'Telegram ID',
         },
         {
           name: 'linkedin-url',
           type: 'text',
           placeHolder: 'https://www.linkedin.com/in/adarshbalika/',
-          label: 'LinkedIn URL*',
+          label: 'LinkedIn URL',
+          isRequired: true,
         },
       ],
     ],
@@ -143,7 +127,7 @@ export const allFields: Array<AllFieldsType> = [
         {
           name: 'educational-status',
           type: 'select',
-          placeHolder: 'Educational Status*',
+          placeHolder: 'Educational Status',
           options: [
             {
               value: 'graduated',
@@ -158,13 +142,14 @@ export const allFields: Array<AllFieldsType> = [
               name: 'Postgraduate',
             },
           ],
+          isRequired: true,
         },
       ],
       [
         {
           name: 'have-cs-background',
           type: 'select',
-          placeHolder: 'Are you from a CS Background*',
+          placeHolder: 'Are you from a CS Background',
           options: [
             {
               value: 'yes',
@@ -175,6 +160,7 @@ export const allFields: Array<AllFieldsType> = [
               name: 'No',
             },
           ],
+          isRequired: true,
         },
       ],
     ],
@@ -186,7 +172,8 @@ export const allFields: Array<AllFieldsType> = [
           name: 'education-status-brief',
           type: 'textarea',
           placeHolder: 'Hey, i am adarsh a BTech Student....',
-          label: 'Tell us about your educational background or latest degree*',
+          label: 'Tell us about your educational background or latest degree',
+          isRequired: true,
         },
       ],
     ],
@@ -199,7 +186,22 @@ export const allFields: Array<AllFieldsType> = [
           name: 'selection-reason',
           type: 'textarea',
           placeHolder: 'I have done levelZero ...',
-          label: 'Why should I get in levelOne?*',
+          label: 'Why should I get in levelOne?',
+          isRequired: true,
+        },
+      ],
+    ],
+  },
+  {
+    title: '',
+    rows: [
+      [
+        {
+          name: 'how-you-get-to-know-about-neog',
+          type: 'textarea',
+          placeHolder: 'One of my friend is a neograd ...',
+          label: 'Where did you get to know about neoG Camp?',
+          isRequired: true,
         },
       ],
     ],
@@ -211,7 +213,7 @@ export const allFields: Array<AllFieldsType> = [
         {
           name: 'reason-for-joining',
           type: 'select',
-          placeHolder: 'Reason to join the Camp*',
+          placeHolder: 'Reason to join the Camp',
           options: [
             {
               value: 'graduated',
@@ -226,11 +228,12 @@ export const allFields: Array<AllFieldsType> = [
               name: 'Postgraduate',
             },
           ],
+          isRequired: true,
         },
         {
           name: 'mode-of-payment',
           type: 'select',
-          placeHolder: 'Mode of Payment*',
+          placeHolder: 'Mode of Payment',
           options: [
             {
               value: 'graduated',
@@ -245,27 +248,16 @@ export const allFields: Array<AllFieldsType> = [
               name: 'Postgraduate',
             },
           ],
+          isRequired: true,
         },
       ],
       [
         {
           name: 'year-of-graduation',
-          type: 'select',
-          placeHolder: 'Year of Graduation*',
-          options: [
-            {
-              value: 'graduated',
-              name: 'Graduated',
-            },
-            {
-              value: 'undergraduate',
-              name: 'Undergraduate',
-            },
-            {
-              value: 'postgraduate',
-              name: 'Postgraduate',
-            },
-          ],
+          type: 'number',
+          label: 'Year of Graduation',
+          placeHolder: 'Year of Graduation',
+          isRequired: true,
         },
       ],
     ],
@@ -274,10 +266,11 @@ export const allFields: Array<AllFieldsType> = [
     rows: [
       [
         {
-          name: 'financial-aid',
+          name: 'financial-aid-check',
           type: 'checkbox',
           label:
             'I confirm that I will graduate by June 2022 and my family income is less than 50,000 rupees per month and i am ready to provide documents to support the same once selected.',
+          note: 'Note: Only students graduating till next year are eligible.',
         },
       ],
     ],
@@ -286,10 +279,11 @@ export const allFields: Array<AllFieldsType> = [
     rows: [
       [
         {
-          name: 'financial-aid',
+          name: 'correct-info-check',
           type: 'checkbox',
           label:
-            'I confirm that I will graduate by June 2022 and my family income is less than 50,000 rupees per month and i am ready to provide documents to support the same once selected.',
+            'I confirm and agree that all data, informatiom (including supplemental information,if any) provided by me in the application or the platform is true and that I am the person submitting this application.',
+          isRequired: true,
         },
       ],
     ],
@@ -298,10 +292,11 @@ export const allFields: Array<AllFieldsType> = [
     rows: [
       [
         {
-          name: 'financial-aid',
+          name: 'agree-policy-check',
           type: 'checkbox',
           label:
-            'I confirm that I will graduate by June 2022 and my family income is less than 50,000 rupees per month and i am ready to provide documents to support the same once selected.',
+            'I confirm and agree I have read all the policies including Privacy policy and Terms and Conditions on the website before submitting this application.',
+          isRequired: true,
         },
       ],
     ],

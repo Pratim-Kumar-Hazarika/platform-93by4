@@ -9,6 +9,7 @@ import { IPortfolioUrl } from './Portfolio'
  * you are attaching in DB in this interface
  */
 export interface IUser {
+  _id: ObjectId
   email: string
   isVerified: boolean
   firstName: string

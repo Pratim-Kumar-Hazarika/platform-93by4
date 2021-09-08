@@ -47,7 +47,8 @@ export const submitHandler: RequestHandler = async (req: AuthRequest, res) => {
         message: 'Your submission is successful',
       })
     }
-  } catch (error) {
+  } catch (error: any) {
+    // TODO: Come up with better type
     console.log(error)
     if (error.code === 11000) {
       return res
@@ -87,7 +88,6 @@ export const reSubmitHandler: RequestHandler = async (
       status: 'portfolio_under_review',
     }
     if (foundUser && foundUser?.portfolioUrl.portfolioUrl === portfolioUrl) {
-
       const updatedData = new PortfolioUrl(extend(oldValues, newValues))
       await updatedData.save()
 
@@ -107,7 +107,7 @@ export const reSubmitHandler: RequestHandler = async (
         message: 'resubmission successfull',
       })
     }
-  } catch (error) {
+  } catch (error: any) {
     if (error.code === 11000) {
       return res
         .status(409)

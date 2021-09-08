@@ -7,9 +7,13 @@
 /**
  * its any here. todo -> change this to actual User type from mongoose
  * */
-import { Request } from 'express'
+import { Request, Response } from 'express'
 import { IUser } from '../models/User'
 
 export interface AuthRequest extends Request {
   user?: IUser
+}
+
+export interface RouteResponse extends Response {
+  // for extending response type
 }

@@ -12,16 +12,21 @@ export function FormikField({
   label,
   type,
   placeHolder,
+  isRequired,
 }: {
   name: string
   label?: string
   type: string
   placeHolder: string
+  isRequired?: boolean
 }): JSX.Element {
   return (
     <Field name={name}>
       {({ field, form }: { field: any; form: any }) => (
-        <FormControl isInvalid={form.errors[name] && form.touched[name]}>
+        <FormControl
+          isInvalid={form.errors[name] && form.touched[name]}
+          isRequired={isRequired}
+        >
           {label && (
             <FormLabel htmlFor={name} color={theme.colors.black['50']}>
               {label}

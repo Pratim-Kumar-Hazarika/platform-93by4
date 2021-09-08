@@ -1,3 +1,4 @@
+import { TypeFormValues } from './../pages/interview/form'
 import axios from 'axios'
 import { User } from '../context/AuthContext'
 import { LoginValues } from '../pages/auth/login'
@@ -122,6 +123,13 @@ export const reSubmissionLink = async (
 ) => {
   const response = await apiClient.post('resubmit', {
     ...reSubmissionData,
+  })
+  return response
+}
+
+export const admissionFormSubmission = async (formData: TypeFormValues) => {
+  const response = await apiClient.post('submit-admission-form', {
+    ...formData,
   })
   return response
 }
