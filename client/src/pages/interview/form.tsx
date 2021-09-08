@@ -231,7 +231,6 @@ function InterviewForm(): JSX.Element {
                         <Stack w="100%">
                           {title && (
                             <Heading
-                              bg="red"
                               textAlign={{ base: 'center', md: 'left' }}
                               fontSize="xl"
                               pt="1rem"

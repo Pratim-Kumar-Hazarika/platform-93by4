@@ -18,15 +18,6 @@ function CheckList() {
     }
   }, [authState])
 
-  // scrolling to top of page
-  useEffect(() => {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    })
-  }, [])
-
   if (!pageNo) {
     pageNo = '1'
   }

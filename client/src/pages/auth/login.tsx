@@ -20,7 +20,7 @@ import NextLink from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field, FormikHelpers } from 'formik'
 import * as yup from 'yup'
-import { Navbar, AuthLayout } from '../../components'
+import { Navbar, AuthLayout, Layout } from '../../components'
 import { login } from '../../services/axiosService'
 import { useAuth } from '../../context/AuthContext'
 import { useRouter } from 'next/router'
@@ -130,7 +130,7 @@ export default function Login() {
   }
 
   return (
-    <>
+    <Layout>
       <SEO
         title="Login | NeoG Camp"
         description="Start your journey into NeoG Camp."
@@ -276,6 +276,6 @@ export default function Login() {
           </Flex>
         </Flex>
       </AuthLayout>
-    </>
+    </Layout>
   )
 }

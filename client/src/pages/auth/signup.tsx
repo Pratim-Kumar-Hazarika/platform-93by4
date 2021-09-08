@@ -25,7 +25,7 @@ import * as yup from 'yup'
 import { register } from '../../services/axiosService'
 import { useAuth } from '../../context/AuthContext'
 import { theme } from '../../themes'
-import { AuthLayout, Navbar } from '../../components'
+import { AuthLayout, Layout, Navbar } from '../../components'
 import { SEO } from '../../components/Layout/SEO'
 
 export interface SignUpValues {
@@ -101,7 +101,7 @@ export default function SignUp() {
   }
 
   return (
-    <>
+    <Layout>
       <SEO
         title="SignUp | NeoG Camp"
         description="Start your journey into NeoG Camp."
@@ -340,6 +340,6 @@ export default function SignUp() {
           </Flex>
         </Flex>
       </AuthLayout>
-    </>
+    </Layout>
   )
 }
