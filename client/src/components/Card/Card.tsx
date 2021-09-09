@@ -7,7 +7,7 @@ import { CheckListType } from '../../data/staticData/mark15'
 import { theme } from '../../themes'
 import { handleMarksChecked } from './handlers'
 import router from 'next/router'
-
+import Markdown from 'markdown-to-jsx'
 interface CardPropType extends CheckListType {
   collapsible?: boolean
   status?: string
@@ -18,6 +18,7 @@ interface CardPropType extends CheckListType {
   link?: string
   index?: number
   lockIcon?: boolean
+  centeredCardText?: boolean
   setAllMarksChecked?: Dispatch<SetStateAction<string[]>>
 }
 
@@ -40,6 +41,7 @@ function CardComp({
   lockIcon,
   checkCount,
   setCheckCount,
+  centeredCardText = true,
 }: CardCompPropType) {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false)
 
@@ -64,6 +66,7 @@ function CardComp({
           status={status}
           checklist={checks}
           checkedCount={checkCount.length}
+          centeredCardText={centeredCardText}
         />
         {!collapsible && (
           <Flex cursor={'pointer'}>
@@ -77,7 +80,12 @@ function CardComp({
           </Flex>
         )}
         {collapsible && (
-          <Flex flex={'1'} justifyContent={'flex-end'} cursor={'pointer'}>
+          <Flex
+            flex={'1'}
+            justifyContent={'flex-end'}
+            cursor={'pointer'}
+            maxW="30px"
+          >
             <Image
               src={'/svgs/chevDown.svg'}
               height={'18'}
@@ -105,13 +113,15 @@ function CardComp({
             fontWeight="600"
             color="white"
           >
-            {projectName}
+            <Markdown>{projectName ?? 'Loading'}</Markdown>
           </Heading>
-          <CheckList
-            checklist={checks}
-            checkCount={checkCount}
-            setCheckCount={setCheckCount}
-          />
+          {checks && (
+            <CheckList
+              checklist={checks}
+              checkCount={checkCount}
+              setCheckCount={setCheckCount}
+            />
+          )}
         </Flex>
       )}
     </Box>

@@ -6,10 +6,6 @@ import { SignUpValues } from '../pages/auth/signup'
 import { submissionValues } from '../pages/submission'
 import { reSubmissionValues } from '../pages/resubmission'
 
-if (typeof window !== 'undefined') {
-  console.log('LOCAL TOKEN', localStorage.getItem('x-auth-token'))
-}
-
 const apiClient = axios.create({
   baseURL: `${process.env.API_URL}/api/`,
   withCredentials: true,
@@ -131,5 +127,43 @@ export const admissionFormSubmission = async (formData: TypeFormValues) => {
   const response = await apiClient.post('submit-admission-form', {
     ...formData,
   })
+  return response
+}
+/**
+ * Admin + Reviewer Routes
+ */
+export const getAdmin = async () => {
+  const response = await apiClient.get('/reviewer/user-info')
+  return response
+}
+
+export const adminLogin = async (data: LoginValues) => {
+  const response = await apiClient.post('/reviewer/sign-in', {
+    ...data,
+  })
+  return response
+}
+
+export const requestPortfolio = async () => {
+  const response = await apiClient.get('/reviewer/request-portfolio')
+  return response
+}
+
+// contains metadata to be sent to server to determine if portfolio is ready or not .
+export interface ReviewBody {
+  mark15Ready: boolean
+  portfolioId: string
+  reviewComment?: string
+  linkedin?: number
+  blogs?: number
+  effort?: number
+  projects?: number
+}
+
+export const submitReview = async (data: ReviewBody) => {
+  const response = await apiClient.post('/reviewer/submit-review', {
+    ...data,
+  })
+
   return response
 }

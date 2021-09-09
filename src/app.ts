@@ -8,8 +8,8 @@ import log from './utils/logger'
 import { makeConnection } from './db/mongodb'
 import authRoutes from './routes/AuthRoutes'
 import studentRoutes from './routes/StudentRoutes'
-import adminRoutes from './routes/AdminRoutes'
 import interviewRoutes from './routes/InterviewRoutes'
+import reviewerRoutes from './routes/ReviewerRoutes'
 dotenv.config()
 
 makeConnection()
@@ -33,7 +33,8 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes)
 app.use('/api', studentRoutes)
 app.use('/api', interviewRoutes)
-app.use('/api/admin', adminRoutes)
+// app.use('/api/admin', adminRoutes)
+app.use('/api/reviewer', reviewerRoutes)
 
 /**
  * This handles all the errors in application that were not catched by controllers

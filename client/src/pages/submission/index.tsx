@@ -18,6 +18,7 @@ import { SubmissionData } from '../../data/strings/submission'
 import withAuth from '../../context/WithAuth'
 import { useAuth } from '../../context/AuthContext'
 import { CheckListData } from '../../data/staticData/mark15'
+import { removeSpaces } from '../../utils/removespace'
 
 export interface submissionValues {
   status: string
@@ -48,7 +49,6 @@ const SubmissionWindow: React.FC = () => {
         )
       ) {
         setIsLoading(true)
-
         router.push('/dashboard')
         setTimeout(() => {
           setIsLoading(false)
@@ -97,7 +97,9 @@ const SubmissionWindow: React.FC = () => {
   }, [])
 
   const checkPortfolioUrl = (): void => {
-    if (isUrlValid(inputRef.current.value)) {
+    const inputValue = removeSpaces(inputRef.current.value)
+    inputRef.current.value = inputValue
+    if (isUrlValid(inputValue)) {
       setCheckInput('')
       setDisabledButton(false)
     } else {
@@ -142,7 +144,7 @@ const SubmissionWindow: React.FC = () => {
         localStorage.removeItem('mark15')
         router.push('./submission/congrats')
       }
-    } catch (err) {
+    } catch (err: any) {
       if (err.response?.status === 302) {
         toast({
           title: 'Your portfolio is already submitted!',
