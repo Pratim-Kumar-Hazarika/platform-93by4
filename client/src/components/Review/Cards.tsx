@@ -35,11 +35,12 @@ export function InfoCard({ icon, label, value }: InfoCardProps) {
 
 interface CommentCardProps {
   reviewComment: string
-  author: string
-  date: string
+  author?: string
+  date?: string
+  showAuthor?:boolean
 }
 
-export function CommentCard({ reviewComment, author, date }: CommentCardProps) {
+export function CommentCard({ reviewComment, author, date, showAuthor=true }: CommentCardProps) {
   return (
     <Box
       bg={theme.colors.black['700']}
@@ -50,7 +51,7 @@ export function CommentCard({ reviewComment, author, date }: CommentCardProps) {
       rounded="md"
     >
       <Text fontSize="lg">{reviewComment}</Text>
-      <Stack direction={['row']} spacing={3} alignItems="center" mt={4}>
+      {showAuthor && <Stack direction={['row']} spacing={3} alignItems="center" mt={4}>
         <Box bg={theme.colors.black['600']} borderRadius="50%" p="0.4rem">
           <BsPerson size="1.7rem" />
         </Box>
@@ -59,7 +60,7 @@ export function CommentCard({ reviewComment, author, date }: CommentCardProps) {
           <Badge fontSize="xs">Reviewer</Badge>
           <Text fontSize="xs">on {new Date(date).toDateString()}</Text>
         </Box>
-      </Stack>
+      </Stack>}
     </Box>
   )
 }

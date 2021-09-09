@@ -241,7 +241,7 @@ export const reviewSubmitHandler: RequestHandler = async (
   }
 
   // Super RARE CASE
-  if (portfolio.status === 'portfolio_passed_interview_to_be_scheduled') {
+  if (portfolio.status === 'portfolio_passed') {
     return res.json({
       msg: 'This portfolio has been already reviewed.',
       code: 'DUPLICATED_FEEDBACK',
@@ -250,8 +250,8 @@ export const reviewSubmitHandler: RequestHandler = async (
 
   // if mark15 ready
   if (mark15Ready && currentReviewer) {
-    // change status from 'getting_reviewed' to 'portfolio_passed_interview_to_be_scheduled'
-    portfolio.status = 'portfolio_passed_interview_to_be_scheduled'
+    // change status from 'getting_reviewed' to 'portfolio_passed'
+    portfolio.status = 'portfolio_passed'
 
     portfolio.portfolioMarks = { linkedin, blogs, effort, projects }
 
@@ -334,7 +334,7 @@ export const reviewSubmitHandler: RequestHandler = async (
 
   /**
    * [x] mark15Ready @type {boolean} -
-   * If false, portfolio needs revision, if true, portfolio_passed_interview_to_be_scheduled
+   * If false, portfolio needs revision, if true, portfolio_passed
    * reviewComment @type {string}
    * Author Info (from request context)
    *

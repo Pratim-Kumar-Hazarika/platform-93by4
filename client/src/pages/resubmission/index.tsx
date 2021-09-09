@@ -19,6 +19,7 @@ import { useAuth } from '../../context/AuthContext'
 import withAuth from '../../context/WithAuth'
 import { getDashboard, reSubmissionLink } from '../../services/axiosService'
 import { removeSpaces } from '../../utils/removespace'
+import { CommentCard } from '../../components/Review/Cards'
 
 export interface reSubmissionValues {
   submissionNo: number
@@ -195,9 +196,10 @@ const ReSubmissionWindow: React.FC = () => {
           >
             {ResubmissionData.subTitle}
           </Heading>
-          <Text color={theme.colors.black['50']} fontSize="16px" pb="1rem">
-            {reviewComment[reviewComment.length - 1]?.comment}
-          </Text>
+          <CommentCard
+            reviewComment={reviewComment[reviewComment.length - 1]?.comment}
+            showAuthor={false}
+          />
           <Flex
             justifyContent={['stretch', 'center']}
             alignItems="center"
