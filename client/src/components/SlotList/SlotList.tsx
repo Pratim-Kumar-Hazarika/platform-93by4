@@ -1,8 +1,20 @@
-import { Flex, Heading, HStack, IconButton, Stack } from '@chakra-ui/react'
+import {
+  Flex,
+  Heading,
+  HStack,
+  IconButton,
+  Stack,
+  Button,
+  Text,
+  Input,
+} from '@chakra-ui/react'
+import { useState } from 'react'
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
+import { BsPlusCircle } from 'react-icons/bs'
 import { TimeSlot } from '../TimeSlot/TimeSlot'
 
 export function SlotList() {
+  const [showButton, setShowButton] = useState(true)
   return (
     <Flex flexDir="column" align="center" flex={1} pl="2rem">
       <Flex justify="space-between" w="full" pb="2rem" maxW="330px">
@@ -26,10 +38,35 @@ export function SlotList() {
           </IconButton>
         </HStack>
       </Flex>
-      <Stack mt={4} spacing={2} w="full" maxW="300px">
-        <TimeSlot from="8:00pm" to="8:30pm" />
+      <Stack mt={4} spacing={2} w="full" height="full" maxW="300px">
+        <TimeSlot from="8:00pm" to="8:30pm" deleteButton />
         <TimeSlot from="8:00pm" to="8:30pm" isDisabled />
       </Stack>
+      {showButton ? (
+        <Button
+          variant="ghost"
+          rounded="md"
+          size="lg"
+          w="full"
+          maxW="300px"
+          fontSize="lg"
+          onClick={() => setShowButton((prev) => !prev)}
+        >
+          <BsPlusCircle />
+          <Text ml="1rem">Add Slot</Text>
+        </Button>
+      ) : (
+        <Flex w="full" maxW="300px">
+          <Input
+            type="time"
+            borderRightRadius="0"
+            onChange={(e) => console.log(e?.target?.value)}
+          />
+          <Button borderLeftRadius="0" rounded="md" size="md" fontSize="lg">
+            +
+          </Button>
+        </Flex>
+      )}
     </Flex>
   )
 }

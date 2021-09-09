@@ -11,6 +11,7 @@ import { useState } from 'react'
 import {
   FormikCheckbox,
   FormikField,
+  FormikForm,
   FormikSelect,
   FormikTextarea,
   Layout,
@@ -20,7 +21,7 @@ import withAuth from '../../context/WithAuth'
 import { Form, Formik } from 'formik'
 import * as yup from 'yup'
 import { theme } from '../../themes'
-import { allFields } from '../../data/staticData/allFields'
+import { allFields } from '../../data/interview/allFields'
 import { useAuth } from '../../context/AuthContext'
 import { admissionFormSubmission } from '../../services/axiosService'
 
@@ -67,7 +68,7 @@ const yearOfGraduationRegExp = /^\d{4}$/
 
 const discordIdRegExp = /^.*#\d{4}$/
 
-const AdmissionFormSchema = yup.object().shape({
+const admissionFormSchema = yup.object().shape({
   'parent-name': yup.string().required('Parent name is required.'),
   phone: yup
     .string()
@@ -211,99 +212,13 @@ function InterviewForm(): JSX.Element {
           Fill the admission form
         </Heading>
         <Text mb="2rem">Fill your addmission form to proceed</Text>
-        <Formik
+        <FormikForm
           initialValues={initialValues}
-          validationSchema={AdmissionFormSchema}
-          onSubmit={(values: TypeFormValues) => handleSubmit(values)}
-        >
-          {({ isValid }: { isValid: boolean }) => {
-            return (
-              <Form>
-                <Box
-                  m="1rem 0"
-                  bg="black.800"
-                  borderRadius="6px"
-                  p={{ base: '1rem', md: '2rem' }}
-                >
-                  <Stack w="full">
-                    {allFields.map(({ title, rows }) => {
-                      return (
-                        <Stack w="100%">
-                          {title && (
-                            <Heading
-                              textAlign={{ base: 'center', md: 'left' }}
-                              fontSize="xl"
-                              pt="1rem"
-                            >
-                              {title}
-                            </Heading>
-                          )}
-                          <Flex w="100%" flexWrap="wrap">
-                            {rows.map((row) => {
-                              return (
-                                <Stack
-                                  spacing={title ? 6 : 0}
-                                  m={`${title ? 2 : 0}rem 1rem`}
-                                  flex="1"
-                                  minW="250px"
-                                >
-                                  {row.map((field) => {
-                                    switch (field.type) {
-                                      case 'select':
-                                        return (
-                                          <FormikSelect
-                                            key={field.name}
-                                            {...field}
-                                          />
-                                        )
-                                      case 'textarea':
-                                        return (
-                                          <FormikTextarea
-                                            key={field.name}
-                                            {...field}
-                                          />
-                                        )
-                                      case 'checkbox':
-                                        return (
-                                          <FormikCheckbox
-                                            key={field.name}
-                                            {...field}
-                                          />
-                                        )
-                                      default:
-                                        return (
-                                          <FormikField
-                                            key={field.name}
-                                            {...field}
-                                          />
-                                        )
-                                    }
-                                  })}
-                                </Stack>
-                              )
-                            })}
-                          </Flex>
-                        </Stack>
-                      )
-                    })}
-                  </Stack>
-                  <Flex justifyContent="flex-end" mt="3.5rem">
-                    <Button
-                      type="submit"
-                      colorscheme="blue"
-                      variant="solid"
-                      isLoading={isLoading}
-                      loadingText="Please wait"
-                      isDisabled={!isValid}
-                    >
-                      Submit
-                    </Button>
-                  </Flex>
-                </Box>
-              </Form>
-            )
-          }}
-        </Formik>
+          handleSubmit={handleSubmit}
+          validationSchema={admissionFormSchema}
+          isLoading={isLoading}
+          fields={allFields}
+        />
       </Flex>
     </Layout>
   )

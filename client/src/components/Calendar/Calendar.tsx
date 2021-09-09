@@ -15,9 +15,11 @@ import { predictDay } from './Calender.utils'
 function CalenderCell({
   text,
   active,
+  isCurrentMonth,
 }: {
   text: string | number
   active?: boolean
+  isCurrentMonth?: boolean
 }) {
   return (
     <Flex
@@ -27,7 +29,9 @@ function CalenderCell({
       align="center"
       rounded="full"
       bg={(active && 'brand.500') || ''}
-      color={(active && 'black.900') || 'black.400'}
+      color={
+        (active && 'black.900') || (isCurrentMonth ? 'black.400' : 'black.600')
+      }
     >
       {text}
     </Flex>
@@ -42,15 +46,48 @@ export function Calendar() {
     year: currentDate.getFullYear(),
   })
   const initialDayOfMonth = predictDay(
-    selectedDate.date,
-    selectedDate.month,
+    1,
+    selectedDate.month + 1,
     selectedDate.year
   )
+  const getPreviousMonth = () => {
+    if (selectedDate.month === 0) {
+      setSelectedDate({
+        date: selectedDate.date,
+        month: 11,
+        year: selectedDate.year - 1,
+      })
+    } else {
+      setSelectedDate({
+        date: selectedDate.date,
+        month: selectedDate.month - 1,
+        year: selectedDate.year,
+      })
+    }
+  }
+
+  const getNextMonth = () => {
+    if (selectedDate.month === 11) {
+      setSelectedDate({
+        date: selectedDate.date,
+        month: 0,
+        year: selectedDate.year + 1,
+      })
+    } else {
+      setSelectedDate({
+        date: selectedDate.date,
+        month: selectedDate.month + 1,
+        year: selectedDate.year,
+      })
+    }
+  }
+
+  console.log(selectedDate, daysInMonth[0])
   return (
     <Box flex={1}>
       <Flex justify="space-between" pb="2rem">
         <Heading fontSize="1.8rem">
-          {daysInMonth[currentDate.getMonth()].name} {currentDate.getFullYear()}
+          {daysInMonth[selectedDate.month].name} {selectedDate.year}
         </Heading>
         <HStack>
           <IconButton
@@ -58,6 +95,7 @@ export function Calendar() {
             bg="black.500"
             rounded="full"
             aria-label="left-chev"
+            onClick={() => getPreviousMonth()}
           >
             <BiChevronLeft fontSize="1.5rem" />
           </IconButton>
@@ -66,6 +104,7 @@ export function Calendar() {
             _hover={{ bg: 'black.600' }}
             rounded="full"
             aria-label="right-chev"
+            onClick={() => getNextMonth()}
           >
             <BiChevronRight fontSize="1.5rem" />
           </IconButton>
@@ -90,12 +129,31 @@ export function Calendar() {
         })}
       </SimpleGrid>
       <SimpleGrid columns={7} spacing={2}>
-        {[...Array(35)].map((_, i) => {
+        {[...Array(42)].map((_, i) => {
+          let calcDate = i + 2 - initialDayOfMonth
           const isToday =
-            selectedDate.date === i + 1 &&
+            selectedDate.date === calcDate &&
             selectedDate.month === currentDate.getMonth() &&
             selectedDate.year === currentDate.getFullYear()
-          return <CalenderCell text={i + 1} active={isToday} />
+          let isCurrentMonth = true
+          if (calcDate < 1) {
+            calcDate =
+              calcDate +
+              daysInMonth[
+                selectedDate.month === 0 ? 11 : selectedDate.month - 1
+              ].days
+            isCurrentMonth = false
+          } else if (calcDate > daysInMonth[selectedDate.month].days) {
+            calcDate = calcDate - daysInMonth[selectedDate.month].days
+            isCurrentMonth = false
+          }
+          return (
+            <CalenderCell
+              text={calcDate}
+              active={isToday}
+              isCurrentMonth={isCurrentMonth}
+            />
+          )
         })}
       </SimpleGrid>
     </Box>

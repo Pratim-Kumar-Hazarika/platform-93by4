@@ -57,7 +57,7 @@ export function CardText({
         >
           {title}
         </Heading>
-        {!collapsible && (
+        {!collapsible && subTitle && (
           <Text
             color={theme.colors.black['100']}
             marginTop={'0.5rem'}

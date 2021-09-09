@@ -13,6 +13,7 @@ import { theme } from '../../themes'
 import { getDashboard } from '../../services/axiosService'
 
 import withAuth from '../../context/WithAuth'
+import { SEO } from '../../components/Layout/SEO'
 
 function Dashboard() {
   const [currentStatus, setCurrentStatus] = useState('portfolio_not_submitted')
@@ -60,12 +61,14 @@ function Dashboard() {
   }, [status])
   return (
     <Layout>
+      <SEO title="Dashboard" />
       <Flex as="section" flexDir="column">
         {cardLink == undefined ? (
           <StatusCard
             status={status}
             bgColor={theme.colors.black['800']}
             submissionNo={submissionNo}
+            prefix={'Current Status:'}
           />
         ) : (
           <Link href={cardLink}>
@@ -73,6 +76,7 @@ function Dashboard() {
               status={status}
               bgColor={theme.colors.black['800']}
               submissionNo={submissionNo}
+              prefix={'Current Status:'}
             />
           </Link>
         )}

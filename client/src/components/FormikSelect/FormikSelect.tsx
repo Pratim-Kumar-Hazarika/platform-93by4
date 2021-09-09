@@ -1,6 +1,6 @@
 import { Select, FormLabel, chakra, Box } from '@chakra-ui/react'
 import { Field, Form } from 'formik'
-import { OptionField } from '../../data/staticData/allFields'
+import { OptionField } from '../../data/interview/allFields'
 
 export function FormikSelect({
   name,
