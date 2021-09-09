@@ -109,7 +109,7 @@ export class Email {
           }
         )
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === 'ENOENT') {
         log.error(
           `The template with the name ${template} does not exitst in templtes directory. Please double check the file name or create the file`

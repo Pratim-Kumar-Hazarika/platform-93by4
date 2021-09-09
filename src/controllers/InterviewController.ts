@@ -2,10 +2,10 @@ import { RequestHandler } from 'express'
 import { AdmissionForm } from '../models/AdmissionForm'
 import { AuthRequest, RouteResponse } from './../types/RequestWithUser.d'
 // function for admission form submission
-export async function submitAdmissionForm<RequestHandler>(
+export const submitAdmissionForm: RequestHandler = async (
   req: AuthRequest,
-  res: RouteResponse
-) {
+  res
+) => {
   // get the user from the request
   const user = req.user
   // get the form data from the request
@@ -13,6 +13,12 @@ export async function submitAdmissionForm<RequestHandler>(
 
   console.log(formData)
   console.log(user)
+
+  if (!user) {
+    return res.status(401).json({
+      message: 'You are not authorized to submit this form',
+    })
+  }
 
   try {
     // saving the form data to the database

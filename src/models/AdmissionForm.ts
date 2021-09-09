@@ -1,5 +1,6 @@
 import { Model, model, Schema } from 'mongoose'
-interface AdmissionFormModel {
+
+export interface BasicAdmissionFormModel {
   'parent-name': string
   phone: string
   country: string
@@ -21,6 +22,9 @@ interface AdmissionFormModel {
   'financial-aid-check': string
   'correct-info-check': string
   'agree-policy-check': string
+}
+
+interface AdmissionFormModel extends BasicAdmissionFormModel {
   user: {
     type: Schema.Types.ObjectId
     rel: 'User'
