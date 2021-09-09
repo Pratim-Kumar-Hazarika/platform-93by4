@@ -101,7 +101,7 @@ export default function SignUp() {
   }
 
   return (
-    <Layout>
+    <>
       <SEO
         title="SignUp | NeoG Camp"
         description="Start your journey into NeoG Camp."
@@ -340,6 +340,6 @@ export default function SignUp() {
           </Flex>
         </Flex>
       </AuthLayout>
-    </Layout>
+    </>
   )
 }

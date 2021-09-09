@@ -130,7 +130,7 @@ export default function Login() {
   }
 
   return (
-    <Layout>
+    <>
       <SEO
         title="Login | NeoG Camp"
         description="Start your journey into NeoG Camp."
@@ -276,6 +276,6 @@ export default function Login() {
           </Flex>
         </Flex>
       </AuthLayout>
-    </Layout>
+    </>
   )
 }

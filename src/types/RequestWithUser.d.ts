@@ -15,6 +15,4 @@ export interface AuthRequest extends Request {
   user?: IUser | IReviewer
 }
 
-export interface RouteResponse extends Response {
-  // for extending response type
-}
+export type RouteResponse = Response

@@ -1,9 +1,10 @@
-import { Schema, model, Model } from 'mongoose'
+import { Schema, model, Model, ObjectId } from 'mongoose'
 import bcrypt from 'bcrypt'
 import { IPortfolioUrl } from './Portfolio'
 import { Policy } from '../utils/policy'
 
 export interface IReviewer {
+  _id: ObjectId
   email: string
   isVerified: boolean
   isAllowedToReview: boolean
