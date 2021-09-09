@@ -8,7 +8,7 @@ import log from './utils/logger'
 import { makeConnection } from './db/mongodb'
 import authRoutes from './routes/AuthRoutes'
 import studentRoutes from './routes/StudentRoutes'
-import adminRoutes from './routes/AdminRoutes'
+import reviewerRoutes from './routes/ReviewerRoutes'
 dotenv.config()
 
 makeConnection()
@@ -31,7 +31,8 @@ app.get('/', (req, res) => {
  * */
 app.use('/api/auth', authRoutes)
 app.use('/api', studentRoutes)
-app.use('/api/admin', adminRoutes)
+// app.use('/api/admin', adminRoutes)
+app.use('/api/reviewer', reviewerRoutes)
 
 /**
  * This handles all the errors in application that were not catched by controllers
@@ -51,7 +52,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 // if (process.env.NODE_ENV === 'development') {
 //   app.listen(process.env.PORT, () => {
 //     log.info(`[server] ->🚀 started on ${process.env.PORT}`)
-//     log.warn(`⚠️ Make sure to use "yarn serve" in production.`)
 //     log.info(
 //       `[${process.env.NODE_ENV}] -> http://localhost:${process.env.PORT}`
 //     )

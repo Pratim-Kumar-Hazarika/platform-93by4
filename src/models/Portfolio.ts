@@ -1,5 +1,5 @@
 import { IUser } from './User'
-import { Schema, model, Model, ObjectId, Date } from 'mongoose'
+import { Schema, model, Model, ObjectId } from 'mongoose'
 
 type Status =
   | 'portfolio_not_submitted'
@@ -7,7 +7,7 @@ type Status =
   | 'getting_reviewed'
   | 'portfolio_needs_revision'
   | 'portfolio_revision_exceeded'
-  | 'portfolio_passed_interview_to_be_scheduled'
+  | 'portfolio_passed'
   | 'interview_scheduled'
   | 'interview_done_passed'
   | 'interview_done_failed'
@@ -79,7 +79,7 @@ const PortfolioSchema = new Schema<
         'getting_reviewed',
         'portfolio_needs_revision',
         'portfolio_revision_exceeded',
-        'portfolio_passed_interview_to_be_scheduled',
+        'portfolio_passed',
         'interview_scheduled',
         'interview_done_passed',
         'interview_done_failed',

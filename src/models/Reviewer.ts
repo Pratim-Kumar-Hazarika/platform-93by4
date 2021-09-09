@@ -1,6 +1,7 @@
-import { Schema, model, Model, ObjectId } from 'mongoose'
+import { Schema, model, Model } from 'mongoose'
 import bcrypt from 'bcrypt'
 import { IPortfolioUrl } from './Portfolio'
+import { Policy } from '../utils/policy'
 
 export interface IReviewer {
   email: string
@@ -14,7 +15,8 @@ export interface IReviewer {
   getPasswordResetToken: () => Promise<string>
   matchPasswords: (password: string) => Promise<boolean>
   portfolioReviewed?: number
-  portfolioAssigned: IPortfolioUrl
+  portfolioAssigned?: IPortfolioUrl
+  role: Policy['reviewer']
   /** This is array of userID */
   reviewHistory: Array<{
     portfolioUrl: string
@@ -49,7 +51,7 @@ const reviewerSchema = new Schema<IReviewer, Model<IReviewer>, IReviewer>(
       type: String,
       required: true,
       minlength: 8,
-      maxlength: 50,
+      maxlength: 100,
       select: false,
     },
 
@@ -73,7 +75,12 @@ const reviewerSchema = new Schema<IReviewer, Model<IReviewer>, IReviewer>(
         date: Date,
       },
     ],
+    role: {
+      type: Number,
+      default: 20,
+    },
   },
+
   {
     timestamps: true,
   }
