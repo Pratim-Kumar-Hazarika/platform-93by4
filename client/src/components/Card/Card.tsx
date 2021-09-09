@@ -71,10 +71,8 @@ function CardComp({
         {!collapsible && (
           <Flex cursor={'pointer'}>
             {link && link.includes('/checklist') ? (
-              // \<Link href={`${link}`}>
               <HiArrowCircleRight style={{ height: '30px', width: '30px' }} />
             ) : (
-              // </Link>
               <Link href={`${link}`} isExternal>
                 <BiLinkExternal style={{ height: '30px', width: '30px' }} />
               </Link>

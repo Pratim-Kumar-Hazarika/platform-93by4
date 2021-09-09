@@ -3,10 +3,23 @@ import { ReactNode } from 'react'
 import Head from 'next/head'
 import { Navbar } from '../'
 import { theme } from '../../themes'
+import { useEffect, useRef } from 'react'
 
 export function Layout({ children }: { children: ReactNode }) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  // scrolling to top of page
+  useEffect(() => {
+    console.log('useEffect')
+    containerRef?.current &&
+      containerRef.current.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      })
+  }, [])
   return (
     <Flex
+      ref={containerRef}
       background={theme.colors.black['900']}
       height={`100vh`}
       margin={'auto'}

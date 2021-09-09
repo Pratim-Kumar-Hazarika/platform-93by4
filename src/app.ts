@@ -8,6 +8,7 @@ import log from './utils/logger'
 import { makeConnection } from './db/mongodb'
 import authRoutes from './routes/AuthRoutes'
 import studentRoutes from './routes/StudentRoutes'
+import interviewRoutes from './routes/InterviewRoutes'
 import reviewerRoutes from './routes/ReviewerRoutes'
 dotenv.config()
 
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
  * */
 app.use('/api/auth', authRoutes)
 app.use('/api', studentRoutes)
+app.use('/api', interviewRoutes)
 // app.use('/api/admin', adminRoutes)
 app.use('/api/reviewer', reviewerRoutes)
 
@@ -49,14 +51,15 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 /**
  * Boots the app on PORT mentioned in .env
  * */
-// if (process.env.NODE_ENV === 'development') {
-//   app.listen(process.env.PORT, () => {
-//     log.info(`[server] ->🚀 started on ${process.env.PORT}`)
-//     log.info(
-//       `[${process.env.NODE_ENV}] -> http://localhost:${process.env.PORT}`
-//     )
-//   })
-// }
+if (process.env.NODE_ENV === 'development') {
+  app.listen(process.env.PORT, () => {
+    log.info(`[server] ->🚀 started on ${process.env.PORT}`)
+    log.warn(`⚠️ Make sure to use "yarn serve" in production.`)
+    log.info(
+      `[${process.env.NODE_ENV}] -> http://localhost:${process.env.PORT}`
+    )
+  })
+}
 
 /**
  * This helps us debug better incase of unhandledRejection of any promise.

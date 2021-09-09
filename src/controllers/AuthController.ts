@@ -236,7 +236,7 @@ export const signInHandler: RequestHandler<{}, {}, SignInBody> = async (
       code: 'LOGIN_SUCCESS',
       isVerified: user.isVerified,
     })
-  } catch (error) {
+  } catch (error: any) {
     console.log(error.message, error)
     return res.status(500).json({
       msg: 'Something went wrong while signing you in. Please contact support@neogcamp.com',

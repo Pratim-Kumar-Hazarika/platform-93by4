@@ -1,14 +1,22 @@
 import { Layout, Card, Breadcrumbs } from '../../components'
 import { CheckListData, CardOnEachPage } from '../../data/staticData/mark15'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Link, Flex } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
+import router from 'next/router'
 import withAuth from '../../context/WithAuth'
+import { useAuth } from '../../context/AuthContext'
 
 function CheckList() {
   const [allMarksChecked, setAllMarksChecked] = useState<string[]>([])
-  const router = useRouter()
+  const { authState } = useAuth()
   let pageNo = router.query?.pageNo as string
+
+  // redirect to dashboard if status is submitted
+  useEffect(() => {
+    if (authState?.user?.submissionData?.status === 'portfolio_under_review') {
+      router.push('/dashboard')
+    }
+  }, [authState])
 
   if (!pageNo) {
     pageNo = '1'
