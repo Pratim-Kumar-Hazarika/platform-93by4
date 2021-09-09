@@ -115,7 +115,7 @@ function CardComp({
             fontWeight="600"
             color="white"
           >
-            <Markdown>{projectName}</Markdown>
+            <Markdown>{projectName ?? 'Loading'}</Markdown>
           </Heading>
           {checks && (
             <CheckList
