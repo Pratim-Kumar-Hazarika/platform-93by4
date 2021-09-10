@@ -149,6 +149,7 @@ export function Calendar() {
           }
           return (
             <CalenderCell
+              key={`calender-cell-${i + 1}`}
               text={calcDate}
               active={isToday}
               isCurrentMonth={isCurrentMonth}

@@ -14,8 +14,7 @@ function Interview(): JSX.Element {
     },
   ]
   return (
-    <Layout>
-      <SEO title="Interview" />
+    <Layout title="Interview">
       <Stack spacing={6}>
         <Breadcrumbs breadcrumbProp={breadcrumbsLinks} />
         <StatusCard

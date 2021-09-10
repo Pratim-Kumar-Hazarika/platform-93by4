@@ -1,12 +1,28 @@
 import { Flex, Box } from '@chakra-ui/react'
 import { ReactNode } from 'react'
 import Head from 'next/head'
-import { Navbar } from '../'
+import { Error, Navbar } from '../'
 import { theme } from '../../themes'
 import { useEffect, useRef } from 'react'
+import featureFlags from '../../../flags.json'
 
-export function Layout({ children }: { children: ReactNode }) {
+export function Layout({
+  children,
+  title,
+  flag,
+}: {
+  children: ReactNode
+  title?: string
+  flag?: string
+}) {
   const containerRef = useRef<HTMLDivElement>(null)
+
+  // feature state
+  let featureState = true
+  if (flag && featureFlags.hasOwnProperty(flag)) {
+    featureState = featureFlags[flag as keyof typeof featureFlags]
+  }
+
   // scrolling to top of page
   useEffect(() => {
     console.log('useEffect')
@@ -17,6 +33,9 @@ export function Layout({ children }: { children: ReactNode }) {
         behavior: 'smooth',
       })
   }, [])
+
+  console.log('Layout', featureFlags)
+
   return (
     <Flex
       ref={containerRef}
@@ -29,8 +48,8 @@ export function Layout({ children }: { children: ReactNode }) {
       overflowY={'auto'}
     >
       <Head>
-        <title>NeoG Camp Admission Portal</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>{title || 'NeoG Camp Admission Portal'}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Navbar />
       <Box
@@ -39,7 +58,7 @@ export function Layout({ children }: { children: ReactNode }) {
         padding={['1rem', '2rem']}
         marginTop={'1rem'}
       >
-        {children}
+        {featureState ? children : <Error />}
       </Box>
     </Flex>
   )

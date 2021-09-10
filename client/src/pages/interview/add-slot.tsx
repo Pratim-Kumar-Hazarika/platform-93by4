@@ -5,6 +5,7 @@ import { Form, Formik } from 'formik'
 import { Breadcrumbs, Calendar, Layout, SlotList } from '../../components'
 import { SEO } from '../../components/Layout/SEO'
 import withAuth from '../../context/WithAuth'
+import { getTimeFromLocalString } from '../../utils/getTimeFromLocalString'
 
 function AddSlot() {
   const breadcrumbsLinks = [
@@ -18,6 +19,7 @@ function AddSlot() {
       breadcrumbLink: '/add-slots',
     },
   ]
+  console.log(getTimeFromLocalString('10/9/2021, 12:00:51 pm'))
   return (
     <Layout>
       <SEO title="Add Slots" />

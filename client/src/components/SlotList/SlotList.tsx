@@ -7,14 +7,52 @@ import {
   Button,
   Text,
   Input,
+  useToast,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useState, ChangeEvent } from 'react'
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
 import { BsPlusCircle } from 'react-icons/bs'
+import { addTime } from '../../utils/addTime'
 import { TimeSlot } from '../TimeSlot/TimeSlot'
+
+const currentDate = new Date()
 
 export function SlotList() {
   const [showButton, setShowButton] = useState(true)
+  const toast = useToast()
+  function timeHandler(event: ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value.trim().split(':')
+    if (value.length === 2) {
+      // updating currentDate time
+      currentDate.setHours(Number(value[0]))
+      currentDate.setMinutes(Number(value[1]))
+      const prevDate = currentDate.toLocaleString()
+      const timeAfter30Mins = addTime(currentDate, 30)
+      const payload = {
+        from: prevDate,
+        to: timeAfter30Mins.toLocaleString(),
+      }
+      console.log(payload)
+
+      // toast message
+      toast({
+        title: 'Time Slot Added',
+        description: `Your selected slot ${prevDate} - ${timeAfter30Mins.toLocaleString()} was successfully added`,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+    } else {
+      // toast error
+      toast({
+        title: 'Error',
+        description: 'Please enter a valid time',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+    }
+  }
   return (
     <Flex flexDir="column" align="center" flex={1} pl="2rem">
       <Flex justify="space-between" w="full" pb="2rem" maxW="330px">
@@ -57,11 +95,7 @@ export function SlotList() {
         </Button>
       ) : (
         <Flex w="full" maxW="300px">
-          <Input
-            type="time"
-            borderRightRadius="0"
-            onChange={(e) => console.log(e?.target?.value)}
-          />
+          <Input type="time" borderRightRadius="0" onChange={timeHandler} />
           <Button borderLeftRadius="0" rounded="md" size="md" fontSize="lg">
             +
           </Button>

@@ -1,43 +1,15 @@
 import React from 'react'
+import { Layout, Error } from '../components'
 
-import Link from 'next/link'
-import Head from 'next/head'
-import { Heading, Box, Flex, Text, Image } from '@chakra-ui/react'
-import { Navbar } from '../components'
-
-const Error = () => {
+const Error404 = () => {
   return (
-    <div>
-      <Head>
-        <title>404 | neoG.camp</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      <Navbar />
-      <Flex
-        backgroundColor="blackAlpha.900"
-        align="center"
-        justify={{ base: 'center' }}
-        direction={{ base: 'column', md: 'column', sm: 'column' }}
-        minH="100vh"
-      >
-        <Box padding="2rem">
-          <Image src={'/svgs/notFound.svg'} alt={`user-pic`} />
-        </Box>
-
-        <Box margin={'2rem'}>
-          <Heading as="h3" size="lg" color="whiteAlpha.900">
-            Oops! The page you’re trying to reach doesn’t exist.
-          </Heading>
-
-          <Link href="/">
-            <Text color="blue.300" textDecoration="underline" cursor="pointer">
-              Click here to go back home
-            </Text>
-          </Link>
-        </Box>
-      </Flex>
-    </div>
+    <Layout title={'404 | neoG.camp'}>
+      <Error
+        path="/svgs/notFound.svg"
+        message="Oops! The page you’re trying to reach doesn’t exist."
+      />
+    </Layout>
   )
 }
 
-export default Error
+export default Error404
