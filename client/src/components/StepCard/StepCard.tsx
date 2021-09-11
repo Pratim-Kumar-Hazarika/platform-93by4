@@ -61,7 +61,8 @@ export function StepCard({ bgColor, step, status, index }: StepcardProps) {
 
       {status.level == step.level ? (
         status.status == 'portfolio_under_review' ||
-        status.status == 'portfolio_passed' ? (
+        status.status == 'portfolio_passed' ||
+        status.status == 'portfolio_revision_exceeded' ? (
           <a>{<ExternalLinkSvg color={theme.colors.black['700']} />}</a>
         ) : status.status == 'portfolio_needs_revision' ? (
           <Link href="/resubmission">

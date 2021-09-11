@@ -25,7 +25,7 @@ export const data: StatusType[] = [
     status: 'portfolio_needs_revision',
     color: 'red',
     level: 1, // control the locks
-    statusText: 'Portfolio Needs Revison', // show your header
+    statusText: 'Portfolio Needs Revision', // show your header
     statusDescription:
       'Click on step 1 to see review comments and re-submit portfolio',
   },
@@ -35,6 +35,14 @@ export const data: StatusType[] = [
     statusText: 'Congrats! Portfolio is reviewed.', // show your header
     statusDescription:
       'You have cleared Step 1. Step 2 will be unlocked shortly.',
+  },
+  {
+    status: 'portfolio_revision_exceeded',
+    color: 'red',
+    level: 1, // control the locks
+    statusText: 'Resubmission Limit Reached', // show your header
+    statusDescription:
+      'You have re-submitted your portfolio twice. You can not re-submit it more',
   },
   // {
   //   status: 'interview_scheduled',
