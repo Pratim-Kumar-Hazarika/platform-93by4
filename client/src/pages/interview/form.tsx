@@ -47,6 +47,9 @@ export interface TypeFormValues {
   'financial-aid-check': string
   'correct-info-check': string
   'agree-policy-check': string
+  'terms-for-financial-aid':string
+  'provide-document-financial-aid':string
+  'company-can-use-documents':string
 }
 
 const captilize = (str: string | undefined): string =>

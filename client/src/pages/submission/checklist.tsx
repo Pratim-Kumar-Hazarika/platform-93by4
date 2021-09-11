@@ -82,7 +82,7 @@ function CheckList() {
       ).map((question) => {
         return (
           <Card
-            key={question.id}
+            key={`mark-checklist-${question.id}`}
             setAllMarksChecked={setAllMarksChecked}
             collapsible={true}
             {...question}

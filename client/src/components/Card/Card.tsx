@@ -107,14 +107,14 @@ function CardComp({
           overflow={'overhidden'}
           opacity={openDrawer ? '1' : '0.7'}
         >
-          <Heading
+          {projectName && <Heading
             fontSize="1.15rem"
             pb="1.8rem"
             fontWeight="600"
             color="white"
           >
             <Markdown>{projectName ?? 'Loading'}</Markdown>
-          </Heading>
+          </Heading>}
           {checks && (
             <CheckList
               checklist={checks}
