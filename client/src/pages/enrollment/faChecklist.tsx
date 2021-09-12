@@ -8,7 +8,7 @@ import { Card } from '../../components'
 import { theme } from '../../themes'
 import { useState } from 'react'
 
-const faChecklist = () => {
+const FaChecklist = () => {
   const [allMarksChecked, setAllMarksChecked] = useState<string[]>([])
 
   function checkAllIdsInArray() {
@@ -115,4 +115,4 @@ const faChecklist = () => {
   )
 }
 
-export default faChecklist
+export default FaChecklist

@@ -8,7 +8,7 @@ import {
 import { FormikForm } from '../../components'
 import { CommentCard } from '../../components/Review/Cards'
 
-const uploadDocuments = () => {
+const UploadDocuments = () => {
   const breadcrumbsLinks = [
     { breadcrumbName: 'Dashboard', breadcrumbLink: '/dashboard' },
     {
@@ -47,18 +47,19 @@ const uploadDocuments = () => {
           color={theme.colors.brand['500']}
           fontFamily="Inter"
           pt="4"
+          pb='4'
         >
           {uploadDocumentsData.documentRevisionHeading}
         </Heading>
-        <CommentCard reviewComment="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." showAuthor={true} />
+        <CommentCard reviewComment="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." showAuthor={true} />
 
         <iframe
           src="https://docs.google.com/forms/d/e/1FAIpQLSfeeHmhe-zOmFb4NbDHIishDcrG62IvRKSmFihu9Xl9Qu7WHA/viewform?embedded=true"
           width="100%"
           height="250px"
           frameBorder="0"
-          marginHeight="0"
-          marginwidth="0"
+          marginHeight={0}
+          marginWidth={0}
         >
           Loading…
         </iframe>
@@ -69,4 +70,4 @@ const uploadDocuments = () => {
   )
 }
 
-export default uploadDocuments
+export default UploadDocuments

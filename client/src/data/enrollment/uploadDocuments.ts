@@ -1,6 +1,6 @@
 export const uploadDocumentsData = {
   heading: 'Upload your documents',
-  documentRevisionHeading:'Your Application needs revision',
+  documentRevisionHeading: 'Your Application needs revision',
 }
 
 export const uploadDocumentsAllFields = [
@@ -12,6 +12,7 @@ export const uploadDocumentsAllFields = [
           type: 'checkbox',
           label:
             'I agree to provide these documents for Financial Aid Scholarship.',
+          isRequired: true,
         },
       ],
     ],
