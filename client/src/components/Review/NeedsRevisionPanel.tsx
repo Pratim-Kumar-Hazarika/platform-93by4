@@ -12,10 +12,11 @@ import {
   Textarea,
   useToast,
 } from '@chakra-ui/react'
-import { Field, Form, Formik } from 'formik'
+import { Field, Form, Formik, validateYupSchema, yupToFormErrors } from 'formik'
 import { useRouter } from 'next/router'
 import { submitReview } from '../../services/axiosService'
 import { theme } from '../../themes'
+import * as yup from 'yup'
 
 export function NeedsRevisionPanel({ portfolioId }: { portfolioId: string }) {
   // mark15 false before sending
@@ -34,13 +35,13 @@ export function NeedsRevisionPanel({ portfolioId }: { portfolioId: string }) {
         title: 'Thank you for reviewing this portfolio.',
         description: 'You may request for another one or come back later.',
       })
-      router.push('/admin/dashboard')
+      window.location.pathname = '/admin/dashboard'
     }
     if (response.data.code === 'DUPLICATED_FEEDBACK') {
       toast({
         title: 'Your feedback has already been recorded',
       })
-      router.push('/admin/dashboard')
+      window.location.pathname = '/admin/dashboard'
     }
   }
 
@@ -77,6 +78,11 @@ export function NeedsRevisionPanel({ portfolioId }: { portfolioId: string }) {
               initialValues={{
                 reviewComment: '',
               }}
+              validationSchema={yup.object({
+                reviewComment: yup
+                  .string()
+                  .min(20, 'A longer review is expected.'),
+              })}
               onSubmit={(values) => handleSubmit(values)}
             >
               <Form>
@@ -85,7 +91,7 @@ export function NeedsRevisionPanel({ portfolioId }: { portfolioId: string }) {
                     <FormControl
                       mt={1}
                       isInvalid={
-                        form.errors.reviewComment && form.reviewComment
+                        form.errors.reviewComment && form.errors.reviewComment
                       }
                     >
                       <FormLabel
@@ -106,7 +112,9 @@ export function NeedsRevisionPanel({ portfolioId }: { portfolioId: string }) {
                         focusBorderColor="brand.400"
                         fontSize={{ sm: 'sm' }}
                       />
-                      <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                      <FormErrorMessage>
+                        {form.errors.reviewComment}
+                      </FormErrorMessage>
                       <FormHelperText>
                         This feedback is visible to student through their
                         dashboard.
@@ -114,9 +122,15 @@ export function NeedsRevisionPanel({ portfolioId }: { portfolioId: string }) {
                     </FormControl>
                   )}
                 </Field>
-                <Flex mt={4}>
-                  <Button type="submit">Submit</Button>
-                </Flex>
+                <Field>
+                  {({ field, form }: { field: any; form: any }) => (
+                    <Flex mt={4}>
+                      <Button disabled={!form.isValid} type="submit">
+                        Submit
+                      </Button>
+                    </Flex>
+                  )}
+                </Field>
               </Form>
             </Formik>
           </Box>
