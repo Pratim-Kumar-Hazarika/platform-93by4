@@ -23,7 +23,7 @@ function Dashboard() {
         description:
           'Please finish existing review before you can request another one.',
       })
-      router.push('/admin/review-portfolios')
+      window.location.pathname = '/admin/review-portfolios'
     }
 
     if (response.data.code === 'NO_PORTFOLIO_LEFT') {
@@ -46,7 +46,7 @@ function Dashboard() {
           },
         }
       })
-      router.push('/admin/review-portfolios')
+      window.location.pathname = '/admin/review-portfolios'
     }
   }
 
