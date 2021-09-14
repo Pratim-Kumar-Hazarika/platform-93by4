@@ -14,23 +14,20 @@ type StepcardProps = {
   submissionNo: number | null
 }
 
-export function StepCard({
+export function StepCardInterview({
   bgColor,
   step,
   status,
   index,
   submissionNo,
 }: StepcardProps) {
-  let portfolioSubmissionstatus = 'Not Started'
-  if (status.status == 'portfolio_not_submitted') {
-    portfolioSubmissionstatus = 'Not Started'
-  } else if (
-    status.status == 'under review' ||
-    status.status == 'portfolio_needs_revision'
-  ) {
-    portfolioSubmissionstatus = 'In Progress'
+  let interviewSubmissionstatus = 'Not Started'
+  if (status.status == 'admission_form_incomplete') {
+    interviewSubmissionstatus = 'Not Started'
+  } else if (status.status == 'admission_form_under_review') {
+    interviewSubmissionstatus = 'In Progress'
   } else {
-    portfolioSubmissionstatus = 'Completed'
+    interviewSubmissionstatus = 'Completed'
   }
   return (
     <Flex
@@ -61,16 +58,18 @@ export function StepCard({
           color={theme.colors.black[500]}
           paddingLeft={['0', '20px']}
         >
-          {portfolioSubmissionstatus}
+          {interviewSubmissionstatus}
         </chakra.span>
       </Heading>
-
+      {console.log(status.level, step.level)}
       {status.level == step.level ? (
-        status.status == 'portfolio_under_review' ||
-        status.status == 'portfolio_passed' ||
-        status.status == 'portfolio_revision_exceeded' ? (
+        // status.status == 'portfolio_under_review' ||
+        status.status == 'admission_form_under_review' ? (
+          //locks open but link inaccessable
+
           <a>{<ExternalLinkSvg color={theme.colors.black['700']} />}</a>
-        ) : status.status == 'portfolio_needs_revision' ? (
+        ) : //lock open , link accessible but redirect to different page
+        status.status == 'portfolio_needs_revision' ? (
           <Link href="/resubmission">
             <a>
               {
@@ -82,6 +81,7 @@ export function StepCard({
             </a>
           </Link>
         ) : (
+          //lock open , link accessible to general page
           <Link href={step.link}>
             <a>
               {
