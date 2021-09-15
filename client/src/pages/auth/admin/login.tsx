@@ -15,7 +15,7 @@ import {
 import React from 'react'
 import { Formik, Form, Field } from 'formik'
 import * as yup from 'yup'
-import { Navbar, AuthLayout } from '../../../components'
+import { Navbar, AuthLayout, FormikSelect } from '../../../components'
 import { adminLogin, login } from '../../../services/axiosService'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -24,6 +24,7 @@ import { useAdminAuth } from '../../../context/AdminContext'
 export interface LoginValues {
   email: string
   password: string
+  as: string
 }
 // @TODO - move this to seperate file
 const SignInSchema = yup.object().shape({
@@ -34,6 +35,7 @@ const SignInSchema = yup.object().shape({
   password: yup.string().required('Password is required.'),
   hasReadGuide: yup.bool().oneOf([true], 'Please make sure to check this.'),
   hasAcceptedRole: yup.bool().oneOf([true], 'Please make sure to check this.'),
+  as: yup.string().oneOf(['reviewer', 'interviewer'], ''),
 })
 
 export default function Login() {
@@ -50,6 +52,7 @@ export default function Login() {
     const res = await adminLogin({
       email: data.email,
       password: data.password,
+      as: data.as,
     })
 
     if (res.data.code === 'LOGGED_IN') {
@@ -128,6 +131,7 @@ export default function Login() {
                 password: '',
                 hasAcceptedRole: false,
                 hasReadGuide: false,
+                as: '',
               }}
               validationSchema={SignInSchema}
               onSubmit={(values: LoginValues) => handleSubmit(values)}
@@ -176,6 +180,22 @@ export default function Login() {
                           {form.errors.password}
                         </FormErrorMessage>
                       </FormControl>
+                    )}
+                  </Field>
+
+                  <Field>
+                    {({ field, form }: { field: any; form: any }) => (
+                      <FormikSelect
+                        {...field}
+                        name={'as'}
+                        isRequired={true}
+                        type={''}
+                        placeHolder={'Login as'}
+                        options={[
+                          { name: 'reviewer', value: 'reviewer' },
+                          { name: 'interviewer', value: 'interviewer' },
+                        ]}
+                      />
                     )}
                   </Field>
 

@@ -1,3 +1,4 @@
+import { policy } from './../utils/policy';
 import { RequestHandler } from 'express'
 import { IReviewer, Reviewer } from '../models/Reviewer'
 import { SignInBody, SignUpBody } from '../validation/AuthValidation'
@@ -6,14 +7,16 @@ import { AuthRequest } from '../types/RequestWithUser'
 import { PortfolioUrl } from '../models/Portfolio'
 import { ReviewBody } from '../validation/ReviewerValidation'
 import { Email } from '../utils/mailer'
+import { Interviewer } from '../models/Interviewer';
 /**
  * @description Signs in the reviewer user. Sends a token containing appropriate role.
  */
 export const signInHandler: RequestHandler<unknown, unknown, SignInBody> =
   async (req, res) => {
-    const { email, password } = req.body
+    const { email, password, as } = req.body
 
     try {
+      if(as==='reviewer'){
       const reviewerInfo = await Reviewer.findOne({ email })
         .select('+password')
         .populate({
@@ -42,7 +45,7 @@ export const signInHandler: RequestHandler<unknown, unknown, SignInBody> =
       }
 
       const token = createToken({
-        role: 20,
+        role: policy.reviewer,
         _id: reviewerInfo._id,
         email: reviewerInfo.email,
       })
@@ -53,6 +56,50 @@ export const signInHandler: RequestHandler<unknown, unknown, SignInBody> =
         reviewerInfo,
         code: 'LOGGED_IN',
       })
+    }
+    if(as==='interviewer'){
+
+      const interviewerInfo = await Interviewer.findOne({ email })
+      .select('+password')
+      .populate({
+        path: 'interviewAssigned',
+        model: 'PortfolioUrl',
+        populate: {
+          path: 'user',
+          model: 'User',
+        },
+      })
+
+    if (!interviewerInfo) {
+      return res.json({
+        msg: 'Incorrect email or password. Please check your credentials.',
+        code: 'BAD_CREDENTIALS',
+      })
+    }
+
+    const validPassword = await interviewerInfo.matchPasswords(password)
+
+    if (!validPassword) {
+      return res.json({
+        msg: 'Incorrect email or password. Please check your credentials.',
+        code: 'BAD_CREDENTIALS',
+      })
+    }
+
+    const token = createToken({
+      role: policy.interviewer,
+      _id: interviewerInfo._id,
+      email: interviewerInfo.email,
+    })
+
+    res.json({
+      msg: `Logged in !`,
+      token,
+      interviewerInfo,
+      code: 'LOGGED_IN',
+    })
+
+    }
     } catch (err) {
       console.log(err)
       return res.json({
@@ -69,9 +116,10 @@ export const signInHandler: RequestHandler<unknown, unknown, SignInBody> =
 
 export const signUpHandler: RequestHandler<unknown, unknown, SignUpBody> =
   async (req, res) => {
-    const { email, firstName, lastName, password } = req.body
+    const { email, firstName, lastName, password, as } = req.body
 
     try {
+      if(as==='reviewer'){
       const isAlreadyRegistered = await Reviewer.findOne({
         email,
       })
@@ -94,6 +142,32 @@ export const signUpHandler: RequestHandler<unknown, unknown, SignUpBody> =
       res.json({
         msg: 'Successfully registered as a reviewer.',
       })
+    }
+    if(as==='interviewer'){
+      const isAlreadyRegistered = await Interviewer.findOne({
+        email,
+      })
+
+      if (isAlreadyRegistered) {
+        return res.json({
+          msg: 'This email address is already registered.',
+        })
+      }
+
+      const interviewer = new Interviewer({
+        firstName,
+        lastName,
+        email,
+        password,
+      })
+
+      await interviewer.save()
+
+      res.json({
+        msg: 'Successfully registered as a interviewer.',
+      })
+
+    }
     } catch (err) {
       res.json({
         msg: 'Something has failed.',
