@@ -12,6 +12,7 @@ import {
 import { useState, ChangeEvent } from 'react'
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
 import { BsPlusCircle } from 'react-icons/bs'
+import addSlot from '../../pages/interview/add-slot'
 import { addTime } from '../../utils/addTime'
 import { TimeSlot } from '../TimeSlot/TimeSlot'
 
@@ -19,9 +20,10 @@ const currentDate = new Date()
 
 export function SlotList() {
   const [showButton, setShowButton] = useState(true)
+  const [timeInput, setTimeInput] = useState('')
   const toast = useToast()
-  function timeHandler(event: ChangeEvent<HTMLInputElement>) {
-    const value = event.target.value.trim().split(':')
+  async function timeHandler() {
+    const value = timeInput.trim().split(':')
     if (value.length === 2) {
       // updating currentDate time
       currentDate.setHours(Number(value[0]))
@@ -32,7 +34,7 @@ export function SlotList() {
         from: prevDate,
         to: timeAfter30Mins.toLocaleString(),
       }
-      console.log(payload)
+      const res = await addSlot(payload)
 
       // toast message
       toast({
@@ -95,8 +97,18 @@ export function SlotList() {
         </Button>
       ) : (
         <Flex w="full" maxW="300px">
-          <Input type="time" borderRightRadius="0" onChange={timeHandler} />
-          <Button borderLeftRadius="0" rounded="md" size="md" fontSize="lg">
+          <Input
+            type="time"
+            borderRightRadius="0"
+            onChange={(event) => setTimeInput(event?.target?.value)}
+          />
+          <Button
+            onClick={timeHandler}
+            borderLeftRadius="0"
+            rounded="md"
+            size="md"
+            fontSize="lg"
+          >
             +
           </Button>
         </Flex>

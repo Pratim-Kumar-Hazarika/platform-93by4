@@ -123,12 +123,24 @@ export const reSubmissionLink = async (
   return response
 }
 
+/**
+ * Interview Services
+ */
+
 export const admissionFormSubmission = async (formData: TypeFormValues) => {
   const response = await apiClient.post('submit-admission-form', {
     ...formData,
   })
   return response
 }
+
+export const addSlot = async (data: TypeFormValues) => {
+  const response = await apiClient.post('add-slot', {
+    ...data,
+  })
+  return response
+}
+
 /**
  * Admin + Reviewer Routes
  */

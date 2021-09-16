@@ -24,6 +24,7 @@ export const signInSchema = yup.object({
     .required('Email is required to sign in.')
     .email('Make sure email is valid.'),
   password: yup.string().required('Password is required to sign in.'),
+  role: yup.string().required('Role is required to sign in.'),
 })
 
 export const emailVerificationSchema = yup.object({
