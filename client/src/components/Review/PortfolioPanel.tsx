@@ -30,9 +30,9 @@ export function PortfolioPanel({
             icon={<VscGlobe size="1.7rem" />}
             label="Portfolio"
             value={
-              <Link href={portfolioLink} isExternal fontSize="lg">
-                Visit ↗
-              </Link>
+              <>
+                <Text maxW={'70%'}>{portfolioLink}</Text>
+              </>
             }
           />
           <InfoCard
