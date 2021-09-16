@@ -30,6 +30,7 @@ import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai'
 export interface LoginValues {
   email: string
   password: string
+  as?:string
 }
 
 const SignInSchema = yup.object().shape({
