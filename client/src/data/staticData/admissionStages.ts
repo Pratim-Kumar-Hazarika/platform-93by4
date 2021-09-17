@@ -37,6 +37,12 @@ export const data: StatusType[] = [
       'You have cleared Step 1. Step 2 will be unlocked shortly.',
   },
   {
+    status: 'getting_reviewed',
+    level: 1, // control the locks
+    statusText: 'Portfolio Under Review', // show your header
+    statusDescription: 'Your portfolio is under review. Wait for the results. ',
+  },
+  {
     status: 'portfolio_revision_exceeded',
     color: 'red',
     level: 1, // control the locks

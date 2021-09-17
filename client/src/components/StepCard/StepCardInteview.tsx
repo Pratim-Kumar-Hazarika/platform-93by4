@@ -21,13 +21,16 @@ export function StepCardInterview({
   index,
   submissionNo,
 }: StepcardProps) {
-  let interviewSubmissionstatus = 'Not Started'
-  if (status.status == 'admission_form_incomplete') {
+  let interviewSubmissionstatus = ''
+  if (status.level == step.level) {
     interviewSubmissionstatus = 'Not Started'
-  } else if (status.status == 'admission_form_under_review') {
-    interviewSubmissionstatus = 'In Progress'
-  } else {
-    interviewSubmissionstatus = 'Completed'
+    if (status.status == 'admission_form_incomplete') {
+      interviewSubmissionstatus = 'Not Started'
+    } else if (status.status == 'admission_form_under_review') {
+      interviewSubmissionstatus = 'In Progress'
+    } else {
+      interviewSubmissionstatus = 'Completed'
+    }
   }
   return (
     <Flex

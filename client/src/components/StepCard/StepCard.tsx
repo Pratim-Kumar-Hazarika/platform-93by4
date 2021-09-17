@@ -25,8 +25,9 @@ export function StepCard({
   if (status.status == 'portfolio_not_submitted') {
     portfolioSubmissionstatus = 'Not Started'
   } else if (
-    status.status == 'under review' ||
-    status.status == 'portfolio_needs_revision'
+    status.status == 'portfolio_under_review' ||
+    status.status == 'portfolio_needs_revision' ||
+    status.status == 'getting_reviewed'
   ) {
     portfolioSubmissionstatus = 'In Progress'
   } else {
@@ -68,6 +69,7 @@ export function StepCard({
       {status.level == step.level ? (
         status.status == 'portfolio_under_review' ||
         status.status == 'portfolio_passed' ||
+        status.status == 'getting_reviewed' ||
         status.status == 'portfolio_revision_exceeded' ? (
           <a>{<ExternalLinkSvg color={theme.colors.black['700']} />}</a>
         ) : status.status == 'portfolio_needs_revision' ? (
