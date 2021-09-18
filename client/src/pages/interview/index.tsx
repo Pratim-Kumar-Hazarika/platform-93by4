@@ -3,6 +3,8 @@ import { Breadcrumbs } from './../../components/BreadCrumbs/BreadCrumbs'
 import withAuth from '../../context/WithAuth'
 import { Stack } from '@chakra-ui/layout'
 import { interviewDashBoardData } from '../../data/interview/dashboardData'
+import withAdminAuth from '../../context/WithAdminAuth'
+import { policy } from '../../utils/policy'
 
 function Interview(): JSX.Element {
   const breadcrumbsLinks = [
@@ -31,4 +33,7 @@ function Interview(): JSX.Element {
   )
 }
 
-export default withAuth(Interview)
+export default withAdminAuth(Interview, [
+  policy['interviewer'],
+  policy['acInterviewer'],
+])

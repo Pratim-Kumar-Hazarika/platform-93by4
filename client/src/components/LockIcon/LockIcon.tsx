@@ -28,8 +28,8 @@ export function LockIcon({
               display={'flex'}
               justifyContent={'center'}
               alignItems={'center'}
-              height={'26px'}
-              width={'26px'}
+              height={'22px'}
+              width={'22px'}
               borderRadius={'4px'}
               fontWeight={'600'}
               position={'relative'}

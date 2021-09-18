@@ -1,7 +1,5 @@
 import { RequestHandler } from 'express'
 import { IReviewer, Reviewer } from '../models/Reviewer'
-import { SignInBody, SignUpBody } from '../validation/AuthValidation'
-import { createToken } from '../utils/authUtils'
 import { AuthRequest } from '../types/RequestWithUser'
 import { PortfolioUrl } from '../models/Portfolio'
 import { ReviewBody } from '../validation/ReviewerValidation'

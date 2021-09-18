@@ -27,6 +27,7 @@ export function StatusCard({
         <Heading
           fontSize={['xl', '2xl', '3xl']}
           color={theme.colors.brand['500']}
+          textAlign={['center', 'center', 'left']}
         >
           {' '}
           {prefix}{' '}
@@ -46,6 +47,7 @@ export function StatusCard({
           color={theme.colors.white}
           py={2}
           pt={4}
+          textAlign={['center', 'center', 'left']}
         >
           {!subTitle ? (
             <>

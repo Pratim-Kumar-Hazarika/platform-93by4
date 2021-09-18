@@ -39,7 +39,11 @@ export function FormikCheckbox({
               id={name}
             />
             <FormLabel htmlFor={name} color="black.100">
-              {label}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: label,
+                }}
+              ></span>
             </FormLabel>
           </Flex>
           {note && (

@@ -1,20 +1,12 @@
 import { model, Model, ObjectId, Schema } from 'mongoose'
 
-export interface PrevSlot {
+export type SlotStatus = 'open' | 'closed'
+export interface Slot {
   from: string
   to: string
-}
-
-export interface Slot extends PrevSlot {
-  prevSlots: Array<PrevSlot>
-  allottedTo: {
-    type: ObjectId
-    ref: 'User'
-  }
-  interviewer: {
-    type: ObjectId
-    ref: 'Interviewer'
-  }
+  status: SlotStatus
+  interviewee?: any
+  interviewer: any
 }
 
 const shotSchema = new Schema<Slot, Model<Slot>, Slot>(
@@ -27,7 +19,7 @@ const shotSchema = new Schema<Slot, Model<Slot>, Slot>(
       type: String,
       required: [true, 'To time is required'],
     },
-    allottedTo: {
+    interviewee: {
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
@@ -42,9 +34,5 @@ const shotSchema = new Schema<Slot, Model<Slot>, Slot>(
     versionKey: false,
   }
 )
-
-shotSchema.virtual('totalSlots').get(function (this: Slot) {
-  return this.prevSlots.length + 1
-})
 
 export const Slot = model<Slot, Model<Slot>>('Slot', shotSchema)

@@ -7,58 +7,41 @@ import {
   Button,
   Text,
   Input,
-  useToast,
 } from '@chakra-ui/react'
-import { useState, ChangeEvent } from 'react'
+import { Dispatch, useState, SetStateAction } from 'react'
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
 import { BsPlusCircle } from 'react-icons/bs'
-import addSlot from '../../pages/interview/add-slot'
-import { addTime } from '../../utils/addTime'
+import { ISlot } from '../../context/InterviewerContext'
+import { getTimeFromLocalString } from '../../utils/getTimeFromLocalString'
 import { TimeSlot } from '../TimeSlot/TimeSlot'
 
-const currentDate = new Date()
+export function SlotList({
+  title,
+  timeInput,
+  timeHandler,
+  setTimeInput,
+  deleteSlotHandler,
+  interviewSlots,
+  addTimeInputVisibility,
+  onClick,
+}: {
+  title: string
+  timeHandler: () => Promise<void>
+  deleteSlotHandler: (soltId: string) => Promise<void>
+  timeInput: string
+  setTimeInput: Dispatch<SetStateAction<string>>
+  interviewSlots: Array<ISlot>
+  addTimeInputVisibility?: boolean
+  onClick?: Dispatch<SetStateAction<boolean>>
+}) {
+  interviewSlots.sort((a: any, b: any) => {
+    return new Date(a.from).getTime() - new Date(b.from).getTime()
+  })
 
-export function SlotList() {
-  const [showButton, setShowButton] = useState(true)
-  const [timeInput, setTimeInput] = useState('')
-  const toast = useToast()
-  async function timeHandler() {
-    const value = timeInput.trim().split(':')
-    if (value.length === 2) {
-      // updating currentDate time
-      currentDate.setHours(Number(value[0]))
-      currentDate.setMinutes(Number(value[1]))
-      const prevDate = currentDate.toLocaleString()
-      const timeAfter30Mins = addTime(currentDate, 30)
-      const payload = {
-        from: prevDate,
-        to: timeAfter30Mins.toLocaleString(),
-      }
-      const res = await addSlot(payload)
-
-      // toast message
-      toast({
-        title: 'Time Slot Added',
-        description: `Your selected slot ${prevDate} - ${timeAfter30Mins.toLocaleString()} was successfully added`,
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      })
-    } else {
-      // toast error
-      toast({
-        title: 'Error',
-        description: 'Please enter a valid time',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      })
-    }
-  }
   return (
     <Flex flexDir="column" align="center" flex={1} pl="2rem">
       <Flex justify="space-between" w="full" pb="2rem" maxW="330px">
-        <Heading fontSize="1.8rem">Slots Avaliable</Heading>
+        <Heading fontSize="1.8rem">{title}</Heading>
         <HStack>
           <IconButton
             _hover={{ bg: 'black.600' }}
@@ -79,10 +62,25 @@ export function SlotList() {
         </HStack>
       </Flex>
       <Stack mt={4} spacing={2} w="full" height="full" maxW="300px">
-        <TimeSlot from="8:00pm" to="8:30pm" deleteButton />
-        <TimeSlot from="8:00pm" to="8:30pm" isDisabled />
+        {/* <TimeSlot from="8:00pm" to="8:30pm" deleteButton />
+        <TimeSlot from="8:00pm" to="8:30pm" isDisabled /> */}
+        {interviewSlots &&
+          interviewSlots.map((slot) => {
+            const fromTime = getTimeFromLocalString(slot.from)
+            const toTime = getTimeFromLocalString(slot.to)
+            return (
+              <TimeSlot
+                key={`time-slot-${slot?._id}`}
+                _id={slot?._id || ''}
+                from={fromTime}
+                to={toTime}
+                deleteHandler={deleteSlotHandler}
+                deleteButton
+              />
+            )
+          })}
       </Stack>
-      {showButton ? (
+      {!addTimeInputVisibility ? (
         <Button
           variant="ghost"
           rounded="md"
@@ -90,10 +88,10 @@ export function SlotList() {
           w="full"
           maxW="300px"
           fontSize="lg"
-          onClick={() => setShowButton((prev) => !prev)}
+          onClick={() => onClick && onClick((prev) => !prev)}
         >
           <BsPlusCircle />
-          <Text ml="1rem">Add Slot</Text>
+          <Text ml="1rem">Pick Slot</Text>
         </Button>
       ) : (
         <Flex w="full" maxW="300px">

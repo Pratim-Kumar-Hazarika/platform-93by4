@@ -6,9 +6,7 @@ import {
   userInfoHandler,
 } from '../controllers/AdminController'
 import { requiresAuth } from '../middleware/AuthMiddleware'
-import { roleRequired } from '../middleware/CheckAccess'
 import { validate } from '../middleware/ValidateMiddleware'
-import { policy } from '../utils/policy'
 import { signInSchema, signUpSchema } from '../validation/AuthValidation'
 
 const router = Router()
@@ -23,6 +21,9 @@ router.route('/sign-in').post(validate(signInSchema), signInHandler)
 router.route('/sign-up').post(validate(signUpSchema), signUpHandler)
 router.route('/logout').post(logoutHandler)
 
-router
-  .route('/user-info')
-  .get(requiresAuth, roleRequired(policy.reviewer), userInfoHandler)
+/**
+ * TODO : add roleRequired middleware
+ */
+router.route('/user-info').get(requiresAuth, userInfoHandler)
+
+export default router

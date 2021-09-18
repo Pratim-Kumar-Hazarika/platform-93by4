@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/button'
-import { Box, Flex, Heading, Stack } from '@chakra-ui/layout'
+import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/layout'
 import { Form, Formik } from 'formik'
 import { FormikCheckbox, FormikField, FormikSelect, FormikTextarea } from '..'
 import { AllFieldsType } from '../../data/interview/allFields'
@@ -34,7 +34,7 @@ export function FormikForm({
               p={{ base: '1rem', md: '2rem' }}
             >
               <Stack w="full">
-                {fields.map(({ title, rows }) => {
+                {fields.map(({ title, note, rows }) => {
                   return (
                     <Stack w="100%">
                       {title && (
@@ -45,6 +45,11 @@ export function FormikForm({
                         >
                           {title}
                         </Heading>
+                      )}
+                      {note && (
+                        <Text color="black.300" fontSize="sm">
+                          {note}
+                        </Text>
                       )}
                       <Flex w="100%" flexWrap="wrap">
                         {rows.map((row) => {

@@ -1,24 +1,8 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Stack,
-  Text,
-  useToast,
-} from '@chakra-ui/react'
-import { useState } from 'react'
-import {
-  FormikCheckbox,
-  FormikField,
-  FormikForm,
-  FormikSelect,
-  FormikTextarea,
-  Layout,
-} from '../../components'
+import { Link, Flex, Heading, Text, useToast } from '@chakra-ui/react'
+import React, { useState } from 'react'
+import { FormikForm, Layout } from '../../components'
 import { Breadcrumbs } from './../../components/BreadCrumbs/BreadCrumbs'
 import withAuth from '../../context/WithAuth'
-import { Form, Formik } from 'formik'
 import * as yup from 'yup'
 import { theme } from '../../themes'
 import { allFields } from '../../data/interview/allFields'
@@ -181,7 +165,19 @@ function InterviewForm(): JSX.Element {
         // inform user that he can't appy for financial aid
         toast({
           title: 'Uncheck Financial Aid Checkbox',
-          description: 'You can not apply for financial aid for this year',
+          description: (
+            <>
+              You are not eligible because of your graduation year. Please read
+              more{' '}
+              <Link
+                color="brand.700"
+                href="https://neog.camp/handbook/financial-aid"
+                isExternal
+              >
+                here
+              </Link>
+            </>
+          ),
           status: 'error',
           duration: 5000,
           isClosable: true,
@@ -198,6 +194,7 @@ function InterviewForm(): JSX.Element {
       })
     }
   }
+
   return (
     <Layout>
       <Breadcrumbs breadcrumbProp={breadcrumbsLinks} />
