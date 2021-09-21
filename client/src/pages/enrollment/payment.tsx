@@ -3,16 +3,14 @@ import { Heading, Text } from '@chakra-ui/react'
 import { theme } from '../../themes'
 import { paymentStaticData } from '../../data/enrollment/paymentData'
 
-
 const payment = () => {
-
-    const breadcrumbsLinks = [
-        { breadcrumbName: 'Dashboard', breadcrumbLink: '/dashboard' },
-        {
-          breadcrumbName: 'Payment Window',
-          breadcrumbLink: '/enrollment/payment',
-        },
-      ]
+  const breadcrumbsLinks = [
+    { breadcrumbName: 'Dashboard', breadcrumbLink: '/dashboard' },
+    {
+      breadcrumbName: 'Payment Window',
+      breadcrumbLink: '/enrollment/payment',
+    },
+  ]
   return (
     <Layout>
       <Heading
@@ -25,7 +23,7 @@ const payment = () => {
         {paymentStaticData.heading}
       </Heading>
       <Text
-        size='lg'
+        size="lg"
         color={theme.colors.black['50']}
         fontFamily="Inter"
         pt="4"

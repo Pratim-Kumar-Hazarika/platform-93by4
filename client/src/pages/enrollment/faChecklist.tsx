@@ -12,7 +12,6 @@ const FaChecklist = () => {
   const [allMarksChecked, setAllMarksChecked] = useState<string[]>([])
 
   function checkAllIdsInArray() {
-  
     return fachecklist.every((dataItem) =>
       allMarksChecked.includes(dataItem.id)
     )
@@ -74,43 +73,41 @@ const FaChecklist = () => {
       >
         {fachecklistStaticData.importantNote2}
       </Text>
-          <Button
-            colorscheme="brand.500"
-            bg="black.900"
-            size="md"
-            variant="outline"
-            _hover={{ bg: 'black.800' }}
-            mt={['1rem', '0']}
-            width={['100%', 'auto']}
-          >
-            Adarsh Balika zip folder
-          </Button>
-          <Button
-            colorscheme="brand.500"
-            bg="black.900"
-            size="md"
-            variant="outline"
-            _hover={{ bg: 'black.800' }}
-            mt={['1rem', '0']}
-            ml={['0', '1rem']}
-            width={['100%', 'auto']}
-          >
-            Affidavit Content
-          </Button>
-          <Flex mt="3rem" justifyContent='flex-end'>
-          <Button
-            background={theme.colors.brand['500']}
-            color={theme.colors.black['900']}
-            size="md"
-            mt={['1rem', '0']}
-            width={['100%', 'auto']}
-            disabled={!checkAllIdsInArray()}
-          >
-          <Link href='/enrollment/upload-documents'>
-            Next
-          </Link>
-          </Button>
-          </Flex>
+      <Button
+        colorscheme="brand.500"
+        bg="black.900"
+        size="md"
+        variant="outline"
+        _hover={{ bg: 'black.800' }}
+        mt={['1rem', '0']}
+        width={['100%', 'auto']}
+      >
+        Adarsh Balika zip folder
+      </Button>
+      <Button
+        colorscheme="brand.500"
+        bg="black.900"
+        size="md"
+        variant="outline"
+        _hover={{ bg: 'black.800' }}
+        mt={['1rem', '0']}
+        ml={['0', '1rem']}
+        width={['100%', 'auto']}
+      >
+        Affidavit Content
+      </Button>
+      <Flex mt="3rem" justifyContent="flex-end">
+        <Button
+          background={theme.colors.brand['500']}
+          color={theme.colors.black['900']}
+          size="md"
+          mt={['1rem', '0']}
+          width={['100%', 'auto']}
+          disabled={!checkAllIdsInArray()}
+        >
+          <Link href="/enrollment/upload-documents">Next</Link>
+        </Button>
+      </Flex>
     </Layout>
   )
 }

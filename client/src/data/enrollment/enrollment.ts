@@ -30,9 +30,12 @@ export const fachecklist = [
 ]
 
 export const fachecklistStaticData = {
-    heading:'Checklist for your documents',
-    discription:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    noteTitle:'Important*',
-    importantNote:'Please find attached "Adarsh Balika_Financial Aid  docs (Sample)" with this mail. It will give a full idea on how you are supposed to send your documents to us and has in-bracket notes to guide you.',
-    importantNote2:'You are supposed to send the scanned copies of your documents similar to the compressed file of Adarsh Balika.',
+  heading: 'Checklist for your documents',
+  discription:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  noteTitle: 'Important*',
+  importantNote:
+    'Please find attached "Adarsh Balika_Financial Aid  docs (Sample)" with this mail. It will give a full idea on how you are supposed to send your documents to us and has in-bracket notes to guide you.',
+  importantNote2:
+    'You are supposed to send the scanned copies of your documents similar to the compressed file of Adarsh Balika.',
 }
