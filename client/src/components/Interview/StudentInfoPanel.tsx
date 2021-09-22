@@ -1,6 +1,5 @@
 import { Heading, Flex, Spacer, Link } from '@chakra-ui/react'
 import { theme } from '../../themes'
-import { CommentCard } from '../Review/Cards'
 export const StudentInfoPanel = () => {
   return (
     <>
