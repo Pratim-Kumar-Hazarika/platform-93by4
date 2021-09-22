@@ -77,8 +77,8 @@ export function SlotList() {
         </HStack>
       </Flex>
       <Stack mt={4} spacing={2} w="full" height="full" maxW="300px">
-        <TimeSlot from="8:00pm" to="8:30pm" deleteButton />
-        <TimeSlot from="8:00pm" to="8:30pm" isDisabled />
+        <TimeSlot variant="outline" from="8:00pm" to="8:30pm" deleteButton />
+        <TimeSlot variant="outline" from="8:00pm" to="8:30pm" isDisabled />
       </Stack>
       {showButton ? (
         <Button
