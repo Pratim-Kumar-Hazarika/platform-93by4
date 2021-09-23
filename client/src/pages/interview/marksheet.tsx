@@ -20,10 +20,10 @@ import {
   StudentInfoPanel,
   MarkSheetPanel,
 } from '../../components'
+import { SEO } from '../../components/Layout/SEO'
 import { theme } from '../../themes'
 
 const MarkSheet = (): JSX.Element => {
-
   const breadcrumbsLinks = [
     { breadcrumbName: 'Dashboard', breadcrumbLink: '/dashboard' },
     {
@@ -34,44 +34,40 @@ const MarkSheet = (): JSX.Element => {
   ]
   return (
     <Layout>
-      <Breadcrumbs breadcrumbProp={breadcrumbsLinks} />
+      <SEO title="Marksheet" />
       <Stack spacing={4} direction={['column']}>
-        <Heading
-          as="h1"
-          size="xl"
-          color={theme.colors.brand['500']}
-          fontFamily="Inter"
-          mt="4"
-        >
+        <Breadcrumbs breadcrumbProp={breadcrumbsLinks} />
+        <Heading pt="0.5rem" color="brand.500">
           Marksheet
         </Heading>
-        <Text
-          color={theme.colors.black['50']}
-          fontSize="16px"
-          noOfLines={5}
-          pb="1rem"
-        >
+        <Text pb="2rem">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, odio
           porro ea dicta adipisci omnis illo cum voluptatum, saepe, magni
           laboriosam. Nesciunt dignissimos ab dolorum ipsa nisi ipsum veniam
           ullam.
         </Text>
       </Stack>
-      <Box bg={theme.colors.black['800']} mt={5} rounded={'sm'} pr={2} pl={2}>
-        <Tabs isFitted variant="enclosed" colorScheme="brand">
-          <TabList mb="1em">
-            <Tab>Student Info</Tab>
-            <Tab>Marksheet</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <StudentInfoPanel />
-            </TabPanel>
-            <TabPanel>
-              <MarkSheetPanel />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+      <Box>
+        <Flex w="full" bg="black.800" p="2rem 2rem" rounded="lg">
+          <Tabs
+            isFitted
+            //</Flex> variant="enclosed"
+            colorScheme="brand"
+          >
+            <TabList mb="1em">
+              <Tab>Student Info</Tab>
+              <Tab>Marksheet</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <StudentInfoPanel />
+              </TabPanel>
+              <TabPanel>
+                <MarkSheetPanel />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Flex>
       </Box>
     </Layout>
   )

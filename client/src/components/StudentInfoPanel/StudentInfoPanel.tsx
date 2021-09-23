@@ -31,8 +31,8 @@ export const StudentInfoPanel = () => {
     <>
       <Stack pl={2} pr={2}>
         <Heading
-          as="h1"
-          size="lg"
+          as="h2"
+          fontSize="2xl"
           color={theme.colors.brand['500']}
           fontFamily="Inter"
           pt="4"
@@ -51,7 +51,7 @@ export const StudentInfoPanel = () => {
       </Stack>
       <Heading
         as="h2"
-        size="lg"
+        fontSize="2xl"
         color={theme.colors.brand['500']}
         fontFamily="Inter"
         pt="6"
