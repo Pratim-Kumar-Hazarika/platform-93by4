@@ -75,16 +75,24 @@ export function Scheduled() {
           </Table>
         </Flex>
         <Flex w="full" justify="space-between">
-          <Button variant="ghost" color="brand.500">
-            Cancel Interview
-          </Button>
+          <AlertDialogBox
+            btntext="Cancel Interview"
+            title="Cancel Interview"
+            btnProps={{
+              variant: 'ghost',
+            }}
+            description="Are you sure you want to cancel your interview?"
+            callback={() => console.log('34')}
+          />
           <Stack direction="row">
             <AlertDialogBox
-              text="Reschedule Interview"
-              title="Are you sure?"
+              btntext="Reschedule Interview"
+              title="Reschedule Interview"
               btnProps={{
                 variant: 'outline',
               }}
+              description="Are you sure you want to reschedule your interview?"
+              callback={() => console.log('35')}
             />
             <Button as={'a'} href="/dashboard">
               Go back to DashBoard
