@@ -5,6 +5,7 @@ import { LoginValues } from '../pages/auth/login'
 import { SignUpValues } from '../pages/auth/signup'
 import { submissionValues } from '../pages/submission'
 import { reSubmissionValues } from '../pages/resubmission'
+import { ISlot } from '../context/InterviewerContext'
 
 const apiClient = axios.create({
   baseURL: `${process.env.API_URL}/api/`,
@@ -123,31 +124,59 @@ export const reSubmissionLink = async (
   return response
 }
 
+/**
+ * Admin + Reviewer Routes
+ */
+export const getAdmin = async () => {
+  const response = await apiClient.get('/admin/user-info')
+  return response
+}
+
+export const adminLogin = async (data: LoginValues) => {
+  const response = await apiClient.post('/admin/sign-in', {
+    ...data,
+  })
+  return response
+}
+
+/**
+ * Interview Services
+ */
+
 export const admissionFormSubmission = async (formData: TypeFormValues) => {
   const response = await apiClient.post('submit-admission-form', {
     ...formData,
   })
   return response
 }
-/**
- * Admin + Reviewer Routes
- */
-export const getAdmin = async () => {
-  const response = await apiClient.get('/reviewer/user-info')
-  return response
-}
 
-export const adminLogin = async (data: LoginValues) => {
-  const response = await apiClient.post('/reviewer/sign-in', {
+export const addTimeSlot = async (data: ISlot) => {
+  const response = await apiClient.post('/interview/add-slot', {
     ...data,
   })
   return response
 }
 
-export const requestPortfolio = async () => {
-  const response = await apiClient.get('/reviewer/request-portfolio')
+export const getInterviewerSlots = async () => {
+  const response = await apiClient.get('/interview/interviewer-slots')
   return response
 }
+
+export const deleteInterviewerSlot = async (slotId: string) => {
+  const response = await apiClient.post('/interview/remove-slot', {
+    slotId,
+  })
+  return response
+}
+
+export const getIntervieweeBookedSlots = async () => {
+  const response = await apiClient.get('/interview/booked-slots')
+  return response
+}
+
+/**
+ * Reviewer Services
+ */
 
 // contains metadata to be sent to server to determine if portfolio is ready or not .
 export interface ReviewBody {
@@ -158,6 +187,11 @@ export interface ReviewBody {
   blogs?: number
   effort?: number
   projects?: number
+}
+
+export const requestPortfolio = async () => {
+  const response = await apiClient.get('/reviewer/request-portfolio')
+  return response
 }
 
 export const submitReview = async (data: ReviewBody) => {

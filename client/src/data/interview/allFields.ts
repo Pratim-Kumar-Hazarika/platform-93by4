@@ -30,6 +30,7 @@ export interface SelectField {
 
 export interface AllFieldsType {
   title?: string
+  note?: string
   rows: Array<Array<TextField | SelectField | CheckBoxField>>
 }
 
@@ -53,10 +54,10 @@ export const allFields: Array<AllFieldsType> = [
           isRequired: true,
         },
         {
-          placeHolder: 'India',
-          name: 'country',
+          label: 'State of Residence',
+          name: 'state',
           type: 'text',
-          label: 'Country of Residence',
+          placeHolder: 'Maharashtra',
           isRequired: true,
         },
       ],
@@ -69,17 +70,18 @@ export const allFields: Array<AllFieldsType> = [
           isRequired: true,
         },
         {
-          label: 'State of Residence',
-          name: 'state',
-          type: 'text',
-          placeHolder: 'Maharashtra',
-          isRequired: true,
-        },
-        {
           placeHolder: 'Mumbai',
           name: 'city',
           type: 'text',
           label: 'City of Residence',
+          isRequired: true,
+        },
+
+        {
+          placeHolder: 'India',
+          name: 'country',
+          type: 'text',
+          label: 'Country of Residence',
           isRequired: true,
         },
       ],
@@ -93,7 +95,7 @@ export const allFields: Array<AllFieldsType> = [
           name: 'discord-id',
           type: 'text',
           placeHolder: 'Adarsh#1010',
-          label: 'Discord ID',
+          label: 'Team Tanay Discord ID',
           isRequired: true,
         },
         {
@@ -141,6 +143,10 @@ export const allFields: Array<AllFieldsType> = [
               value: 'postgraduate',
               name: 'Postgraduate',
             },
+            {
+              value: 'others',
+              name: 'Others',
+            },
           ],
           isRequired: true,
         },
@@ -178,20 +184,7 @@ export const allFields: Array<AllFieldsType> = [
       ],
     ],
   },
-  {
-    title: '',
-    rows: [
-      [
-        {
-          name: 'selection-reason',
-          type: 'textarea',
-          placeHolder: 'I have done levelZero ...',
-          label: 'Why should I get in levelOne?',
-          isRequired: true,
-        },
-      ],
-    ],
-  },
+
   {
     title: '',
     rows: [
@@ -207,6 +200,20 @@ export const allFields: Array<AllFieldsType> = [
     ],
   },
   {
+    title: '',
+    rows: [
+      [
+        {
+          name: 'selection-reason',
+          type: 'textarea',
+          placeHolder: 'I have done levelZero ...',
+          label: 'Why should I get in levelOne?',
+          isRequired: true,
+        },
+      ],
+    ],
+  },
+  {
     title: 'Additional Information',
     rows: [
       [
@@ -216,16 +223,16 @@ export const allFields: Array<AllFieldsType> = [
           placeHolder: 'Reason to join the Camp',
           options: [
             {
-              value: 'graduated',
-              name: 'Graduated',
+              value: 'job-in-2022',
+              name: 'Job in 2022',
             },
             {
-              value: 'undergraduate',
-              name: 'Undergraduate',
+              name: 'Do not want job (for learning)',
+              value: 'do-not-want-job',
             },
             {
-              value: 'postgraduate',
-              name: 'Postgraduate',
+              name: 'Job in 2023 or later',
+              value: 'job-in-2023-or-later',
             },
           ],
           isRequired: true,
@@ -236,16 +243,16 @@ export const allFields: Array<AllFieldsType> = [
           placeHolder: 'Mode of Payment',
           options: [
             {
-              value: 'graduated',
-              name: 'Graduated',
+              value: 'full-payment',
+              name: 'Full payment',
             },
             {
-              value: 'undergraduate',
-              name: 'Undergraduate',
+              value: 'emi',
+              name: 'EMI Option',
             },
             {
-              value: 'postgraduate',
-              name: 'Postgraduate',
+              value: 'financial-aid',
+              name: 'Financial aid',
             },
           ],
           isRequired: true,
@@ -263,19 +270,48 @@ export const allFields: Array<AllFieldsType> = [
     ],
   },
   {
+    title: 'Financial Aid Eligiblity',
+    note: 'Only students who have are applying for financial should fill this section.',
     rows: [
       [
         {
           name: 'financial-aid-check',
-          type: 'checkbox',
-          label:
-            'I confirm that I will graduate by June 2022 and my family income is less than 50,000 rupees per month and i am ready to provide documents to support the same once selected.',
-          note: 'Note: Only students graduating till next year are eligible.',
+          type: 'select',
+          placeHolder:
+            'I confirm that I will graduate by June 2022 and will be eligible to take a job.',
+          options: [
+            {
+              value: 'not-selected',
+              name: 'Not Selected',
+            },
+            {
+              value: 'yes',
+              name: 'Yes',
+            },
+          ],
+          isRequired: false,
+        },
+        {
+          name: 'financial-aid-check',
+          type: 'select',
+          placeHolder:
+            'I confirm that my family income is less than 50,000 rupees per month and i am ready to provide documents to support the same once selected.',
+          options: [
+            {
+              value: 'not-selected',
+              name: 'Not Selected',
+            },
+            {
+              value: 'yes',
+              name: 'Yes',
+            },
+          ],
         },
       ],
     ],
   },
   {
+    title: 'Terms and conditions',
     rows: [
       [
         {
@@ -295,7 +331,7 @@ export const allFields: Array<AllFieldsType> = [
           name: 'agree-policy-check',
           type: 'checkbox',
           label:
-            'I confirm and agree I have read all the policies including Privacy policy and Terms and Conditions on the website before submitting this application.',
+            'I confirm and agree I have read all the policies including <a style="color: #00F0FF;" target="_blank" href="https://neog.camp/legal/privacy">privacy policy</a> and <a target="_blank" style="color: #00F0FF;" href="https://neog.camp/legal/tnc">terms & conditions</a> on the website before submitting this application.',
           isRequired: true,
         },
       ],

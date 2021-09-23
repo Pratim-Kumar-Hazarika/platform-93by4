@@ -8,6 +8,7 @@ import {
   useState,
 } from 'react'
 import { getAdmin } from '../services/axiosService'
+import { Policy } from '../utils/policy'
 
 interface PortfolioAssigned {
   portfolioUrl: string
@@ -22,14 +23,22 @@ interface PortfolioAssigned {
 export interface Admin {
   adminId?: string
   firstName?: string
-  role?: string | number
+  role: Policy['reviewer']
   portfolioAssigned?: PortfolioAssigned
   portfolioReviewed?: number
   reviewHistory?: Array<Record<string, unknown>>
 }
 
+export interface IInterviewer {
+  adminId: string
+  email: string
+  firstName: string
+  lastName: string
+  role: Policy['interviewer']
+}
+
 export interface AdminAuthState {
-  admin: Admin | null
+  admin: Admin | IInterviewer | null
   isAuthenticated: boolean
   isLoading: boolean
 }
@@ -56,36 +65,21 @@ export const AdminAuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const getAdminInfo = async () => {
-      await getAdmin()
-        .then((res) => {
-          const {
-            portfolioAssigned,
-            portfolioReviewed,
-            reviewHistory,
-            _id,
-            firstName,
-            role,
-          } = res.data.reviewerInfo
-          setAdminState({
-            admin: {
-              adminId: _id,
-              firstName,
-              role,
-              portfolioAssigned,
-              portfolioReviewed,
-              reviewHistory,
-            },
-            isAuthenticated: true,
-            isLoading: false,
-          })
+      try {
+        const res = await getAdmin()
+        console.log(res.data?.adminInfo)
+        setAdminState({
+          admin: res.data?.adminInfo,
+          isAuthenticated: true,
+          isLoading: false,
         })
-        .catch((e) =>
-          setAdminState({
-            admin: null,
-            isAuthenticated: false,
-            isLoading: false,
-          })
-        )
+      } catch (e) {
+        setAdminState({
+          admin: null,
+          isAuthenticated: false,
+          isLoading: false,
+        })
+      }
     }
 
     getAdminInfo()

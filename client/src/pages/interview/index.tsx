@@ -1,9 +1,10 @@
 import { Card, Layout, StatusCard } from '../../components'
 import { Breadcrumbs } from './../../components/BreadCrumbs/BreadCrumbs'
 import withAuth from '../../context/WithAuth'
-import { SEO } from '../../components/Layout/SEO'
 import { Stack } from '@chakra-ui/layout'
 import { interviewDashBoardData } from '../../data/interview/dashboardData'
+import withAdminAuth from '../../context/WithAdminAuth'
+import { policy } from '../../utils/policy'
 
 function Interview(): JSX.Element {
   const breadcrumbsLinks = [
@@ -20,7 +21,6 @@ function Interview(): JSX.Element {
         <StatusCard
           prefix={'Interviews taken: 28'}
           bgColor={'black.800'}
-          submissionNo={'1'}
           subTitle={'Hope you are enjoying the process!'}
         />
         <Stack>
@@ -33,4 +33,7 @@ function Interview(): JSX.Element {
   )
 }
 
-export default withAuth(Interview)
+export default withAdminAuth(Interview, [
+  policy['interviewer'],
+  policy['acInterviewer'],
+])

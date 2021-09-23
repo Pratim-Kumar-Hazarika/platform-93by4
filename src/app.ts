@@ -1,5 +1,4 @@
 import dotenv from 'dotenv'
-dotenv.config()
 import express, { Application, Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
@@ -10,8 +9,14 @@ import authRoutes from './routes/AuthRoutes'
 import studentRoutes from './routes/StudentRoutes'
 import interviewRoutes from './routes/InterviewRoutes'
 import reviewerRoutes from './routes/ReviewerRoutes'
+import adminRoutes from './routes/AdminRoutes'
+
+// Load environment variables from .env file
 dotenv.config()
 
+/**
+ * Connect to the database
+ */
 makeConnection()
 
 const app: Application = express()
@@ -32,8 +37,8 @@ app.get('/', (req, res) => {
  * */
 app.use('/api/auth', authRoutes)
 app.use('/api', studentRoutes)
-app.use('/api', interviewRoutes)
-// app.use('/api/admin', adminRoutes)
+app.use('/api/interview', interviewRoutes)
+app.use('/api/admin', adminRoutes)
 app.use('/api/reviewer', reviewerRoutes)
 
 /**

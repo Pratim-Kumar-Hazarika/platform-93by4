@@ -1,11 +1,18 @@
 import { Button } from '@chakra-ui/button'
 import { Checkbox } from '@chakra-ui/checkbox'
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/layout'
-import { Form, Formik } from 'formik'
+import { useToast } from '@chakra-ui/react'
+import { useState } from 'react'
 import { Breadcrumbs, Calendar, Layout, SlotList } from '../../components'
 import { SEO } from '../../components/Layout/SEO'
-import withAuth from '../../context/WithAuth'
+import useInterviewDetails from '../../context/InterviewerContext'
+import withAdminAuth from '../../context/WithAdminAuth'
+import { deleteInterviewerSlot, addTimeSlot } from '../../services/axiosService'
+import { addTime } from '../../utils/addTime'
 import { getTimeFromLocalString } from '../../utils/getTimeFromLocalString'
+import { policy } from '../../utils/policy'
+
+const currentDate = new Date()
 
 function AddSlot() {
   const breadcrumbsLinks = [
@@ -19,7 +26,71 @@ function AddSlot() {
       breadcrumbLink: '/add-slots',
     },
   ]
-  console.log(getTimeFromLocalString('10/9/2021, 12:00:51 pm'))
+  const toast = useToast()
+  const { interviewerDispatch, interviewerState } = useInterviewDetails()
+  const [timeInput, setTimeInput] = useState('')
+  const [addTimeInputVisibility, setAddTimeInputVisibility] = useState(false)
+
+  async function deleteSlotHandler(slotId: string) {
+    console.log(slotId)
+    const deleteResponse = await deleteInterviewerSlot(slotId)
+    if (deleteResponse.status === 200) {
+      interviewerDispatch({
+        type: 'DELETE_SLOT',
+        payload: slotId,
+      })
+      // toast success
+      toast({
+        title: 'Slot deleted successfully',
+        description: 'The slot has been deleted',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      })
+    }
+  }
+
+  async function timeHandler() {
+    const value = timeInput.trim().split(':')
+    if (value.length === 2) {
+      // updating currentDate time
+      currentDate.setHours(Number(value[0]))
+      currentDate.setMinutes(Number(value[1]))
+      const prevDate = currentDate.toISOString()
+      const timeAfter30Mins = addTime(currentDate, 30)
+      const payload = {
+        from: prevDate,
+        to: timeAfter30Mins.toISOString(),
+      }
+      const res = await addTimeSlot(payload)
+
+      if (res.status === 200) {
+        interviewerDispatch({
+          type: 'ADD_SLOT',
+          payload: res.data?.slot,
+        })
+        // toast message
+        toast({
+          title: 'Time Slot Added',
+          description: `Your selected slot at ${getTimeFromLocalString(
+            prevDate
+          )} was successfully added`,
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
+    } else {
+      // toast error
+      toast({
+        title: 'Error',
+        description: 'Please enter a valid time',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+    }
+  }
   return (
     <Layout>
       <SEO title="Add Slots" />
@@ -42,7 +113,16 @@ function AddSlot() {
             borderBottomRadius="0"
           >
             <Calendar />
-            <SlotList />
+            <SlotList
+              title="Pick Slots"
+              timeHandler={timeHandler}
+              deleteSlotHandler={deleteSlotHandler}
+              timeInput={timeInput}
+              setTimeInput={setTimeInput}
+              interviewSlots={interviewerState?.slots || []}
+              addTimeInputVisibility={addTimeInputVisibility}
+              onClick={setAddTimeInputVisibility}
+            />
           </Flex>
           <Flex
             w="full"
@@ -67,4 +147,7 @@ function AddSlot() {
   )
 }
 
-export default withAuth(AddSlot)
+export default withAdminAuth(AddSlot, [
+  policy['interviewer'],
+  policy['acInterviewer'],
+])

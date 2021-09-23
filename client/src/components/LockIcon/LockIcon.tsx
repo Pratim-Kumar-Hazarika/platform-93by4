@@ -7,11 +7,7 @@ interface LockIconPropType {
   index?: number
 }
 
-export function LockIcon({
-  collapsible,
-  locked,
-  index = -1,
-}: LockIconPropType) {
+export function LockIcon({ collapsible, locked, index }: LockIconPropType) {
   return (
     <>
       {!collapsible && (
@@ -28,20 +24,20 @@ export function LockIcon({
               display={'flex'}
               justifyContent={'center'}
               alignItems={'center'}
-              height={'26px'}
-              width={'26px'}
+              height={'22px'}
+              width={'22px'}
               borderRadius={'4px'}
               fontWeight={'600'}
               position={'relative'}
               fontSize={'1rem'}
               color={theme.colors.black['800']}
             >
-              {index > -1 && index + 1}
+              {index}
             </Text>
           ) : (
             <Flex marginRight={'1rem'} alignItems="flex-end">
               <MdLock style={{ height: '2em', width: '2em' }} />
-              <Text fontSize={'0.8rem'}>{index > -1 && index + 1} </Text>
+              <Text fontSize={'0.8rem'}>{index} </Text>
             </Flex>
           )}
         </Flex>

@@ -124,10 +124,13 @@ const AdmissionFormSchema = new Schema<
       ref: 'User',
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    versionKey: false,
+  }
 )
 
-export const AdmissionForm = model<AdmissionFormModel>(
-  'AdmissionForm',
-  AdmissionFormSchema
-)
+export const AdmissionForm = model<
+  AdmissionFormModel,
+  Model<AdmissionFormModel>
+>('AdmissionForm', AdmissionFormSchema)

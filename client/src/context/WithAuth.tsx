@@ -8,12 +8,12 @@ const withAuth = (WrappedComponent: NextComponentType) => {
   // we will type this later
   return (props: any) => {
     if (typeof window !== 'undefined') {
-      const Router = useRouter()
+      const router = useRouter()
       const { authState } = useAuth()
       const isAuthenticated = authState?.isAuthenticated
       const isLoading = authState?.isLoading
       if (!isLoading && !isAuthenticated) {
-        Router.push({
+        router.push({
           pathname: '/',
         })
         return (

@@ -3,16 +3,16 @@ import type { AppProps } from 'next/app'
 import { theme } from './../themes/index'
 import { AuthProvider } from '../context/AuthContext'
 import { AdminAuthProvider } from '../context/AdminContext'
-import { InterviewerContextProvider } from '../context/InterviewerContext'
+import { InterviewerDetailsProvider } from '../context/InterviewerContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider resetCSS theme={theme}>
       <AuthProvider>
         <AdminAuthProvider>
-          <InterviewerContextProvider>
+          <InterviewerDetailsProvider>
             <Component {...pageProps} />
-          </InterviewerContextProvider>
+          </InterviewerDetailsProvider>
         </AdminAuthProvider>
       </AuthProvider>
     </ChakraProvider>

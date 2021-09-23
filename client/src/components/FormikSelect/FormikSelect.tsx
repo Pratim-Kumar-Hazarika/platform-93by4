@@ -19,7 +19,7 @@ export function FormikSelect({
     <Box>
       <FormLabel name={name} color="white">
         {placeHolder}
-        <chakra.span color="red.400"> *</chakra.span>
+        {isRequired && <chakra.span color="red.400"> *</chakra.span>}
       </FormLabel>
       <Field htmlFor={name} name={name} as={Select}>
         {options.map(({ name, value }, index) => {

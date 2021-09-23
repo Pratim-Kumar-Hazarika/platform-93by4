@@ -1,3 +1,5 @@
+import { Policy } from './../utils/policy'
+import { IInterviewer } from './../models/Interviewer'
 /**
  * Why does this exist ?
  * By default express request does not have any user object attached to it
@@ -12,7 +14,13 @@ import { IReviewer } from '../models/Reviewer'
 import { IUser } from '../models/User'
 
 export interface AuthRequest extends Request {
-  user?: IUser | IReviewer
+  user?: IUser | IReviewer | IInterviewer
+  role?: number
+}
+
+export interface AdminAuthRequest extends Request {
+  user?: IReviewer | IInterviewer
+  role?: number
 }
 
 export type RouteResponse = Response

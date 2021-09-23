@@ -4,11 +4,17 @@ import { theme } from '../../../themes'
 import { FiExternalLink } from 'react-icons/fi'
 import { BiBookBookmark, BiFileFind } from 'react-icons/bi'
 import { HiArrowCircleRight } from 'react-icons/hi'
-import { useAdminAuth } from '../../../context/AdminContext'
+import {
+  Admin,
+  AdminAuthState,
+  useAdminAuth,
+} from '../../../context/AdminContext'
 import { requestPortfolio } from '../../../services/axiosService'
 import withAdminAuth from '../../../context/WithAdminAuth'
 import router from 'next/router'
 import { ReviewerHistory } from '../../../components/Review/ReviewerHistory'
+import { Dispatch, SetStateAction } from 'react'
+import { policy } from '../../../utils/policy'
 
 function Dashboard() {
   const toast = useToast()
@@ -40,9 +46,11 @@ function Dashboard() {
         return {
           ...prevState,
           admin: {
+            ...prevState.admin,
             portfolioAssigned,
             portfolioReviewed,
             reviewHistory,
+            role: policy['reviewer'],
           },
         }
       })
@@ -63,7 +71,9 @@ function Dashboard() {
         >
           <Stack direction={'column'} spacing={3}>
             <Heading fontSize="2xl">
-              Portfolios Reviewed: {authState?.admin?.portfolioReviewed}
+              Portfolios Reviewed:{' '}
+              {authState?.admin?.role === policy['reviewer'] &&
+                authState?.admin?.portfolioReviewed}
             </Heading>
             <Text fontSize="md">
               Welcome, {authState?.admin?.firstName}! You can checkout portfolio
@@ -103,4 +113,4 @@ function Dashboard() {
   )
 }
 
-export default withAdminAuth(Dashboard)
+export default withAdminAuth(Dashboard, 30)

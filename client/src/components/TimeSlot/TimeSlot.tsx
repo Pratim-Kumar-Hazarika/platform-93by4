@@ -2,17 +2,21 @@ import { Button, IconButton, Flex } from '@chakra-ui/react'
 import { AiOutlineDelete } from 'react-icons/ai'
 
 export function TimeSlot({
+  _id,
   from,
   to,
   isDisabled,
   variant,
   deleteButton,
+  deleteHandler,
 }: {
+  _id: string
   from: string
   to: string
   variant: string
   isDisabled?: boolean
   deleteButton?: boolean
+  deleteHandler?: (slotId: string) => Promise<void>
 }) {
   return (
     <Flex align="center">
@@ -41,6 +45,11 @@ export function TimeSlot({
           variant="ghost"
           aria-label="delete-slot"
           ml="0.4rem"
+          onClick={() => {
+            if (deleteHandler) {
+              deleteHandler(_id)
+            }
+          }}
         >
           <AiOutlineDelete fontSize="1.4rem" />
         </IconButton>
