@@ -2,19 +2,23 @@ import { useState } from 'react'
 import { marksheetFields } from '../../data/interview/marksheetfields'
 import { FormikForm } from '../FormikForm/FormikForm'
 import * as yup from 'yup'
-import { Box } from '@chakra-ui/react'
-import { theme } from '../../themes'
 
 const initialValues: any = {
-  phone: '',
-  country: '',
-  'parent-name': '',
+  Input: '',
+  Processing: '',
+  Output: '',
+  'Conceptual-Questions':'',
+  'During-live-coding':'',
+  Communication:''
 }
 
 const admissionFormSchema = yup.object().shape({
-  'parent-name': yup.string().required('Parent name is required.'),
-  phone: yup.string().required('Phone is required.'),
-  country: yup.string().required('City is required.'),
+  Input: yup.number().required('You missed to give marks here'),
+  Processing: yup.number().required('You missed to give marks here'),
+  Output: yup.number().required('You missed to give marks here'),
+  'Conceptual-Questions':yup.number().required('You missed to give marks here'),
+  'During-live-coding':yup.number().required('You missed to give marks here'),
+  Communication:yup.number().required('You missed to give marks here')
 })
 export const MarkSheetPanel = () => {
   const [isLoading, setIsLoading] = useState(false)
