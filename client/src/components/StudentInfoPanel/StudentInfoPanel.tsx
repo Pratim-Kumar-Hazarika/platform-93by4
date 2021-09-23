@@ -2,12 +2,6 @@ import { Heading, Flex, Link, Stack } from '@chakra-ui/react'
 import { theme } from '../../themes'
 import { Table } from '..'
 
-interface TableData: {
-  id:string
-  key:string
-  value: string | number
-}
-export interface ITableData:Array<TableData>
 export const StudentInfoPanel = () => {
   const tableData = [
     {
@@ -35,25 +29,25 @@ export const StudentInfoPanel = () => {
   ]
   return (
     <>
-    <Stack pl={2} pr={2}>
-      <Heading
-        as="h1"
-        size="lg"
-        color={theme.colors.brand['500']}
-        fontFamily="Inter"
-        pt="4"
-      >
-        Meeting link:{' '}
-        <Link href="https://meet.google.com/fti-bdvz-hqz" isExternal>
-          https://meet.google.com/fti-bdvz-hqz
-        </Link>
-      </Heading>
-      <Heading size="md" pt="4" color={theme.colors.black['50']}>
-        Name:
-      </Heading>
-      <Heading size="md" pt="2" color={theme.colors.black['50']}>
-        Portfolio Link:
-      </Heading>
+      <Stack pl={2} pr={2}>
+        <Heading
+          as="h1"
+          size="lg"
+          color={theme.colors.brand['500']}
+          fontFamily="Inter"
+          pt="4"
+        >
+          Meeting link:{' '}
+          <Link href="https://meet.google.com/fti-bdvz-hqz" isExternal>
+            https://meet.google.com/fti-bdvz-hqz
+          </Link>
+        </Heading>
+        <Heading size="md" pt="4" color={theme.colors.black['50']}>
+          Name:
+        </Heading>
+        <Heading size="md" pt="2" color={theme.colors.black['50']}>
+          Portfolio Link:
+        </Heading>
       </Stack>
       <Heading
         as="h2"
@@ -67,7 +61,10 @@ export const StudentInfoPanel = () => {
       <Flex>
         <Table tableData={tableData} />
         {/* <Box width='2px' bg='black.400' justifySelf='center'/> */}
-        <Table tableData={tableData2} styles={{borderLeft:'1px solid gray'}}/>
+        <Table
+          tableData={tableData2}
+          styles={{ borderLeft: '1px solid gray' }}
+        />
       </Flex>
     </>
   )
