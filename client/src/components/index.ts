@@ -24,5 +24,6 @@ export { AlertDialogBox } from './AlertDialogBox/AlertDialogBox'
 export { FormikForm } from './FormikForm/FormikForm'
 export { List } from './List/List'
 export { Error } from './Error/Error'
-export { StudentInfoPanel } from './Interview/StudentInfoPanel'
-export { MarksheetPanel } from './Interview/MarksheetPanel'
+export { Table } from "./Table/Table";
+export { StudentInfoPanel } from "./StudentInfoPanel/StudentInfoPanel";
+export { MarkSheetPanel } from "./MarkSheetPanel/MarkSheetPanel";

@@ -154,7 +154,6 @@ function InterviewForm(): JSX.Element {
     'agree-policy-check': '',
   }
   async function handleSubmit(values: TypeFormValues) {
-    console.log(values, 'values')
     try {
       if (
         Number(values['year-of-graduation']) <=

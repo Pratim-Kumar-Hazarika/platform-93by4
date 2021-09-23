@@ -13,15 +13,17 @@ import {
   TabPanels,
   Stack,
 } from '@chakra-ui/react'
+import React from 'react'
 import {
   Layout,
   Breadcrumbs,
   StudentInfoPanel,
-  MarksheetPanel,
+  MarkSheetPanel,
 } from '../../components'
 import { theme } from '../../themes'
 
 const MarkSheet = (): JSX.Element => {
+
   const breadcrumbsLinks = [
     { breadcrumbName: 'Dashboard', breadcrumbLink: '/dashboard' },
     {
@@ -55,7 +57,7 @@ const MarkSheet = (): JSX.Element => {
           ullam.
         </Text>
       </Stack>
-      <Box bg={theme.colors.black['800']} mt={5} rounded={'sm'}>
+      <Box bg={theme.colors.black['800']} mt={5} rounded={'sm'} pr={2} pl={2}>
         <Tabs isFitted variant="enclosed" colorScheme="brand">
           <TabList mb="1em">
             <Tab>Student Info</Tab>
@@ -66,7 +68,7 @@ const MarkSheet = (): JSX.Element => {
               <StudentInfoPanel />
             </TabPanel>
             <TabPanel>
-              <MarksheetPanel />
+              <MarkSheetPanel />
             </TabPanel>
           </TabPanels>
         </Tabs>
