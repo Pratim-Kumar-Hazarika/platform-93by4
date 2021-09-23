@@ -15,17 +15,14 @@ export interface IInterviewer {
   passwordResetTokenExpire: Date | undefined
   getPasswordResetToken: () => Promise<string>
   matchPasswords: (password: string) => Promise<boolean>
-  interviewed?: number
-  interviewAssigned?: IPortfolioUrl
-  role: Policy['interviewer']
-  /** This is array of userID */
-  interviewHistory: Array<{
-    portfolioUrl: string
-    date: Date
-  }>
+  role: Policy['interviewer'] | Policy['acInterviewer']
 }
 
-const interviewerSchema = new Schema<IInterviewer, Model<IInterviewer>, IInterviewer>(
+const interviewerSchema = new Schema<
+  IInterviewer,
+  Model<IInterviewer>,
+  IInterviewer
+>(
   {
     email: {
       type: String,
@@ -62,20 +59,6 @@ const interviewerSchema = new Schema<IInterviewer, Model<IInterviewer>, IIntervi
     passwordResetTokenExpire: {
       type: Date,
     },
-    interviewed: {
-      type: Number,
-      default: 0,
-    },
-    interviewAssigned: {
-      type: Schema.Types.ObjectId,
-      ref: 'PortfolioUrl',
-    },
-    interviewHistory: [
-      {
-        portfolioUrl: String,
-        date: Date,
-      },
-    ],
     role: {
       type: Number,
       default: 30,
@@ -97,6 +80,7 @@ interviewerSchema.pre('save', async function (next) {
 })
 
 interviewerSchema.methods.matchPasswords = async function (password) {
+  console.log('matching passwords', this, password)
   return await bcrypt.compare(password, this.password)
 }
 

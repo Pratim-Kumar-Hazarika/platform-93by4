@@ -6,6 +6,7 @@ import NeogLogo from './NeogLogo'
 import { useAdminAuth } from '../../context/AdminContext'
 import { StudentMenu } from './StudentMenu'
 import { AdminMenu } from './AdminMenu'
+import { addTime } from '../../utils/addTime'
 
 export function Navbar() {
   const { authState: studentAuthState } = useAuth()
@@ -43,7 +44,7 @@ export function Navbar() {
           </ChakraLink>
         </Link>
         <Flex alignItems="center">
-          {studentAuthState?.isAuthenticated ? <StudentMenu /> : <AdminMenu />}
+          {!adminAuthState?.admin?.role ? <StudentMenu /> : <AdminMenu />}
         </Flex>
       </Flex>
     </Flex>

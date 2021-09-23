@@ -15,5 +15,5 @@ export function Layout({
     featureState = featureFlags[flag as keyof typeof featureFlags]
   }
 
-  return <>{featureState ? children : <Error />}</>
+  return <>{featureState ? children : ''}</>
 }

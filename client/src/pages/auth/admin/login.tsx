@@ -20,6 +20,7 @@ import { adminLogin, login } from '../../../services/axiosService'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useAdminAuth } from '../../../context/AdminContext'
+import { policy } from '../../../utils/policy'
 
 export interface LoginValues {
   email: string
@@ -58,22 +59,13 @@ export default function Login() {
     if (res.data.code === 'LOGGED_IN') {
       localStorage.setItem('x-auth-token', res.data.token)
 
-      const { portfolioReviewed, reviewHistory, _id, firstName, role } =
-        res.data.reviewerInfo
-
       setAuthState({
-        admin: {
-          adminId: _id,
-          firstName,
-          role,
-          portfolioAssigned: res.data.reviewerInfo.portfolioAssigned ?? null,
-          portfolioReviewed,
-          reviewHistory,
-        },
+        admin: res.data.adminInfo,
         isAuthenticated: true,
         isLoading: false,
       })
 
+      // withAdminAuth will redirect to other dashboard if this is not accessible
       router.push('/admin/dashboard')
     }
 
