@@ -17,10 +17,8 @@ export const Button = {
       color: 'brand.500',
       _hover: { color: 'brand.600', borderColor: 'brand.600', bg: 'black.800' },
     },
-    disable: {
-      color: 'black.800',
-      bg: 'black.600',
-      _hover: { color: 'black.900', bg: 'black.700' },
+    disabled: {
+      border: '2px solid',
     },
     link: {
       color: 'white',
