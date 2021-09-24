@@ -5,8 +5,7 @@ import { Layout, StatusCard, StepCard } from '../../components'
 import {
   data,
   StatusType,
-  steps,
-  StepType,
+  step,
   submissionSting,
 } from '../../data/staticData/admissionStages'
 import { theme } from '../../themes'
@@ -16,11 +15,13 @@ import withAuth from '../../context/WithAuth'
 import { useRouter } from 'next/router'
 import { useAuth } from '../../context/AuthContext'
 import { SEO } from '../../components/Layout/SEO'
-import { usePayment } from '../../context/PaymentContext/PaymentContext'
+import { StepCardInterview } from '../../components/StepCard/StepCardInteview'
+import { StepCardPayment } from '../../components/StepCard/StepcardPayment'
 
 function Dashboard() {
   const [currentStatus, setCurrentStatus] = useState('portfolio_not_submitted')
   const [submissionNo, setSubmissionNo] = useState(null)
+  const [resubmissionNo, setResubmissionNo] = useState(null)
   const toast = useToast()
   const router = useRouter()
   const { setAuthState } = useAuth()
@@ -31,11 +32,20 @@ function Dashboard() {
           const portfolio = user.foundPortfolio.portfolioUrl
           portfolio !== undefined &&
             (setCurrentStatus(portfolio.status),
-            setSubmissionNo(portfolio.submissionNo))
+            setSubmissionNo(portfolio.submissionNo),
+            setResubmissionNo(portfolio.resubmissionCount))
+          if (portfolio !== undefined) {
+            console.log(portfolio)
+            portfolio.resubmissionCount >= 3 &&
+              portfolio.status == 'portfolio_needs_revision' &&
+              setCurrentStatus('portfolio_revision_exceeded'),
+              console.log(portfolio.submissionNo, portfolio.status)
+          }
         })
         .catch((err) => {
           // this is in case error happens, we would want their token to be removed
           // so they can log in again.
+          console.log(err)
           localStorage.removeItem('x-auth-token')
           setAuthState({
             isAuthenticated: false,
@@ -54,28 +64,23 @@ function Dashboard() {
 
   const status = data.find((e) => e.status == currentStatus)
   const [cardLink, setCardLink] = useState<string | undefined>(undefined)
-  const { openRazorpay } = usePayment()
   useEffect(() => {
     switch (status?.status) {
       case 'portfolio_not_submitted':
         setCardLink('/submission/questions')
         break
-      case 'portfolio_under_review':
-        setCardLink(undefined)
-        break
       case 'portfolio_needs_revision':
         setCardLink('/resubmission')
         break
+      case 'portfolio_under_review':
+      case 'getting_reviewed':
       case 'portfolio_passed':
-        setCardLink(undefined)
-        break
       default:
         setCardLink(undefined)
     }
   }, [status])
   return (
     <Layout>
-      <button onClick={() => openRazorpay()}>pay now</button>
       <SEO title="Dashboard" />
       <Flex as="section" flexDir="column">
         {cardLink == undefined ? (
@@ -105,17 +110,27 @@ function Dashboard() {
         </Text>
 
         <Flex flexDir="column">
-          {steps.map((step: StepType, index: number) => {
-            return (
-              <StepCard
-                bgColor={theme.colors.black['800']}
-                step={step}
-                status={status as StatusType}
-                key={index.toString()}
-                index={index}
-              />
-            )
-          })}
+          <StepCard
+            bgColor={theme.colors.black['800']}
+            step={step.portfolio}
+            status={status as StatusType}
+            submissionNo={submissionNo}
+            index={1}
+          />
+          <StepCardInterview
+            bgColor={theme.colors.black['800']}
+            step={step.interview}
+            status={status as StatusType}
+            submissionNo={submissionNo}
+            index={2}
+          />
+          <StepCardPayment
+            bgColor={theme.colors.black['800']}
+            step={step.payment}
+            status={status as StatusType}
+            submissionNo={submissionNo}
+            index={3}
+          />
         </Flex>
       </Flex>
     </Layout>

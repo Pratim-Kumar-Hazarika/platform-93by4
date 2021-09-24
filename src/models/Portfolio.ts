@@ -8,6 +8,8 @@ type Status =
   | 'portfolio_needs_revision'
   | 'portfolio_revision_exceeded'
   | 'portfolio_passed'
+  | 'admission_form_incomplete'
+  | 'admission_form_under_review'
   | 'interview_scheduled'
   | 'interview_done_passed'
   | 'interview_done_failed'

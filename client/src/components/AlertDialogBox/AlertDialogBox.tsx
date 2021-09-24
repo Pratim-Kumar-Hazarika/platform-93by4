@@ -12,13 +12,17 @@ import {
 import React, { useRef } from 'react'
 
 export function AlertDialogBox({
-  text,
+  btntext,
   title,
+  description,
   btnProps,
+  callback,
 }: {
-  text: string
+  btntext: string
   title: string
+  description?: string
   btnProps?: any
+  callback?: any
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = useRef(null)
@@ -26,7 +30,7 @@ export function AlertDialogBox({
   return (
     <>
       <Button onClick={onOpen} {...btnProps}>
-        {text}
+        {btntext}
       </Button>
       <AlertDialog
         motionPreset="slideInBottom"
@@ -37,24 +41,28 @@ export function AlertDialogBox({
       >
         <AlertDialogOverlay />
 
-        <AlertDialogContent>
-          <AlertDialogHeader>{title}</AlertDialogHeader>
+        <AlertDialogContent bg="black.700">
+          <AlertDialogHeader color="brand.500">{title}</AlertDialogHeader>
           <AlertDialogCloseButton />
-          <AlertDialogBody>
-            Are you sure you want to reschedule?
-          </AlertDialogBody>
+          <AlertDialogBody>{description}</AlertDialogBody>
           <AlertDialogFooter>
             <Button
-              bg="red.500"
-              color="white"
+              color="brand.500"
+              backgroundColor="black.700"
+              px={4}
               fontWeight="semibold"
-              _hover={{ bg: 'red.600' }}
               ref={cancelRef}
               onClick={onClose}
             >
               No
             </Button>
-            <Button fontWeight="semibold" ml={3}>
+            <Button
+              backgroundColor="brand.500"
+              fontWeight="semibold"
+              ml={3}
+              px={8}
+              onClick={callback}
+            >
               Yes
             </Button>
           </AlertDialogFooter>
