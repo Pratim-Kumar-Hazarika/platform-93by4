@@ -1,6 +1,5 @@
 import { Card, Layout, StatusCard } from '../../components'
-import { Breadcrumbs } from './../../components/BreadCrumbs/BreadCrumbs'
-import withAuth from '../../context/WithAuth'
+import { Breadcrumbs } from '../../components/BreadCrumbs/BreadCrumbs'
 import { Stack } from '@chakra-ui/layout'
 import { interviewDashBoardData } from '../../data/interview/dashboardData'
 import withAdminAuth from '../../context/WithAdminAuth'
@@ -8,11 +7,7 @@ import { policy } from '../../utils/policy'
 
 function Interview(): JSX.Element {
   const breadcrumbsLinks = [
-    { breadcrumbName: 'Dashboard', breadcrumbLink: '/dashboard' },
-    {
-      breadcrumbName: 'Interview',
-      breadcrumbLink: '/interview',
-    },
+    { breadcrumbName: 'Dashboard', breadcrumbLink: '/interviewer' },
   ]
   return (
     <Layout title="Interview">

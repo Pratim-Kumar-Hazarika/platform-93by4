@@ -8,11 +8,13 @@ export function TimeSlot({
   isDisabled,
   deleteButton,
   deleteHandler,
+  onClick,
 }: {
   _id: string
   from: string
   to: string
   isDisabled?: boolean
+  onClick?: (soltId: string) => Promise<void>
   deleteButton?: boolean
   deleteHandler?: (slotId: string) => Promise<void>
 }) {
@@ -25,6 +27,7 @@ export function TimeSlot({
           color: isDisabled ? 'black.600' : 'brand.600',
           borderColor: isDisabled ? 'black.600' : 'brand.600',
         }}
+        onClick={onClick && (() => onClick(_id))}
         variant="outline"
         rounded="md"
         size="lg"

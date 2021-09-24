@@ -10,9 +10,9 @@ const getDashboardUrlBasedOnRole = (roleRequired: number | undefined) => {
     case policy['reviewer']:
       return '/admin/dashboard'
     case policy['interviewer']:
-      return '/interview'
+      return '/interviewer'
     case policy['acInterviewer']:
-      return '/interview'
+      return '/interviewer'
     default:
       return '/'
   }
@@ -33,6 +33,7 @@ const withAdminAuth = (
         ? requiredRole
         : [requiredRole]
       const dashboardUrl = getDashboardUrlBasedOnRole(adminRole)
+      console.log(roleRequired, dashboardUrl, adminRole)
 
       if (!isLoading && !isAuthenticated) {
         router.push({
@@ -53,14 +54,15 @@ const withAdminAuth = (
         )
       }
 
+      // if our role is not in the required roles, redirect to dashboard
       if (
         requiredRole &&
         adminRole &&
         !router.pathname?.includes(dashboardUrl) &&
-        roleRequired.includes(adminRole)
+        !roleRequired.includes(adminRole)
       ) {
         router.push({
-          pathname: '/interview',
+          pathname: dashboardUrl,
         })
         return (
           <Center minH="100vh">

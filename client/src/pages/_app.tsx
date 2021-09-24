@@ -4,6 +4,8 @@ import { theme } from './../themes/index'
 import { AuthProvider } from '../context/AuthContext'
 import { AdminAuthProvider } from '../context/AdminContext'
 import { InterviewerDetailsProvider } from '../context/InterviewerContext'
+import { PaymentDetailsProvider } from '../context/PaymentContext/PaymentContext'
+import { IntervieweeDetailsProvider } from '../context/IntervieweeContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -11,7 +13,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       <AuthProvider>
         <AdminAuthProvider>
           <InterviewerDetailsProvider>
-            <Component {...pageProps} />
+            <IntervieweeDetailsProvider>
+              <PaymentDetailsProvider>
+                <Component {...pageProps} />
+              </PaymentDetailsProvider>
+            </IntervieweeDetailsProvider>
           </InterviewerDetailsProvider>
         </AdminAuthProvider>
       </AuthProvider>

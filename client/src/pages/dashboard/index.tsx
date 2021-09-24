@@ -16,6 +16,7 @@ import withAuth from '../../context/WithAuth'
 import { useRouter } from 'next/router'
 import { useAuth } from '../../context/AuthContext'
 import { SEO } from '../../components/Layout/SEO'
+import { usePayment } from '../../context/PaymentContext/PaymentContext'
 
 function Dashboard() {
   const [currentStatus, setCurrentStatus] = useState('portfolio_not_submitted')
@@ -53,7 +54,7 @@ function Dashboard() {
 
   const status = data.find((e) => e.status == currentStatus)
   const [cardLink, setCardLink] = useState<string | undefined>(undefined)
-
+  const { openRazorpay } = usePayment()
   useEffect(() => {
     switch (status?.status) {
       case 'portfolio_not_submitted':
@@ -74,6 +75,7 @@ function Dashboard() {
   }, [status])
   return (
     <Layout>
+      <button onClick={() => openRazorpay()}>pay now</button>
       <SEO title="Dashboard" />
       <Flex as="section" flexDir="column">
         {cardLink == undefined ? (

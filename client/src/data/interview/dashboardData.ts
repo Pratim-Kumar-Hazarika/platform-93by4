@@ -2,16 +2,16 @@ export const interviewDashBoardData = [
   {
     id: '1',
     title: 'Your Interviews for Today',
-    link: '/interview',
+    link: '/interviewer',
   },
   {
     id: '2',
     title: 'Select your slots',
-    link: '/interview/add-slot',
+    link: '/interviewer/add-slot',
   },
   {
     id: '3',
     title: 'Your Monthly Calendar',
-    link: '/interview/calendar',
+    link: '/interviewer/calendar',
   },
 ]

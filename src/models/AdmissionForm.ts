@@ -25,10 +25,7 @@ export interface BasicAdmissionFormModel {
 }
 
 interface AdmissionFormModel extends BasicAdmissionFormModel {
-  user: {
-    type: Schema.Types.ObjectId
-    rel: 'User'
-  }
+  user: any
 }
 
 const AdmissionFormSchema = new Schema<

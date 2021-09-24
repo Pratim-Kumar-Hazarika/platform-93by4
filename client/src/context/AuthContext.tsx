@@ -6,13 +6,17 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { getUser, logout } from '../services/axiosService'
+import { getAdmissionFormData, getUser, logout } from '../services/axiosService'
 
 export interface User {
   userId?: string
   firstName?: string
   lastName?: string
   email?: string
+  city?: string
+  state?: string
+  country?: string
+  phone?: string
   submissionData: { submissionNo: string; status: string } | null
 }
 
@@ -64,27 +68,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (submissionData) {
           submissionParseData = JSON.parse(submissionData)
         }
-        await getUser()
-          .then((user) => {
-            setAuthState({
-              user: {
-                email: user.email,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                userId: user.userId,
-                submissionData: submissionParseData,
-              },
-              isAuthenticated: user.email ? true : false,
-              isLoading: false,
-            })
-          })
-          .catch((err) => {
-            setAuthState({
-              user: null,
-              isAuthenticated: false,
-              isLoading: false,
-            })
-          })
+        const userRes = await getUser()
+        let user = userRes.data
+        try {
+          const moreInfoRes = await getAdmissionFormData()
+          user = {
+            ...user,
+            city: moreInfoRes?.data?.city,
+            state: moreInfoRes?.data?.state,
+            country: moreInfoRes?.data?.country,
+            phone: moreInfoRes?.data?.phone,
+          }
+        } catch (e) {
+          console.log(e)
+        }
+        setAuthState({
+          user: {
+            ...user,
+            submissionData: submissionParseData,
+          },
+          isAuthenticated: user.email ? true : false,
+          isLoading: false,
+        })
       } catch (error) {
         setAuthState({
           user: null,
@@ -95,6 +100,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     getUserInfo()
   }, [])
+
+  console.log(authState)
 
   function setAuthInfo(data: IAuthState) {
     setAuthState({

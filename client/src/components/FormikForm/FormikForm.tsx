@@ -3,7 +3,7 @@ import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/layout'
 import { Form, Formik } from 'formik'
 import { FormikCheckbox, FormikField, FormikSelect, FormikTextarea } from '..'
 import { AllFieldsType } from '../../data/interview/allFields'
-import { TypeFormValues } from '../../pages/interview/form'
+import { TypeFormValues } from '../../pages/interviewee/form'
 
 export function FormikForm({
   fields,

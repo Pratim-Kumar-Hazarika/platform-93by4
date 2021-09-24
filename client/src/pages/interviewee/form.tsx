@@ -1,7 +1,7 @@
 import { Link, Flex, Heading, Text, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { FormikForm, Layout } from '../../components'
-import { Breadcrumbs } from './../../components/BreadCrumbs/BreadCrumbs'
+import { Breadcrumbs } from '../../components/BreadCrumbs/BreadCrumbs'
 import withAuth from '../../context/WithAuth'
 import * as yup from 'yup'
 import { theme } from '../../themes'

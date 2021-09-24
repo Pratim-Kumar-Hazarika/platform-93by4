@@ -3,6 +3,7 @@ import { User } from './../models/User'
 import { AuthRequest } from './../types/RequestWithUser.d'
 import { RequestHandler } from 'express'
 import { extend } from 'lodash'
+import { AdmissionForm } from '../models/AdmissionForm'
 
 export const submitHandler: RequestHandler = async (req: AuthRequest, res) => {
   const user = req.user
@@ -149,6 +150,78 @@ export const dashboardInfoHandler = async (req: AuthRequest, res: any) => {
     res.status(500).json({
       msg: 'There was some error while fetching user information.',
       code: 'INTERNAL_ERROR',
+    })
+  }
+}
+
+// function for admission form submission
+export const submitAdmissionForm: RequestHandler = async (
+  req: AuthRequest,
+  res
+) => {
+  // get the user from the request
+  const user = req.user
+  // get the form data from the request
+  const formData = req.body
+
+  if (!user) {
+    return res.status(401).json({
+      message: 'You are not authorized to submit this form',
+    })
+  }
+
+  try {
+    // saving the form data to the database
+    const form = new AdmissionForm({
+      ...formData,
+      user: user?._id,
+    })
+
+    await form.save()
+
+    res.status(200).json({
+      success: true,
+      message: 'Form submitted successfully',
+    })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      success: false,
+      message: 'Error submitting form',
+    })
+  }
+}
+
+export const getAdmissionFormData: RequestHandler = async (
+  req: AuthRequest,
+  res
+) => {
+  // get the user from the request
+  const user = req.user
+
+  if (!user) {
+    return res.status(401).json({
+      message: 'You are not authorized to submit this form',
+    })
+  }
+
+  try {
+    const foundForm = await AdmissionForm.findOne({
+      user: user?._id,
+    })
+    if (!foundForm) {
+      return res.status(404).json({
+        message: 'Admission Form Entries not found',
+      })
+    }
+
+    return res.status(200).json({
+      ...foundForm.toJSON(),
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      message: 'Error fetching form data',
     })
   }
 }

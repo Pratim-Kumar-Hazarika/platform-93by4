@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { Error } from '../'
 import featureFlags from '../../../flags.json'
 
-export function Layout({
+export function Flag({
   children,
   flag,
 }: {
