@@ -4,7 +4,6 @@ import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/layout'
 import { useToast } from '@chakra-ui/react'
 import { useState } from 'react'
 import { Breadcrumbs, Calendar, Layout, SlotList } from '../../components'
-import { SEO } from '../../components/Layout/SEO'
 import useInterviewerDetails from '../../context/InterviewerContext'
 import withAdminAuth from '../../context/WithAdminAuth'
 import { deleteInterviewerSlot, addTimeSlot } from '../../services/axiosService'
@@ -92,8 +91,7 @@ function AddSlot() {
     }
   }
   return (
-    <Layout>
-      <SEO title="Add Slots" />
+    <Layout title="Add Slots">
       <Stack spacing={4}>
         <Breadcrumbs breadcrumbProp={breadcrumbsLinks} />
         <Heading pt="0.5rem" color="brand.500">
