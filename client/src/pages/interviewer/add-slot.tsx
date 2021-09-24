@@ -4,8 +4,7 @@ import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/layout'
 import { useToast } from '@chakra-ui/react'
 import { useState } from 'react'
 import { Breadcrumbs, Calendar, Layout, SlotList } from '../../components'
-import { SEO } from '../../components/Layout/SEO'
-import useInterviewDetails from '../../context/InterviewerContext'
+import useInterviewerDetails from '../../context/InterviewerContext'
 import withAdminAuth from '../../context/WithAdminAuth'
 import { deleteInterviewerSlot, addTimeSlot } from '../../services/axiosService'
 import { addTime } from '../../utils/addTime'
@@ -27,7 +26,7 @@ function AddSlot() {
     },
   ]
   const toast = useToast()
-  const { interviewerDispatch, interviewerState } = useInterviewDetails()
+  const { interviewerDispatch, interviewerState } = useInterviewerDetails()
   const [timeInput, setTimeInput] = useState('')
   const [addTimeInputVisibility, setAddTimeInputVisibility] = useState(false)
 
@@ -92,8 +91,7 @@ function AddSlot() {
     }
   }
   return (
-    <Layout>
-      <SEO title="Add Slots" />
+    <Layout title="Add Slots">
       <Stack spacing={4}>
         <Breadcrumbs breadcrumbProp={breadcrumbsLinks} />
         <Heading pt="0.5rem" color="brand.500">
@@ -114,14 +112,16 @@ function AddSlot() {
           >
             <Calendar />
             <SlotList
-              title="Pick Slots"
+              title="Add Slots"
               timeHandler={timeHandler}
               deleteSlotHandler={deleteSlotHandler}
-              timeInput={timeInput}
+              key={`slot-list-${interviewerState?.slots?.length}`}
               setTimeInput={setTimeInput}
               interviewSlots={interviewerState?.slots || []}
               addTimeInputVisibility={addTimeInputVisibility}
               onClick={setAddTimeInputVisibility}
+              deleteButton
+              needAddButton
             />
           </Flex>
           <Flex

@@ -1,11 +1,13 @@
 import { useEffect } from 'react'
 import { createContext, useReducer, ReactNode, useContext } from 'react'
 import { getInterviewerSlots } from '../services/axiosService'
+import { useAuth } from './AuthContext'
 
 export interface ISlot {
   _id?: string
   from: string
   to: string
+  status?: string
   interviewer?: string
   interviewee?: string
   createdAt?: string
@@ -84,21 +86,28 @@ export function InterviewerDetailsProvider({
     interviewerReducer,
     initalState
   )
+  const { authState } = useAuth()
   useEffect(() => {
     // fetch slots
-    const fetchSlots = async () => {
-      const resSlots = await getInterviewerSlots()
+    if (!authState?.isLoading && authState?.isAuthenticated) {
+      const fetchSlots = async () => {
+        try {
+          const resSlots = await getInterviewerSlots()
 
-      console.log('interviewer slots', resSlots.data)
+          console.log('interviewer slots', resSlots.data)
 
-      // dispatch slots
-      interviewerDispatch({
-        type: 'SET_SLOTS',
-        payload: resSlots.data?.slots,
-      })
+          // dispatch slots
+          interviewerDispatch({
+            type: 'SET_SLOTS',
+            payload: resSlots.data?.slots,
+          })
+        } catch (err) {
+          console.log('error while fetching interviewer slots', err)
+        }
+      }
+      fetchSlots()
     }
-    fetchSlots()
-  }, [])
+  }, [authState?.isLoading, authState?.isAuthenticated])
   return (
     <InterviewerContext.Provider
       value={{ interviewerDispatch, interviewerState }}
@@ -108,7 +117,7 @@ export function InterviewerDetailsProvider({
   )
 }
 
-export default function useInterviewDetails(): InterviewerContextValue {
+export default function useInterviewerDetails(): InterviewerContextValue {
   const context = useContext(InterviewerContext)
   if (!context) {
     throw new Error('InterviewerContext not found')

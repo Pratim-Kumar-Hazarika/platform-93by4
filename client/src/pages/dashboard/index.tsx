@@ -15,7 +15,6 @@ import withAuth from '../../context/WithAuth'
 import { useRouter } from 'next/router'
 import { useAuth } from '../../context/AuthContext'
 import { SEO } from '../../components/Layout/SEO'
-import { number } from 'yup/lib/locale'
 import { StepCardInterview } from '../../components/StepCard/StepCardInteview'
 import { StepCardPayment } from '../../components/StepCard/StepcardPayment'
 
@@ -65,7 +64,6 @@ function Dashboard() {
 
   const status = data.find((e) => e.status == currentStatus)
   const [cardLink, setCardLink] = useState<string | undefined>(undefined)
-
   useEffect(() => {
     switch (status?.status) {
       case 'portfolio_not_submitted':

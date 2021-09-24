@@ -17,17 +17,21 @@ export const Breadcrumbs = ({
   breadcrumbProp,
 }: BreadcrumbProp): JSX.Element => {
   return (
-    <Breadcrumb
-      spacing="8px"
-      separator={<BsChevronRight color={theme.colors.black['400']} />}
-    >
-      {breadcrumbProp.map((breadcrumb: BreadcrumbObj, index) => (
-        <BreadcrumbItem key={index} color={theme.colors.black['400']}>
-          <BreadcrumbLink as={Link} href={breadcrumb.breadcrumbLink}>
-            {breadcrumb.breadcrumbName}
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-      ))}
-    </Breadcrumb>
+    <>
+      {breadcrumbProp && breadcrumbProp.length > 1 && (
+        <Breadcrumb
+          spacing="8px"
+          separator={<BsChevronRight color={theme.colors.black['400']} />}
+        >
+          {breadcrumbProp.map((breadcrumb: BreadcrumbObj, index) => (
+            <BreadcrumbItem key={index} color={theme.colors.black['400']}>
+              <BreadcrumbLink as={Link} href={breadcrumb.breadcrumbLink}>
+                {breadcrumb.breadcrumbName}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          ))}
+        </Breadcrumb>
+      )}
+    </>
   )
 }

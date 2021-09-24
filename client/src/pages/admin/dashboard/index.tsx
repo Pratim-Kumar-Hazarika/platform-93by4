@@ -113,4 +113,4 @@ function Dashboard() {
   )
 }
 
-export default withAdminAuth(Dashboard, 30)
+export default withAdminAuth(Dashboard, policy['reviewer'])

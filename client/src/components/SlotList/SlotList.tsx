@@ -17,22 +17,26 @@ import { TimeSlot } from '../TimeSlot/TimeSlot'
 
 export function SlotList({
   title,
-  timeInput,
   timeHandler,
   setTimeInput,
   deleteSlotHandler,
   interviewSlots,
+  slotClickHandler,
   addTimeInputVisibility,
   onClick,
+  needAddButton,
+  deleteButton,
 }: {
   title: string
-  timeHandler: () => Promise<void>
-  deleteSlotHandler: (soltId: string) => Promise<void>
-  timeInput: string
-  setTimeInput: Dispatch<SetStateAction<string>>
   interviewSlots: Array<ISlot>
   addTimeInputVisibility?: boolean
+  timeHandler?: () => Promise<void>
+  slotClickHandler?: (soltId: string) => Promise<void>
+  deleteSlotHandler?: (soltId: string) => Promise<void>
+  setTimeInput?: Dispatch<SetStateAction<string>>
   onClick?: Dispatch<SetStateAction<boolean>>
+  needAddButton?: boolean
+  deleteButton?: boolean
 }) {
   interviewSlots.sort((a: any, b: any) => {
     return new Date(a.from).getTime() - new Date(b.from).getTime()
@@ -74,42 +78,51 @@ export function SlotList({
                 _id={slot?._id || ''}
                 from={fromTime}
                 to={toTime}
-                deleteHandler={deleteSlotHandler}
-                deleteButton
+                onClick={slotClickHandler}
+                deleteHandler={
+                  deleteSlotHandler || (async (soltId: string) => {})
+                }
+                deleteButton={deleteButton}
               />
             )
           })}
       </Stack>
-      {!addTimeInputVisibility ? (
-        <Button
-          variant="ghost"
-          rounded="md"
-          size="lg"
-          w="full"
-          maxW="300px"
-          fontSize="lg"
-          onClick={() => onClick && onClick((prev) => !prev)}
-        >
-          <BsPlusCircle />
-          <Text ml="1rem">Pick Slot</Text>
-        </Button>
-      ) : (
-        <Flex w="full" maxW="300px">
-          <Input
-            type="time"
-            borderRightRadius="0"
-            onChange={(event) => setTimeInput(event?.target?.value)}
-          />
-          <Button
-            onClick={timeHandler}
-            borderLeftRadius="0"
-            rounded="md"
-            size="md"
-            fontSize="lg"
-          >
-            +
-          </Button>
-        </Flex>
+      {needAddButton && (
+        <>
+          {!addTimeInputVisibility ? (
+            <Button
+              variant="ghost"
+              rounded="md"
+              size="lg"
+              w="full"
+              maxW="300px"
+              fontSize="lg"
+              onClick={() => onClick && onClick((prev) => !prev)}
+            >
+              <BsPlusCircle />
+              <Text ml="1rem">Add Slot</Text>
+            </Button>
+          ) : (
+            <Flex w="full" maxW="300px">
+              <Input
+                type="time"
+                borderRightRadius="0"
+                onChange={(event) =>
+                  setTimeInput && setTimeInput(event?.target?.value)
+                }
+              />
+              <Button
+                onClick={timeHandler || (async () => {})}
+                borderLeftRadius="0"
+                rounded="md"
+                size="md"
+                fontSize="lg"
+              >
+                +
+              </Button>
+            </Flex>
+          )}
+        </>
       )}
     </Flex>
   )

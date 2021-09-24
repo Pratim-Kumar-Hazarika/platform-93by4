@@ -1,45 +1,8 @@
-import { Types } from 'mongoose'
+import { extend } from 'lodash'
 import { RequestHandler } from 'express'
-import { AdmissionForm } from '../models/AdmissionForm'
 import { Slot } from '../models/Slot'
-import { AuthRequest, RouteResponse } from './../types/RequestWithUser.d'
-// function for admission form submission
-export const submitAdmissionForm: RequestHandler = async (
-  req: AuthRequest,
-  res
-) => {
-  // get the user from the request
-  const user = req.user
-  // get the form data from the request
-  const formData = req.body
-
-  if (!user) {
-    return res.status(401).json({
-      message: 'You are not authorized to submit this form',
-    })
-  }
-
-  try {
-    // saving the form data to the database
-    const form = new AdmissionForm({
-      ...formData,
-      user: user?._id,
-    })
-
-    await form.save()
-
-    res.status(200).json({
-      success: true,
-      message: 'Form submitted successfully',
-    })
-  } catch (err) {
-    console.log(err)
-    res.status(500).json({
-      success: false,
-      message: 'Error submitting form',
-    })
-  }
-}
+import { AuthRequest } from './../types/RequestWithUser.d'
+// import Gmeet from 'google-meet-api'
 
 export const addSlot: RequestHandler = async (req: AuthRequest, res) => {
   // get the user from the request
@@ -111,6 +74,40 @@ export const getInterviewerTimeSlots: RequestHandler = async (
   }
 }
 
+export const getAllAvaliableSlots: RequestHandler = async (
+  req: AuthRequest,
+  res
+) => {
+  // get the user from the request
+  const user = req.user
+
+  if (!user) {
+    return res.status(401).json({
+      message: 'You are not authorized to submit this form',
+    })
+  }
+
+  try {
+    // query the database for slots that from and to are greater than the current time
+    const currentTimestamp = new Date().toISOString()
+    const slots = await Slot.find({
+      status: 'open',
+      to: { $gt: currentTimestamp },
+    })
+
+    res.status(200).json({
+      slots,
+      success: true,
+    })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      success: false,
+      message: 'Error while getting slots',
+    })
+  }
+}
+
 export const getIntervieweeBookedSlots: RequestHandler = async (
   req: AuthRequest,
   res
@@ -139,6 +136,77 @@ export const getIntervieweeBookedSlots: RequestHandler = async (
     res.status(500).json({
       success: false,
       message: 'Error while getting slots',
+    })
+  }
+}
+
+export const bookInterviewSlot: RequestHandler = async (
+  req: AuthRequest,
+  res
+) => {
+  try {
+    // get the user from the request
+    const user = req.user
+    // get the form data from the request
+    const slotId = req.body?.slotId
+
+    if (!user)
+      return res.status(401).json({ message: 'You are not authorized' })
+
+    if (!slotId) return res.status(400).json({ message: 'Slot id is required' })
+
+    const slot = await Slot.findById(slotId)
+
+    if (!slot) return res.status(400).json({ message: 'Slot not found' })
+
+    if (slot.status !== 'open')
+      res.status(400).json({ message: 'Slot is not open' })
+
+    const fromDateParsed = new Date(slot.from)
+
+    // booking gmeet
+    // const gmeetRes = await Gmeet.meet({
+    //   clientId: process.env.GMEET_CLIENT_ID,
+    //   clientSecret: process.env.GMEET_CLIENT_SECRET,
+    //   refreshToken: process.env.GMEET_REFRESH_TOKEN,
+    //   date: fromDateParsed.toISOString().split('T')[0],
+    //   time: fromDateParsed
+    //     .toISOString()
+    //     .split('T')[1]
+    //     .split(':')
+    //     .slice(0, 2)
+    //     .join(':'),
+    //   summary: 'This meet is scheduled for interview',
+    //   location: 'GMeet',
+    //   description: 'interview meet',
+    // })
+
+    // let link = ''
+    // if (gmeetRes.status === 'success') {
+    //   link = gmeetRes.data
+    // }
+
+    const updatedSlot = new Slot(
+      extend(slot, {
+        status: 'booked',
+        interviewee: user._id,
+      })
+    )
+
+    await updatedSlot.save()
+
+    res.status(200).json({
+      success: true,
+      message: 'Slot booked successfully',
+      slot: {
+        ...updatedSlot.toObject(),
+      },
+    })
+  } catch (err) {
+    console.log(err, 'error while booking slot for interviewee')
+    return res.status(500).json({
+      success: false,
+      message: 'Error while booking slot',
     })
   }
 }

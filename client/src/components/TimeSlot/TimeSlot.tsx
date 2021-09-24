@@ -9,12 +9,14 @@ export function TimeSlot({
   variant,
   deleteButton,
   deleteHandler,
+  onClick,
 }: {
-  _id: string
+  _id?: string
   from: string
   to: string
-  variant: string
+  variant?: string
   isDisabled?: boolean
+  onClick?: (soltId: string) => Promise<void>
   deleteButton?: boolean
   deleteHandler?: (slotId: string) => Promise<void>
 }) {
@@ -30,6 +32,7 @@ export function TimeSlot({
           borderColor:
             variant == 'outline' && isDisabled ? 'black.600' : 'brand.600',
         }}
+        onClick={onClick && (() => _id && onClick(_id))}
         variant={variant}
         rounded="md"
         size="lg"
@@ -46,7 +49,7 @@ export function TimeSlot({
           aria-label="delete-slot"
           ml="0.4rem"
           onClick={() => {
-            if (deleteHandler) {
+            if (deleteHandler && _id) {
               deleteHandler(_id)
             }
           }}

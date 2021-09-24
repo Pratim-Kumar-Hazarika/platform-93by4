@@ -1,11 +1,12 @@
 import { model, Model, ObjectId, Schema } from 'mongoose'
 
-export type SlotStatus = 'open' | 'closed'
+export type SlotStatus = 'open' | 'closed' | 'booked'
 export interface Slot {
   from: string
   to: string
   status: SlotStatus
-  interviewee?: any
+  link: string
+  interviewee: any
   interviewer: any
 }
 
@@ -18,6 +19,15 @@ const shotSchema = new Schema<Slot, Model<Slot>, Slot>(
     to: {
       type: String,
       required: [true, 'To time is required'],
+    },
+    status: {
+      type: String,
+      enum: ['open', 'closed', 'booked'],
+      default: 'open',
+      required: [true, 'Status is required'],
+    },
+    link: {
+      type: String,
     },
     interviewee: {
       type: Schema.Types.ObjectId,

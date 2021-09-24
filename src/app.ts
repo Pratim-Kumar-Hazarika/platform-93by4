@@ -10,14 +10,28 @@ import studentRoutes from './routes/StudentRoutes'
 import interviewRoutes from './routes/InterviewRoutes'
 import reviewerRoutes from './routes/ReviewerRoutes'
 import adminRoutes from './routes/AdminRoutes'
+import paymentRoutes from './routes/PaymentRoutes'
+import Razorpay from 'razorpay'
 
 // Load environment variables from .env file
 dotenv.config()
-
+console.log(process.env.RAZORPAY_KEY_ID)
 /**
  * Connect to the database
  */
 makeConnection()
+
+/**
+ * Razorpay instance
+ */
+
+export const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET
+export const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID
+
+export const razorpayInstance = new Razorpay({
+  key_id: RAZORPAY_KEY_ID,
+  key_secret: RAZORPAY_KEY_SECRET,
+})
 
 const app: Application = express()
 
@@ -40,6 +54,7 @@ app.use('/api', studentRoutes)
 app.use('/api/interview', interviewRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/api/reviewer', reviewerRoutes)
+app.use('/api/payment', paymentRoutes)
 
 /**
  * This handles all the errors in application that were not catched by controllers
@@ -80,4 +95,4 @@ process.on('uncaughtException', (error: Error) => {
   log.error(`❎ uncaughtException :  ${error.stack}`)
 })
 
-export = app
+export default app

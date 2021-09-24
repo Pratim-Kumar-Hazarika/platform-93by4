@@ -1,4 +1,5 @@
-import { TypeFormValues } from './../pages/interview/form'
+import { VerifySignature } from './../context/PaymentContext/PaymentContext.types'
+import { TypeFormValues } from '../pages/interviewee/form'
 import axios from 'axios'
 import { User } from '../context/AuthContext'
 import { LoginValues } from '../pages/auth/login'
@@ -86,7 +87,7 @@ export const resendEmailVerificationLink = async (email: string) => {
 
 export const getUser = async () => {
   const response = await apiClient.get<User>('/auth/user-info')
-  return response.data
+  return response
 }
 export const getDashboard = async () => {
   const response = await apiClient.get('/dashboard-info')
@@ -150,6 +151,23 @@ export const admissionFormSubmission = async (formData: TypeFormValues) => {
   return response
 }
 
+export const getAdmissionFormData = async () => {
+  const response = await apiClient.get('/interview/admission-form')
+  return response
+}
+
+export const bookInterviewSlot = async (slotId: string) => {
+  const response = await apiClient.post('/interview/book-slot', {
+    slotId,
+  })
+  return response
+}
+
+export const getBookedIntervieweeSlots = async () => {
+  const response = await apiClient.get('/interview/booked-slots')
+  return response
+}
+
 export const addTimeSlot = async (data: ISlot) => {
   const response = await apiClient.post('/interview/add-slot', {
     ...data,
@@ -159,6 +177,11 @@ export const addTimeSlot = async (data: ISlot) => {
 
 export const getInterviewerSlots = async () => {
   const response = await apiClient.get('/interview/interviewer-slots')
+  return response
+}
+
+export const getAvaliableSlots = async () => {
+  const response = await apiClient.get('/interview/avaliable-slots')
   return response
 }
 
@@ -199,5 +222,30 @@ export const submitReview = async (data: ReviewBody) => {
     ...data,
   })
 
+  return response
+}
+
+/**
+ * Payment Services
+ */
+
+export const makePayment = async (data: any) => {
+  const response = await apiClient.post('/payment', {
+    ...data,
+  })
+  return response
+}
+
+export const verifyPayment = async (data: VerifySignature) => {
+  const response = await apiClient.post('/payment/verify', {
+    ...data,
+  })
+  return response
+}
+
+export const recordPayment = async (data: any) => {
+  const response = await apiClient.post('/payment/record', {
+    ...data,
+  })
   return response
 }
