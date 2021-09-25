@@ -11,7 +11,7 @@ import interviewRoutes from './routes/InterviewRoutes'
 import reviewerRoutes from './routes/ReviewerRoutes'
 import adminRoutes from './routes/AdminRoutes'
 import paymentRoutes from './routes/PaymentRoutes'
-import markSheetRoutes from './routes/MarksheetRoute'
+import markSheetRoutes from './routes/MarksheetRoutes'
 import Razorpay from 'razorpay'
 
 // Load environment variables from .env file
