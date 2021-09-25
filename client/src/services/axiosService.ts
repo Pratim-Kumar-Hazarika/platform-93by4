@@ -249,3 +249,14 @@ export const recordPayment = async (data: any) => {
   })
   return response
 }
+
+/**
+ * Marksheet Services
+ */
+
+export const submitMarksheet = async(data:any)=>{
+  const response = await apiClient.post('/marksheet',{
+    ...data,
+  })
+  return response
+}
