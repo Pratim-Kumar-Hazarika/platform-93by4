@@ -28,3 +28,6 @@ export { TableCardContent } from './TableCardContent/TableCardContent'
 export { TableCardProperty } from './TableCardProperty/TableCardProperty'
 export { TableCardWrapper } from './TableCardWrapper/TableCardWrapper'
 export { TableCardHeader } from './TableCardHeader/TableCardHeader'
+export { Table } from "./Table/Table";
+export { StudentInfoPanel } from "./StudentInfoPanel/StudentInfoPanel";
+export { MarkSheetPanel } from "./MarkSheetPanel/MarkSheetPanel";
