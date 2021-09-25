@@ -1,4 +1,4 @@
-import { getStudentMarksheet, submitMarksheet } from './../controllers/MarksheetController';
+import { getStudentMarksheet, submitMarksheet } from '../controllers/MarksheetController';
 import {Router} from 'express'
 
 const router = Router()
