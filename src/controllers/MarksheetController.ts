@@ -7,7 +7,7 @@ export const getStudentMarksheet : RequestHandler = async(req, res) => {
         userId: "614f26f4d77fbe5550d398fd"
     }
     try {
-        const user = TheReq
+        const user = TheReq  ///change here
         const getStudentMarksheet = await Marksheet.findOne({user:user.userId}).populate("user")
         res.json({message:"Student Marksheet is => ", getStudentMarksheet})
     } catch (error) {
