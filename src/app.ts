@@ -11,6 +11,7 @@ import interviewRoutes from './routes/InterviewRoutes'
 import reviewerRoutes from './routes/ReviewerRoutes'
 import adminRoutes from './routes/AdminRoutes'
 import paymentRoutes from './routes/PaymentRoutes'
+import markSheetRoutes from './routes/MarksheetRoute'
 import Razorpay from 'razorpay'
 
 // Load environment variables from .env file
@@ -55,6 +56,7 @@ app.use('/api/interview', interviewRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/api/reviewer', reviewerRoutes)
 app.use('/api/payment', paymentRoutes)
+app.use("/api/marksheet",markSheetRoutes)
 
 /**
  * This handles all the errors in application that were not catched by controllers
