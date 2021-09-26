@@ -21,7 +21,7 @@ export function Scheduled() {
   const bookSlot = intervieweeState?.bookedSlots?.find(
     (slotItem) => slotItem.status === 'booked'
   )
-  console.log({ bookSlot }, intervieweeState?.bookedSlots)
+  // console.log({ bookSlot }, intervieweeState?.bookedSlots)
   return (
     <Layout>
       <SEO title="Scheduled Interview" />

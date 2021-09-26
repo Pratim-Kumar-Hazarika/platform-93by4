@@ -28,6 +28,7 @@ function CalenderCell({
 }) {
   return (
     <Flex
+      cursor={isCurrentMonth ? 'pointer' : ''}
       h="55px"
       w="55px"
       justify="center"
@@ -37,7 +38,9 @@ function CalenderCell({
       color={
         (active && 'black.900') || (isCurrentMonth ? 'black.400' : 'black.600')
       }
-      onClick={() => currentDateHandler && currentDateHandler(dateObject)}
+      onClick={() =>
+        currentDateHandler && isCurrentMonth && currentDateHandler(dateObject)
+      }
     >
       {text}
     </Flex>
