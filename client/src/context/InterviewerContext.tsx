@@ -9,6 +9,7 @@ export interface ISlot {
   from: string
   to: string
   status?: string
+  link?: string
   interviewer?: string
   interviewee?: IUser
   createdAt?: string

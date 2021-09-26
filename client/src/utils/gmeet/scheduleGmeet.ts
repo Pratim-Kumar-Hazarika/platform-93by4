@@ -85,8 +85,7 @@ export async function scheduleGmeet({
 
           await request.execute(async (reqEvent: any) => {
             const gmeetLink = reqEvent.hangoutLink
-            console.log('gmeetLink', gmeetLink)
-            const response = await bookInterviewSlot(slotId)
+            const response = await bookInterviewSlot(slotId, gmeetLink)
             if (response.status === 200) {
               intervieweeDispatch({
                 type: 'UPDATE_SLOT',
@@ -98,6 +97,7 @@ export async function scheduleGmeet({
                 type: 'ADD_SCHEDULED_SLOT',
                 payload: {
                   ...response.data?.slot,
+                  gmeetLink,
                 },
               })
               toast({
