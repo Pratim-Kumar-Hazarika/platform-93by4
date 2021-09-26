@@ -43,12 +43,18 @@ interface IntervieweeContextValue {
   intervieweeDispatch: React.Dispatch<IntervieweeAction>
 }
 
+interface IntervieweeAddScheduledSlots {
+  type: 'ADD_SCHEDULED_SLOTS'
+  payload: Array<ISlot>
+}
+
 export type IntervieweeAction =
   | IntervieweeSetSlots
   | IntervieweeAddSlot
   | IntervieweeDeleteSlot
   | IntervieweeUpdateSlot
   | IntervieweeAddScheduledMeet
+  | IntervieweeAddScheduledSlots
 
 const initalState: IntervieweeState = {
   slots: undefined,
@@ -83,6 +89,11 @@ function intervieweeReducer(
           }
           return slot
         }),
+      }
+    case 'ADD_SCHEDULED_SLOTS':
+      return {
+        ...state,
+        bookedSlots: [...(state?.bookedSlots || []), ...action.payload],
       }
     case 'ADD_SCHEDULED_SLOT':
       return {
