@@ -4,7 +4,6 @@ import {
   getAvaliableSlots,
   getBookedIntervieweeSlots,
 } from '../services/axiosService'
-import { getTimeFromLocalString } from '../utils/getTimeFromLocalString'
 import { useAuth } from './AuthContext'
 import { ISlot } from './InterviewerContext'
 
