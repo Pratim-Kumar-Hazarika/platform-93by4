@@ -1,10 +1,10 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/layout'
 import { Breadcrumbs, Layout } from '../../components'
 import { InterviewSlot } from '../../components/InterviewSlot/InterviewSlot'
+import useInterviewerDetails from '../../context/InterviewerContext'
 import withAdminAuth from '../../context/WithAdminAuth'
-import withAuth from '../../context/WithAuth'
-import { getTimeFromLocalString } from '../../utils/getTimeFromLocalString'
 import { policy } from '../../utils/policy'
+import { isToday } from '../../utils/isDateToday'
 
 function InterviewToday() {
   const breadcrumbsLinks = [
@@ -14,7 +14,15 @@ function InterviewToday() {
       breadcrumbLink: '/interview-today',
     },
   ]
-  console.log(getTimeFromLocalString('10/9/2021, 12:00:51 pm'))
+
+  const { interviewerState, interviewerDispatch } = useInterviewerDetails()
+
+  const todaysSlot = () => {
+    return interviewerState.slots.filter((slot) => {
+      return isToday(new Date(slot.from)) && slot.interviewee
+    })
+  }
+
   return (
     <Layout title="Add Slots">
       <Stack spacing={4}>
@@ -28,7 +36,7 @@ function InterviewToday() {
           nobis in
         </Text>
         <Box>
-          <InterviewSlot />
+          <InterviewSlot slots={todaysSlot()} />
         </Box>
       </Stack>
     </Layout>

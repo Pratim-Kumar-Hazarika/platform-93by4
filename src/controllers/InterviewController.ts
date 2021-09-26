@@ -2,7 +2,6 @@ import { extend } from 'lodash'
 import { RequestHandler } from 'express'
 import { Slot } from '../models/Slot'
 import { AuthRequest } from './../types/RequestWithUser.d'
-// import Gmeet from 'google-meet-api'
 
 export const addSlot: RequestHandler = async (req: AuthRequest, res) => {
   // get the user from the request
@@ -59,8 +58,7 @@ export const getInterviewerTimeSlots: RequestHandler = async (
     // query the database for slots
     const slots = await Slot.find({
       interviewer: user?._id,
-    })
-
+    }).populate('interviewee')
     res.status(200).json({
       slots,
       success: true,

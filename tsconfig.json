@@ -17,9 +17,8 @@
      "emitDecoratorMetadata": true,
      "experimentalDecorators": true,
      "resolveJsonModule": true,
-     "strict": true
-     
-   },
+     "strict": true   
+    },
    "exclude": ["node_modules", "bin", "client"],
    "include": ["./**/*.ts", "./src/templates"],
    "typeRoots": ["./node_modules/@types", "./src/types"]

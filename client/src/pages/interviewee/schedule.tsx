@@ -8,6 +8,7 @@ import useIntervieweeDetails from '../../context/IntervieweeContext'
 import { ISlot } from '../../context/InterviewerContext'
 import withAuth from '../../context/WithAuth'
 import { bookInterviewSlot } from '../../services/axiosService'
+import { scheduleGmeet } from '../../utils/gmeet/scheduleGmeet'
 
 const removeSecs = (time: string): string => {
   const temp = new Date(time).toLocaleString().split(' ')
@@ -20,40 +21,23 @@ function Schedule(): JSX.Element {
   const { intervieweeState, intervieweeDispatch } = useIntervieweeDetails()
   const toast = useToast()
   const { authState } = useAuth()
-  useEffect(() => {
-    if (!Boolean(intervieweeState?.bookedSlots?.length)) {
-      router.push('/interviewee/scheduled')
-    }
-  }, [intervieweeState])
+  // useEffect(() => {
+  //   if (!Boolean(intervieweeState?.bookedSlots?.length)) {
+  //     router.push('/interviewee/scheduled')
+  //   }
+  // }, [intervieweeState])
   const slotClickHandler = async (slotId: string) => {
     try {
-      const response = await bookInterviewSlot(slotId)
-      if (response.status === 200) {
-        intervieweeDispatch({
-          type: 'UPDATE_SLOT',
-          payload: {
-            ...response.data?.slot,
-          },
-        })
-        intervieweeDispatch({
-          type: 'ADD_SCHEDULED_SLOT',
-          payload: {
-            ...response.data?.slot,
-          },
-        })
-        toast({
-          title: 'Success',
-          description: 'Interview booked successfully',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        })
-        router.push('/interviewee/scheduled')
-      }
+      await scheduleGmeet({
+        intervieweeDispatch,
+        slotId,
+        toast,
+      })
     } catch (error) {
       console.log(error)
     }
   }
+
   const updatedSlots = (intervieweeState?.slots || [])?.reduce(
     (acc: Array<ISlot>, val: ISlot) => {
       console.log(

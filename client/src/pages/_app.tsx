@@ -7,6 +7,12 @@ import { InterviewerDetailsProvider } from '../context/InterviewerContext'
 import { PaymentDetailsProvider } from '../context/PaymentContext/PaymentContext'
 import { IntervieweeDetailsProvider } from '../context/IntervieweeContext'
 
+declare global {
+  interface Window {
+    gapi: any
+  }
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider resetCSS theme={theme}>
