@@ -6,6 +6,7 @@ import withAdminAuth from '../../context/WithAdminAuth'
 import { policy } from '../../utils/policy'
 import { isToday } from '../../utils/isDateToday'
 import { Flex } from '@chakra-ui/core'
+import { IDate } from './add-slot'
 
 function InterviewToday() {
   const breadcrumbsLinks = [
@@ -24,7 +25,7 @@ function InterviewToday() {
   //     })
   //   }
 
-  const currentDate = () => {
+  const currentDate = (selectedDate: IDate) => {
     console.log('Hello')
   }
 

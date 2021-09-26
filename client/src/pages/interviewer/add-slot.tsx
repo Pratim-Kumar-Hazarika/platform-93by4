@@ -13,6 +13,12 @@ import { policy } from '../../utils/policy'
 
 const currentDate = new Date()
 
+export interface IDate {
+  date: number
+  month: number
+  year: number
+}
+
 function AddSlot() {
   const breadcrumbsLinks = [
     { breadcrumbName: 'Dashboard', breadcrumbLink: '/interviewer' },
@@ -25,6 +31,11 @@ function AddSlot() {
   const { interviewerDispatch, interviewerState } = useInterviewerDetails()
   const [timeInput, setTimeInput] = useState('')
   const [addTimeInputVisibility, setAddTimeInputVisibility] = useState(false)
+  const [selectedDate, setSelectedDate] = useState({
+    date: currentDate.getDate(),
+    month: currentDate.getMonth(),
+    year: currentDate.getFullYear(),
+  })
 
   async function deleteSlotHandler(slotId: string) {
     console.log(slotId)
@@ -86,6 +97,11 @@ function AddSlot() {
       })
     }
   }
+
+  const currentDateHandler = (selectedDate: IDate) => {
+    setSelectedDate(selectedDate)
+  }
+
   return (
     <Layout title="Add Slots">
       <Stack spacing={4}>
@@ -106,7 +122,11 @@ function AddSlot() {
             rounded="lg"
             borderBottomRadius="0"
           >
-            <Calendar />
+            <Calendar
+              currentDateHandler={currentDateHandler}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+            />
             <SlotList
               title="Add Slots"
               timeHandler={timeHandler}

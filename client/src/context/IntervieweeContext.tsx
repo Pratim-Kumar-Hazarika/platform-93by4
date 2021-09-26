@@ -135,7 +135,7 @@ export function IntervieweeDetailsProvider({
             payload: resSlots?.data?.slots || [],
           })
           intervieweeDispatch({
-            type: 'ADD_SCHEDULED_SLOT',
+            type: 'ADD_SCHEDULED_SLOTS',
             payload: resSlots?.data?.slots || [],
           })
         } catch (error) {

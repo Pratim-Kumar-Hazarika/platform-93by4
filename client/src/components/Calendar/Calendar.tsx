@@ -6,10 +6,11 @@ import {
   Box,
   SimpleGrid,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
 import { daysInMonth } from '../../data/calendar/months'
 import { weeks } from '../../data/calendar/week'
+import { IDate } from '../../pages/interviewer/add-slot'
 import { predictDay } from './Calender.utils'
 
 function CalenderCell({
@@ -17,11 +18,13 @@ function CalenderCell({
   active,
   isCurrentMonth,
   currentDateHandler,
+  dateObject,
 }: {
   text: string | number
   active?: boolean
   isCurrentMonth?: boolean
-  currentDateHandler?: () => void
+  currentDateHandler?: (selectedDate: IDate) => void
+  dateObject: IDate
 }) {
   return (
     <Flex
@@ -34,7 +37,7 @@ function CalenderCell({
       color={
         (active && 'black.900') || (isCurrentMonth ? 'black.400' : 'black.600')
       }
-      onClick={currentDateHandler}
+      onClick={() => currentDateHandler && currentDateHandler(dateObject)}
     >
       {text}
     </Flex>
@@ -43,49 +46,53 @@ function CalenderCell({
 
 export function Calendar({
   currentDateHandler,
+  selectedDate,
+  setSelectedDate,
 }: {
-  currentDateHandler?: () => void
+  currentDateHandler?: (selectedDate: IDate) => void
+  selectedDate?: IDate
+  setSelectedDate?: Dispatch<SetStateAction<IDate>>
 }) {
   const currentDate = new Date()
-  const [selectedDate, setSelectedDate] = useState({
-    date: currentDate.getDate(),
-    month: currentDate.getMonth(),
-    year: currentDate.getFullYear(),
-  })
+
   const initialDayOfMonth = predictDay(
     1,
-    selectedDate.month + 1,
-    selectedDate.year
+    selectedDate!.month + 1,
+    selectedDate!.year
   )
   const getPreviousMonth = () => {
-    if (selectedDate.month === 0) {
-      setSelectedDate({
-        date: selectedDate.date,
-        month: 11,
-        year: selectedDate.year - 1,
-      })
-    } else {
-      setSelectedDate({
-        date: selectedDate.date,
-        month: selectedDate.month - 1,
-        year: selectedDate.year,
-      })
+    if (setSelectedDate) {
+      if (selectedDate?.month === 0) {
+        setSelectedDate({
+          date: selectedDate.date,
+          month: 11,
+          year: selectedDate.year - 1,
+        })
+      } else {
+        setSelectedDate({
+          date: selectedDate!.date,
+          month: selectedDate!.month - 1,
+          year: selectedDate!.year,
+        })
+      }
     }
   }
 
   const getNextMonth = () => {
-    if (selectedDate.month === 11) {
-      setSelectedDate({
-        date: selectedDate.date,
-        month: 0,
-        year: selectedDate.year + 1,
-      })
-    } else {
-      setSelectedDate({
-        date: selectedDate.date,
-        month: selectedDate.month + 1,
-        year: selectedDate.year,
-      })
+    if (setSelectedDate) {
+      if (selectedDate?.month === 11) {
+        setSelectedDate({
+          date: selectedDate!.date,
+          month: 0,
+          year: selectedDate!.year + 1,
+        })
+      } else {
+        setSelectedDate({
+          date: selectedDate!.date,
+          month: selectedDate!.month + 1,
+          year: selectedDate!.year,
+        })
+      }
     }
   }
 
@@ -94,7 +101,7 @@ export function Calendar({
     <Box flex={1}>
       <Flex justify="space-between" pb="2rem">
         <Heading fontSize="1.8rem">
-          {daysInMonth[selectedDate.month].name} {selectedDate.year}
+          {daysInMonth[selectedDate!.month].name} {selectedDate?.year}
         </Heading>
         <HStack>
           <IconButton
@@ -139,19 +146,19 @@ export function Calendar({
         {[...Array(42)].map((_, i) => {
           let calcDate = i + 2 - initialDayOfMonth
           const isToday =
-            selectedDate.date === calcDate &&
-            selectedDate.month === currentDate.getMonth() &&
-            selectedDate.year === currentDate.getFullYear()
+            selectedDate?.date === calcDate &&
+            selectedDate?.month === currentDate.getMonth() &&
+            selectedDate?.year === currentDate.getFullYear()
           let isCurrentMonth = true
           if (calcDate < 1) {
             calcDate =
               calcDate +
               daysInMonth[
-                selectedDate.month === 0 ? 11 : selectedDate.month - 1
+                selectedDate?.month === 0 ? 11 : selectedDate!.month - 1
               ].days
             isCurrentMonth = false
-          } else if (calcDate > daysInMonth[selectedDate.month].days) {
-            calcDate = calcDate - daysInMonth[selectedDate.month].days
+          } else if (calcDate > daysInMonth[selectedDate!.month].days) {
+            calcDate = calcDate - daysInMonth[selectedDate!.month].days
             isCurrentMonth = false
           }
           return (
@@ -161,6 +168,11 @@ export function Calendar({
               active={isToday}
               isCurrentMonth={isCurrentMonth}
               currentDateHandler={currentDateHandler}
+              dateObject={{
+                date: calcDate,
+                month: selectedDate!.month,
+                year: selectedDate!.year,
+              }}
             />
           )
         })}

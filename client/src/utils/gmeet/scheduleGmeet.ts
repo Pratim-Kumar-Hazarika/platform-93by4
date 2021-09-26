@@ -109,7 +109,7 @@ export async function scheduleGmeet({
                 duration: 3000,
                 isClosable: true,
               })
-              router.push('/interviewee/scheduled')
+              // router.push('/interviewee/scheduled')
             }
             return reqEvent
           })
