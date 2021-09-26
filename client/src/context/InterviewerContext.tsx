@@ -90,22 +90,13 @@ export function InterviewerDetailsProvider({
   )
   const { authState } = useAuth()
 
-  console.log('works')
-  console.log('works')
-  console.log('works')
-
   useEffect(() => {
     // fetch slots
-    console.log('cool')
 
     // if (!authState?.isLoading && authState?.isAuthenticated) {
     const fetchSlots = async () => {
       try {
         const resSlots = await getInterviewerSlots()
-        console.log('Hello')
-
-        console.log('interviewer slots', resSlots.data)
-
         // dispatch slots
         interviewerDispatch({
           type: 'SET_SLOTS',

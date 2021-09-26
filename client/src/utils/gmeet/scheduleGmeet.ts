@@ -21,11 +21,13 @@ export async function scheduleGmeet({
   try {
     const gapi = window.gapi
 
-    gapi.load('client:auth2', () => {
+    console.log('Hii')
+
+    return gapi.load('client:auth2', () => {
       gapi.client.init({
         apiKey: process.env.API_KEY,
         clientId: process.env.CLIENT_ID,
-        // discoveryDocs: [process.env.DISCOVERY_DOCS],
+        discoveryDocs: [process.env.DISCOVERY_DOCS],
         scope: process.env.SCOPES,
       })
 
@@ -38,7 +40,7 @@ export async function scheduleGmeet({
 
       gapi.client.load('calendar', 'v3', () => console.log('bam!'))
 
-      gapi.auth2
+      return gapi.auth2
         .getAuthInstance()
         .signIn()
         .then(async () => {
@@ -107,14 +109,18 @@ export async function scheduleGmeet({
                 duration: 3000,
                 isClosable: true,
               })
-              router.push('/interviewee/scheduled')
+              // router.push('/interviewee/scheduled')
             }
             return reqEvent
           })
+          // .then((response: any) => {
+          //   return response
+          // })
+          // console.log({ res })
+          // return res
         })
     })
   } catch (error) {
     console.log({ error }, 'Error while create Google Meet Link')
   }
-  return { succeed: false }
 }

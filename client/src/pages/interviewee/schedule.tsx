@@ -7,7 +7,6 @@ import { useAuth } from '../../context/AuthContext'
 import useIntervieweeDetails from '../../context/IntervieweeContext'
 import { ISlot } from '../../context/InterviewerContext'
 import withAuth from '../../context/WithAuth'
-import { bookInterviewSlot } from '../../services/axiosService'
 import { scheduleGmeet } from '../../utils/gmeet/scheduleGmeet'
 
 const removeSecs = (time: string): string => {
@@ -22,10 +21,6 @@ function Schedule(): JSX.Element {
   const toast = useToast()
   const { authState } = useAuth()
   useEffect(() => {
-    console.log(
-      'intervieweeState',
-      Boolean(intervieweeState?.bookedSlots?.length)
-    )
     if (Boolean(intervieweeState?.bookedSlots?.length)) {
       router.push('/interviewee/scheduled')
     }
@@ -58,12 +53,7 @@ function Schedule(): JSX.Element {
     },
     []
   )
-  console.log(
-    authState?.isLoading,
-    !Boolean(intervieweeState?.bookedSlots),
-    !Boolean(intervieweeState?.slots),
-    intervieweeState
-  )
+
   return (
     <Layout
       loading={
