@@ -23,17 +23,14 @@ export function TimeSlot({
   return (
     <Flex align="center">
       <Button
-        borderColor={
-          variant == 'outline' && isDisabled ? 'black.500' : 'brand.500'
-        }
-        color={variant == 'outline' && isDisabled ? 'black.500' : 'brand.500'}
+        borderColor={isDisabled ? 'black.500' : 'brand.500'}
+        color={isDisabled ? 'black.500' : 'brand.500'}
         _hover={{
-          color: variant == 'outline' && isDisabled ? 'black.600' : 'brand.600',
-          borderColor:
-            variant == 'outline' && isDisabled ? 'black.600' : 'brand.600',
+          color: isDisabled ? 'black.600' : 'brand.600',
+          borderColor: isDisabled ? 'black.600' : 'brand.600',
         }}
         onClick={onClick && (() => _id && onClick(_id))}
-        variant={variant}
+        variant={variant || 'outline'}
         rounded="md"
         size="lg"
         w="full"

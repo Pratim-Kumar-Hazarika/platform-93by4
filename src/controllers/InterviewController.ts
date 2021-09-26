@@ -2,7 +2,6 @@ import { extend } from 'lodash'
 import { RequestHandler } from 'express'
 import { Slot } from '../models/Slot'
 import { AuthRequest } from './../types/RequestWithUser.d'
-// import Gmeet from 'google-meet-api'
 
 export const addSlot: RequestHandler = async (req: AuthRequest, res) => {
   // get the user from the request
@@ -59,8 +58,7 @@ export const getInterviewerTimeSlots: RequestHandler = async (
     // query the database for slots
     const slots = await Slot.find({
       interviewer: user?._id,
-    })
-
+    }).populate('interviewee')
     res.status(200).json({
       slots,
       success: true,
@@ -148,7 +146,7 @@ export const bookInterviewSlot: RequestHandler = async (
     // get the user from the request
     const user = req.user
     // get the form data from the request
-    const slotId = req.body?.slotId
+    const { slotId, gmeetLink } = req.body
 
     if (!user)
       return res.status(401).json({ message: 'You are not authorized' })
@@ -164,31 +162,10 @@ export const bookInterviewSlot: RequestHandler = async (
 
     const fromDateParsed = new Date(slot.from)
 
-    // booking gmeet
-    // const gmeetRes = await Gmeet.meet({
-    //   clientId: process.env.GMEET_CLIENT_ID,
-    //   clientSecret: process.env.GMEET_CLIENT_SECRET,
-    //   refreshToken: process.env.GMEET_REFRESH_TOKEN,
-    //   date: fromDateParsed.toISOString().split('T')[0],
-    //   time: fromDateParsed
-    //     .toISOString()
-    //     .split('T')[1]
-    //     .split(':')
-    //     .slice(0, 2)
-    //     .join(':'),
-    //   summary: 'This meet is scheduled for interview',
-    //   location: 'GMeet',
-    //   description: 'interview meet',
-    // })
-
-    // let link = ''
-    // if (gmeetRes.status === 'success') {
-    //   link = gmeetRes.data
-    // }
-
     const updatedSlot = new Slot(
       extend(slot, {
         status: 'booked',
+        link: gmeetLink,
         interviewee: user._id,
       })
     )

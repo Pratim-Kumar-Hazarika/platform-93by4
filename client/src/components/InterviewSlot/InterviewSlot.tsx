@@ -11,8 +11,12 @@ import {
   Th,
 } from '@chakra-ui/react'
 import { TimeSlot } from '..'
+import { ISlot } from '../../context/InterviewerContext'
+import { timeformatAMPM } from '../../utils/timeformatAMPM'
 
-export function InterviewSlot({}) {
+export function InterviewSlot({ slots }: { slots: ISlot[] }) {
+  console.log({ slots })
+
   return (
     <Flex width={'100%'} bg="black.800" p="1rem 2rem" borderRadius={10}>
       <Table variant="simple" bg="black.800">
@@ -23,23 +27,21 @@ export function InterviewSlot({}) {
               <Text align="center">Time</Text>
             </Th>
             <Th border="none" isNumeric>
-              Buttons
+              <Text align="center">Action</Text>
             </Th>
           </Tr>
         </Thead>
         <Tbody>
-          <SingleSlot
-            name="John"
-            timefrom="8:30pm"
-            timeto="9:00"
-            isInterviewDone={false}
-          />
-          <SingleSlot
-            name="John"
-            timefrom="8:30pm"
-            timeto="9:00"
-            isInterviewDone={true}
-          />
+          {slots.map((slot) => {
+            return (
+              <SingleSlot
+                name={slot.interviewee!.firstName}
+                timefrom={timeformatAMPM(new Date(slot.from))}
+                timeto={timeformatAMPM(new Date(slot.to))}
+                isInterviewDone={false}
+              />
+            )
+          })}
         </Tbody>
       </Table>
     </Flex>

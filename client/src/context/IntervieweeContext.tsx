@@ -9,8 +9,8 @@ import { useAuth } from './AuthContext'
 import { ISlot } from './InterviewerContext'
 
 interface IntervieweeState {
-  slots: Array<ISlot>
-  bookedSlots: Array<ISlot>
+  slots: Array<ISlot> | undefined
+  bookedSlots: Array<ISlot> | undefined
 }
 
 interface IntervieweeSetSlots {
@@ -43,16 +43,22 @@ interface IntervieweeContextValue {
   intervieweeDispatch: React.Dispatch<IntervieweeAction>
 }
 
+interface IntervieweeAddScheduledSlots {
+  type: 'ADD_SCHEDULED_SLOTS'
+  payload: Array<ISlot>
+}
+
 export type IntervieweeAction =
   | IntervieweeSetSlots
   | IntervieweeAddSlot
   | IntervieweeDeleteSlot
   | IntervieweeUpdateSlot
   | IntervieweeAddScheduledMeet
+  | IntervieweeAddScheduledSlots
 
 const initalState: IntervieweeState = {
-  slots: [],
-  bookedSlots: [],
+  slots: undefined,
+  bookedSlots: undefined,
 }
 
 const IntervieweeContext = createContext<IntervieweeContextValue>(
@@ -72,27 +78,32 @@ function intervieweeReducer(
     case 'ADD_SLOT':
       return {
         ...state,
-        slots: [...state.slots, action.payload],
+        slots: [...(state?.slots || []), action.payload],
       }
     case 'UPDATE_SLOT':
       return {
         ...state,
-        slots: state.slots.map((slot) => {
+        slots: (state?.slots || [])?.map((slot) => {
           if (slot?._id === action.payload?._id) {
             return action.payload
           }
           return slot
         }),
       }
+    case 'ADD_SCHEDULED_SLOTS':
+      return {
+        ...state,
+        bookedSlots: [...(state?.bookedSlots || []), ...action.payload],
+      }
     case 'ADD_SCHEDULED_SLOT':
       return {
         ...state,
-        bookedSlots: [...state.bookedSlots, action.payload],
+        bookedSlots: [...(state?.bookedSlots || []), action.payload],
       }
     case 'DELETE_SLOT':
       return {
         ...state,
-        slots: state.slots.filter(
+        slots: (state?.slots || [])?.filter(
           (slot: ISlot) => slot?._id !== action.payload
         ),
       }
@@ -121,11 +132,11 @@ export function IntervieweeDetailsProvider({
           // dispatch slots
           intervieweeDispatch({
             type: 'SET_SLOTS',
-            payload: resSlots.data?.slots,
+            payload: resSlots?.data?.slots || [],
           })
           intervieweeDispatch({
-            type: 'ADD_SCHEDULED_SLOT',
-            payload: resBookedSlots.data?.slots,
+            type: 'ADD_SCHEDULED_SLOTS',
+            payload: resBookedSlots?.data?.slots || [],
           })
         } catch (error) {
           console.log('error while fetching interviewee slots', error)

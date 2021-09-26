@@ -13,6 +13,7 @@ import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
 import { BsPlusCircle } from 'react-icons/bs'
 import { ISlot } from '../../context/InterviewerContext'
 import { getTimeFromLocalString } from '../../utils/getTimeFromLocalString'
+import { timeformatAMPM } from '../../utils/timeformatAMPM'
 import { TimeSlot } from '../TimeSlot/TimeSlot'
 
 export function SlotList({
@@ -70,8 +71,8 @@ export function SlotList({
         <TimeSlot from="8:00pm" to="8:30pm" isDisabled /> */}
         {interviewSlots &&
           interviewSlots.map((slot) => {
-            const fromTime = getTimeFromLocalString(slot.from)
-            const toTime = getTimeFromLocalString(slot.to)
+            const fromTime = timeformatAMPM(new Date(slot.from))
+            const toTime = timeformatAMPM(new Date(slot.to))
             return (
               <TimeSlot
                 key={`time-slot-${slot?._id}`}

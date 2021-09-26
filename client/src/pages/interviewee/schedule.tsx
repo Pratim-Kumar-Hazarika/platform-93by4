@@ -1,10 +1,15 @@
 import { Flex, useToast } from '@chakra-ui/react'
+import { useEffect } from 'react'
+import router from 'next/router'
 import { Calendar, Layout } from '../../components'
 import { SlotList, SEO } from '../../components'
+import { useAuth } from '../../context/AuthContext'
 import useIntervieweeDetails from '../../context/IntervieweeContext'
 import { ISlot } from '../../context/InterviewerContext'
 import withAuth from '../../context/WithAuth'
-import { bookInterviewSlot } from '../../services/axiosService'
+import { scheduleGmeet } from '../../utils/gmeet/scheduleGmeet'
+
+const currentDate = new Date()
 
 const removeSecs = (time: string): string => {
   const temp = new Date(time).toLocaleString().split(' ')
@@ -16,38 +21,26 @@ const removeSecs = (time: string): string => {
 function Schedule(): JSX.Element {
   const { intervieweeState, intervieweeDispatch } = useIntervieweeDetails()
   const toast = useToast()
+  const { authState } = useAuth()
+  useEffect(() => {
+    if (Boolean(intervieweeState?.bookedSlots?.length)) {
+      router.push('/interviewee/scheduled')
+    }
+  }, [intervieweeState])
   const slotClickHandler = async (slotId: string) => {
     try {
-      const response = await bookInterviewSlot(slotId)
-      if (response.status === 200) {
-        intervieweeDispatch({
-          type: 'UPDATE_SLOT',
-          payload: {
-            ...response.data?.slot,
-          },
-        })
-        toast({
-          title: 'Success',
-          description: 'Interview booked successfully',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        })
-      }
+      await scheduleGmeet({
+        intervieweeDispatch,
+        slotId,
+        toast,
+      })
     } catch (error) {
       console.log(error)
     }
   }
-  const updatedSlots = intervieweeState?.slots?.reduce(
+
+  const updatedSlots = (intervieweeState?.slots || [])?.reduce(
     (acc: Array<ISlot>, val: ISlot) => {
-      console.log(
-        val.status !== 'open',
-        acc.some((slot: ISlot) => {
-          const t1 = removeSecs(slot?.from)
-          const t2 = removeSecs(val?.from)
-          return t1 === t2
-        })
-      )
       if (
         val.status !== 'open' ||
         acc.some((slot: ISlot) => {
@@ -62,11 +55,24 @@ function Schedule(): JSX.Element {
     },
     []
   )
+
   return (
-    <Layout>
+    <Layout
+    // loading={
+    //   authState?.isLoading ||
+    //   !Boolean(intervieweeState?.bookedSlots) ||
+    //   !Boolean(intervieweeState?.slots)
+    // }
+    >
       <SEO title="Schedule" />
       <Flex w="full" bg="black.800" p="2rem 2rem" rounded="lg">
-        <Calendar />
+        <Calendar
+          selectedDate={{
+            date: currentDate.getDate(),
+            month: currentDate.getMonth(),
+            year: currentDate.getFullYear(),
+          }}
+        />
         <SlotList
           interviewSlots={updatedSlots || []}
           title="Pick Slot"

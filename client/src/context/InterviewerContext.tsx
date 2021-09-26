@@ -2,14 +2,16 @@ import { useEffect } from 'react'
 import { createContext, useReducer, ReactNode, useContext } from 'react'
 import { getInterviewerSlots } from '../services/axiosService'
 import { useAuth } from './AuthContext'
+import { IUser } from '../../../src/models/User'
 
 export interface ISlot {
   _id?: string
   from: string
   to: string
   status?: string
+  link?: string
   interviewer?: string
-  interviewee?: string
+  interviewee?: IUser
   createdAt?: string
 }
 
@@ -87,27 +89,27 @@ export function InterviewerDetailsProvider({
     initalState
   )
   const { authState } = useAuth()
+
   useEffect(() => {
     // fetch slots
-    if (!authState?.isLoading && authState?.isAuthenticated) {
-      const fetchSlots = async () => {
-        try {
-          const resSlots = await getInterviewerSlots()
 
-          console.log('interviewer slots', resSlots.data)
-
-          // dispatch slots
-          interviewerDispatch({
-            type: 'SET_SLOTS',
-            payload: resSlots.data?.slots,
-          })
-        } catch (err) {
-          console.log('error while fetching interviewer slots', err)
-        }
+    // if (!authState?.isLoading && authState?.isAuthenticated) {
+    const fetchSlots = async () => {
+      try {
+        const resSlots = await getInterviewerSlots()
+        // dispatch slots
+        interviewerDispatch({
+          type: 'SET_SLOTS',
+          payload: resSlots.data?.slots,
+        })
+      } catch (err) {
+        console.log('error while fetching interviewer slots', err)
       }
-      fetchSlots()
     }
-  }, [authState?.isLoading, authState?.isAuthenticated])
+    fetchSlots()
+    // }
+  }, [])
+
   return (
     <InterviewerContext.Provider
       value={{ interviewerDispatch, interviewerState }}

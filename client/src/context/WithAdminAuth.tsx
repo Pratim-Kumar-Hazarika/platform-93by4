@@ -35,7 +35,7 @@ const withAdminAuth = (
       const dashboardUrl = getDashboardUrlBasedOnRole(adminRole)
       console.log(roleRequired, dashboardUrl, adminRole)
 
-      if (!isLoading && !isAuthenticated) {
+      if ((!isLoading && !isAuthenticated) || (!isLoading && !adminRole)) {
         router.push({
           pathname: '/',
         })

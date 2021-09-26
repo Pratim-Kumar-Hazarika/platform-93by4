@@ -156,9 +156,10 @@ export const getAdmissionFormData = async () => {
   return response
 }
 
-export const bookInterviewSlot = async (slotId: string) => {
+export const bookInterviewSlot = async (slotId: string, gmeetLink: string) => {
   const response = await apiClient.post('/interview/book-slot', {
     slotId,
+    gmeetLink,
   })
   return response
 }

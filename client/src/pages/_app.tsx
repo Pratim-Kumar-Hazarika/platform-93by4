@@ -6,6 +6,13 @@ import { AdminAuthProvider } from '../context/AdminContext'
 import { InterviewerDetailsProvider } from '../context/InterviewerContext'
 import { PaymentDetailsProvider } from '../context/PaymentContext/PaymentContext'
 import { IntervieweeDetailsProvider } from '../context/IntervieweeContext'
+import { useEffect } from 'react'
+
+declare global {
+  interface Window {
+    gapi: any
+  }
+}
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
