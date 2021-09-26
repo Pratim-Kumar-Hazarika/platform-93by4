@@ -21,11 +21,15 @@ function Schedule(): JSX.Element {
   const { intervieweeState, intervieweeDispatch } = useIntervieweeDetails()
   const toast = useToast()
   const { authState } = useAuth()
-  // useEffect(() => {
-  //   if (!Boolean(intervieweeState?.bookedSlots?.length)) {
-  //     router.push('/interviewee/scheduled')
-  //   }
-  // }, [intervieweeState])
+  useEffect(() => {
+    console.log(
+      'intervieweeState',
+      Boolean(intervieweeState?.bookedSlots?.length)
+    )
+    if (Boolean(intervieweeState?.bookedSlots?.length)) {
+      router.push('/interviewee/scheduled')
+    }
+  }, [intervieweeState])
   const slotClickHandler = async (slotId: string) => {
     try {
       await scheduleGmeet({
@@ -40,14 +44,6 @@ function Schedule(): JSX.Element {
 
   const updatedSlots = (intervieweeState?.slots || [])?.reduce(
     (acc: Array<ISlot>, val: ISlot) => {
-      console.log(
-        val.status !== 'open',
-        acc.some((slot: ISlot) => {
-          const t1 = removeSecs(slot?.from)
-          const t2 = removeSecs(val?.from)
-          return t1 === t2
-        })
-      )
       if (
         val.status !== 'open' ||
         acc.some((slot: ISlot) => {

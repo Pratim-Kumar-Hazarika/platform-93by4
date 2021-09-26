@@ -135,8 +135,8 @@ export function IntervieweeDetailsProvider({
             payload: resSlots?.data?.slots || [],
           })
           intervieweeDispatch({
-            type: 'ADD_SCHEDULED_SLOT',
-            payload: resSlots?.data?.slots || [],
+            type: 'ADD_SCHEDULED_SLOTS',
+            payload: resBookedSlots?.data?.slots || [],
           })
         } catch (error) {
           console.log('error while fetching interviewee slots', error)
