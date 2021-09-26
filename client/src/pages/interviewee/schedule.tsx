@@ -8,6 +8,8 @@ import useIntervieweeDetails from '../../context/IntervieweeContext'
 import { ISlot } from '../../context/InterviewerContext'
 import withAuth from '../../context/WithAuth'
 import { scheduleGmeet } from '../../utils/gmeet/scheduleGmeet'
+import { useState } from 'react'
+import { IDate } from '../interviewer/add-slot'
 
 const currentDate = new Date()
 
@@ -22,6 +24,12 @@ function Schedule(): JSX.Element {
   const { intervieweeState, intervieweeDispatch } = useIntervieweeDetails()
   const toast = useToast()
   const { authState } = useAuth()
+  const [selectedDate, setSelectedDate] = useState({
+    date: currentDate.getDate(),
+    month: currentDate.getMonth(),
+    year: currentDate.getFullYear(),
+  })
+
   useEffect(() => {
     if (Boolean(intervieweeState?.bookedSlots?.length)) {
       router.push('/interviewee/scheduled')
@@ -56,22 +64,24 @@ function Schedule(): JSX.Element {
     []
   )
 
+  const currentDateHandler = (selectedDate: IDate) => {
+    setSelectedDate(selectedDate)
+  }
+
   return (
     <Layout
-    // loading={
-    //   authState?.isLoading ||
-    //   !Boolean(intervieweeState?.bookedSlots) ||
-    //   !Boolean(intervieweeState?.slots)
-    // }
+      loading={
+        authState?.isLoading ||
+        !Boolean(intervieweeState?.bookedSlots) ||
+        !Boolean(intervieweeState?.slots)
+      }
     >
       <SEO title="Schedule" />
       <Flex w="full" bg="black.800" p="2rem 2rem" rounded="lg">
         <Calendar
-          selectedDate={{
-            date: currentDate.getDate(),
-            month: currentDate.getMonth(),
-            year: currentDate.getFullYear(),
-          }}
+          currentDateHandler={currentDateHandler}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
         />
         <SlotList
           interviewSlots={updatedSlots || []}
