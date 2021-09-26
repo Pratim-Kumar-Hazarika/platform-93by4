@@ -4,24 +4,28 @@ declare global {
   }
 }
 
-export const scheduleGmeet = async () => {
+export const scheduleGmeet = () => {
   try {
     const gapi = window.gapi
 
-    gapi.load('client:auth2', () => {
+    console.log('Hii')
+
+    return gapi.load('client:auth2', () => {
       gapi.client.init({
         apiKey: process.env.API_KEY,
         clientId: process.env.CLIENT_ID,
-        // discoveryDocs: [process.env.DISCOVERY_DOCS],
+        discoveryDocs: [process.env.DISCOVERY_DOCS],
         scope: process.env.SCOPES,
       })
 
+      console.log('Hello')
+
       gapi.client.load('calendar', 'v3', () => console.log('bam!'))
 
-      gapi.auth2
+      return gapi.auth2
         .getAuthInstance()
         .signIn()
-        .then(async () => {
+        .then(() => {
           const event = {
             summary: 'Awesome Event 3!',
             location: 'Mumbai, India',
@@ -63,14 +67,19 @@ export const scheduleGmeet = async () => {
             conferenceDataVersion: '1',
           })
 
-          await request.execute((reqEvent: any) => {
+          return request.execute((reqEvent: any) => {
             console.log({ reqEvent })
             return reqEvent
           })
+          // .then((response: any) => {
+          //   return response
+          // })
+          // console.log({ res })
+          // return res
         })
     })
   } catch (error) {
     console.log({ error }, 'Error while create Google Meet Link')
   }
-  return { succeed: false }
+  // return { succeed: false }
 }

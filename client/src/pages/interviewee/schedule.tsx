@@ -20,7 +20,7 @@ function Schedule(): JSX.Element {
   const slotClickHandler = async (slotId: string) => {
     try {
       console.log(window.gapi)
-      const gmeetLink = await scheduleGmeet()
+      const gmeetLink = scheduleGmeet()
       console.log('scheduleGmeet', { gmeetLink })
       // const response = await bookInterviewSlot(slotId)
       // if (response.status === 200) {

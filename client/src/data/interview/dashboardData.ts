@@ -12,6 +12,6 @@ export const interviewDashBoardData = [
   {
     id: '3',
     title: 'Your Monthly Calendar',
-    link: '/interviewer/calendar',
+    link: '/interviewer/montly-calendar',
   },
 ]

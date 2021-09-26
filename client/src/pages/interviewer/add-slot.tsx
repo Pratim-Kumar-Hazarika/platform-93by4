@@ -15,11 +15,7 @@ const currentDate = new Date()
 
 function AddSlot() {
   const breadcrumbsLinks = [
-    { breadcrumbName: 'Dashboard', breadcrumbLink: '/dashboard' },
-    {
-      breadcrumbName: 'Interview',
-      breadcrumbLink: '/interview',
-    },
+    { breadcrumbName: 'Dashboard', breadcrumbLink: '/interviewer' },
     {
       breadcrumbName: 'Add slots',
       breadcrumbLink: '/add-slots',

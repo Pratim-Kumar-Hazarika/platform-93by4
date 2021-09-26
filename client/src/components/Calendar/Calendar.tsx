@@ -16,10 +16,12 @@ function CalenderCell({
   text,
   active,
   isCurrentMonth,
+  currentDateHandler,
 }: {
   text: string | number
   active?: boolean
   isCurrentMonth?: boolean
+  currentDateHandler?: () => void
 }) {
   return (
     <Flex
@@ -32,13 +34,18 @@ function CalenderCell({
       color={
         (active && 'black.900') || (isCurrentMonth ? 'black.400' : 'black.600')
       }
+      onClick={currentDateHandler}
     >
       {text}
     </Flex>
   )
 }
 
-export function Calendar() {
+export function Calendar({
+  currentDateHandler,
+}: {
+  currentDateHandler?: () => void
+}) {
   const currentDate = new Date()
   const [selectedDate, setSelectedDate] = useState({
     date: currentDate.getDate(),
@@ -82,7 +89,7 @@ export function Calendar() {
     }
   }
 
-  console.log(selectedDate, daysInMonth[0])
+  // console.log(selectedDate, daysInMonth[0])
   return (
     <Box flex={1}>
       <Flex justify="space-between" pb="2rem">
@@ -153,6 +160,7 @@ export function Calendar() {
               text={calcDate}
               active={isToday}
               isCurrentMonth={isCurrentMonth}
+              currentDateHandler={currentDateHandler}
             />
           )
         })}
