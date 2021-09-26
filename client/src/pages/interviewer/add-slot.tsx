@@ -64,6 +64,17 @@ function AddSlot() {
       currentDate.setMinutes(Number(value[1]))
       const prevDate = currentDate.toISOString()
       const timeAfter30Mins = addTime(currentDate, 30)
+     console.log({timeAfter30Mins})
+      if(timeAfter30Mins === "Time is not valid"){
+        toast({
+          title: 'Error',
+          description: 'You can select time after 8am only!!',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        })
+        return false;
+      }
       const payload = {
         from: prevDate,
         to: timeAfter30Mins.toISOString(),
