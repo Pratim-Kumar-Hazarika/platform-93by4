@@ -8,11 +8,10 @@ import {
   Text,
   Input,
 } from '@chakra-ui/react'
-import { Dispatch, useState, SetStateAction } from 'react'
+import { Dispatch, ReactNode, SetStateAction } from 'react'
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi'
 import { BsPlusCircle } from 'react-icons/bs'
 import { ISlot } from '../../context/InterviewerContext'
-import { getTimeFromLocalString } from '../../utils/getTimeFromLocalString'
 import { timeformatAMPM } from '../../utils/timeformatAMPM'
 import { TimeSlot } from '../TimeSlot/TimeSlot'
 
@@ -27,6 +26,7 @@ export function SlotList({
   onClick,
   needAddButton,
   deleteButton,
+  selectField,
 }: {
   title: string
   interviewSlots: Array<ISlot>
@@ -38,6 +38,7 @@ export function SlotList({
   onClick?: Dispatch<SetStateAction<boolean>>
   needAddButton?: boolean
   deleteButton?: boolean
+  selectField?: ReactNode
 }) {
   interviewSlots.sort((a: any, b: any) => {
     return new Date(a.from).getTime() - new Date(b.from).getTime()
@@ -46,7 +47,11 @@ export function SlotList({
   return (
     <Flex flexDir="column" align="center" flex={1} pl="2rem">
       <Flex justify="space-between" w="full" pb="2rem" maxW="330px">
-        <Heading fontSize="1.8rem">{title}</Heading>
+        {selectField ? (
+          selectField
+        ) : (
+          <Heading fontSize="1.8rem">{title}</Heading>
+        )}
         <HStack>
           <IconButton
             _hover={{ bg: 'black.600' }}

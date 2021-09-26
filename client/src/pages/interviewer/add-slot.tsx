@@ -1,17 +1,33 @@
 import { Button } from '@chakra-ui/button'
 import { Checkbox } from '@chakra-ui/checkbox'
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/layout'
-import { useToast } from '@chakra-ui/react'
+import { useToast, Select } from '@chakra-ui/react'
 import { useState } from 'react'
 import { Breadcrumbs, Calendar, Layout, SlotList } from '../../components'
 import useInterviewerDetails from '../../context/InterviewerContext'
 import withAdminAuth from '../../context/WithAdminAuth'
 import { deleteInterviewerSlot, addTimeSlot } from '../../services/axiosService'
 import { addTime } from '../../utils/addTime'
-import { getTimeFromLocalString } from '../../utils/getTimeFromLocalString'
 import { policy } from '../../utils/policy'
+import { timeformatAMPM } from '../../utils/timeformatAMPM'
 
 const currentDate = new Date()
+
+const SelectField = ({
+  options,
+}: {
+  options: Array<{ label: string; value: string }>
+}) => {
+  return (
+    <Select mr={5}>
+      {options.map((slot) => (
+        <option key={`interviewer-slots-type-${slot.value}`} value={slot.value}>
+          {slot.label}
+        </option>
+      ))}
+    </Select>
+  )
+}
 
 export interface IDate {
   date: number
@@ -64,7 +80,7 @@ function AddSlot() {
       currentDate.setMinutes(Number(value[1]))
       const prevDate = currentDate.toISOString()
       const timeAfter30Mins = addTime(currentDate, 30)
-     console.log({timeAfter30Mins})
+
       if(timeAfter30Mins === "Time is not valid"){
         toast({
           title: 'Error',
@@ -79,24 +95,24 @@ function AddSlot() {
         from: prevDate,
         to: timeAfter30Mins.toISOString(),
       }
-      const res = await addTimeSlot(payload)
+      // const res = await addTimeSlot(payload)
 
-      if (res.status === 200) {
-        interviewerDispatch({
-          type: 'ADD_SLOT',
-          payload: res.data?.slot,
-        })
-        // toast message
-        toast({
-          title: 'Time Slot Added',
-          description: `Your selected slot at ${getTimeFromLocalString(
-            prevDate
-          )} was successfully added`,
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
-        })
-      }
+      // if (res.status === 200) {
+      //   interviewerDispatch({
+      //     type: 'ADD_SLOT',
+      //     payload: res.data?.slot,
+      //   })
+      //   // toast message
+      //   toast({
+      //     title: 'Time Slot Added',
+      //     description: `Your selected slot at ${timeformatAMPM(
+      //       new Date(prevDate)
+      //     )} has been added !!!`,
+      //     status: 'success',
+      //     duration: 9000,
+      //     isClosable: true,
+      //   })
+      // }
     } else {
       // toast error
       toast({
@@ -147,6 +163,24 @@ function AddSlot() {
               interviewSlots={interviewerState?.slots || []}
               addTimeInputVisibility={addTimeInputVisibility}
               onClick={setAddTimeInputVisibility}
+              selectField={
+                <SelectField
+                  options={[
+                    {
+                      label: 'Open Slots',
+                      value: 'open-slots',
+                    },
+                    {
+                      label: 'Booked Slots',
+                      value: 'booked-slots',
+                    },
+                    {
+                      label: 'Cancelled Slots',
+                      value: 'cancelled-slots',
+                    },
+                  ]}
+                />
+              }
               deleteButton
               needAddButton
             />

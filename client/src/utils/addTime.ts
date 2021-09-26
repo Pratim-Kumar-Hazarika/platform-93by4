@@ -1,13 +1,14 @@
 import { timeformatAMPM } from "./timeformatAMPM"
 
 // function for adding given minutes to particular time
-export function addTime(time: Date, minutes: number): any {
-      var today = new Date().getHours();
-      time.setMinutes(time.getMinutes() + minutes)
-      console.log({today})
-      console.log(time.getHours())
-    if (today >= 9 && today <= 21) {
-     
-      return time
-    } return time
+export function addTime(time: Date, minutes: number): Date | undefined | any{
+  const fromTime = time
+  time.setMinutes(time.getMinutes() + minutes)
+  // diff hours
+  const moreThan8AM = (fromTime.getHours() - 8) * 60 + fromTime.getMinutes()
+  const lessThan8AM = (20 - time.getHours()) * 60 - time.getMinutes()
+
+  if (moreThan8AM > 0 && lessThan8AM > 0) {
+    return time
+  }
 }
