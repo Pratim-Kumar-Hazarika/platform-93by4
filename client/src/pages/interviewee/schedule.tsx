@@ -10,6 +10,8 @@ import withAuth from '../../context/WithAuth'
 import { bookInterviewSlot } from '../../services/axiosService'
 import { scheduleGmeet } from '../../utils/gmeet/scheduleGmeet'
 
+const currentDate = new Date()
+
 const removeSecs = (time: string): string => {
   const temp = new Date(time).toLocaleString().split(' ')
   const t1 = temp[1].split(':').slice(0, 2).join(':')
@@ -21,11 +23,15 @@ function Schedule(): JSX.Element {
   const { intervieweeState, intervieweeDispatch } = useIntervieweeDetails()
   const toast = useToast()
   const { authState } = useAuth()
-  // useEffect(() => {
-  //   if (!Boolean(intervieweeState?.bookedSlots?.length)) {
-  //     router.push('/interviewee/scheduled')
-  //   }
-  // }, [intervieweeState])
+  useEffect(() => {
+    console.log(
+      'intervieweeState',
+      Boolean(intervieweeState?.bookedSlots?.length)
+    )
+    if (Boolean(intervieweeState?.bookedSlots?.length)) {
+      router.push('/interviewee/scheduled')
+    }
+  }, [intervieweeState])
   const slotClickHandler = async (slotId: string) => {
     try {
       await scheduleGmeet({
@@ -40,14 +46,6 @@ function Schedule(): JSX.Element {
 
   const updatedSlots = (intervieweeState?.slots || [])?.reduce(
     (acc: Array<ISlot>, val: ISlot) => {
-      console.log(
-        val.status !== 'open',
-        acc.some((slot: ISlot) => {
-          const t1 = removeSecs(slot?.from)
-          const t2 = removeSecs(val?.from)
-          return t1 === t2
-        })
-      )
       if (
         val.status !== 'open' ||
         acc.some((slot: ISlot) => {
@@ -81,7 +79,13 @@ function Schedule(): JSX.Element {
     >
       <SEO title="Schedule" />
       <Flex w="full" bg="black.800" p="2rem 2rem" rounded="lg">
-        <Calendar />
+        <Calendar
+          selectedDate={{
+            date: currentDate.getDate(),
+            month: currentDate.getMonth(),
+            year: currentDate.getFullYear(),
+          }}
+        />
         <SlotList
           interviewSlots={updatedSlots || []}
           title="Pick Slot"

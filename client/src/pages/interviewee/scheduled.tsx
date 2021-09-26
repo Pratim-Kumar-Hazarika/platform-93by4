@@ -12,9 +12,16 @@ import {
 } from '@chakra-ui/react'
 import { AlertDialogBox, Layout } from '../../components'
 import { SEO } from '../../components/Layout/SEO'
+import useIntervieweeDetails from '../../context/IntervieweeContext'
 import withAuth from '../../context/WithAuth'
+import { timeformatAMPM } from '../../utils/timeformatAMPM'
 
 export function Scheduled() {
+  const { intervieweeState } = useIntervieweeDetails()
+  const bookSlot = intervieweeState?.bookedSlots?.find(
+    (slotItem) => slotItem.status === 'booked'
+  )
+  console.log({ bookSlot }, intervieweeState?.bookedSlots)
   return (
     <Layout>
       <SEO title="Scheduled Interview" />
@@ -52,7 +59,7 @@ export function Scheduled() {
                   outlineColor="transparent"
                   isTruncated
                 >
-                  https://meet.google.com/ajbdjbas-asndjn
+                  {bookSlot?.link}
                 </Td>
               </Tr>
               <Tr>
@@ -67,9 +74,12 @@ export function Scheduled() {
                 <Th borderColor="transparent" outlineColor="transparent">
                   Time
                 </Th>
-                <Td borderColor="transparent" outlineColor="transparent">
-                  5:00pm - 5:30pm
-                </Td>
+                {bookSlot && (
+                  <Td borderColor="transparent" outlineColor="transparent">
+                    {timeformatAMPM(new Date(bookSlot.from))} -{' '}
+                    {timeformatAMPM(new Date(bookSlot.to))}
+                  </Td>
+                )}
               </Tr>
             </Tbody>
           </Table>
