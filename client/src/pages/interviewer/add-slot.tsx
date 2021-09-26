@@ -81,38 +81,39 @@ function AddSlot() {
       const prevDate = currentDate.toISOString()
       const timeAfter30Mins = addTime(currentDate, 30)
 
-      if(timeAfter30Mins === "Time is not valid"){
-        toast({
-          title: 'Error',
-          description: 'You can select time after 8am only!!',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        })
-        return false;
-      }
+      if(timeAfter30Mins){
       const payload = {
         from: prevDate,
         to: timeAfter30Mins.toISOString(),
       }
-      // const res = await addTimeSlot(payload)
+      const res = await addTimeSlot(payload)
 
-      // if (res.status === 200) {
-      //   interviewerDispatch({
-      //     type: 'ADD_SLOT',
-      //     payload: res.data?.slot,
-      //   })
-      //   // toast message
-      //   toast({
-      //     title: 'Time Slot Added',
-      //     description: `Your selected slot at ${timeformatAMPM(
-      //       new Date(prevDate)
-      //     )} has been added !!!`,
-      //     status: 'success',
-      //     duration: 9000,
-      //     isClosable: true,
-      //   })
-      // }
+      if (res.status === 200) {
+        interviewerDispatch({
+          type: 'ADD_SLOT',
+          payload: res.data?.slot,
+        })
+        // toast message
+        toast({
+          title: 'Time Slot Added',
+          description: `Your selected slot at ${timeformatAMPM(
+            new Date(prevDate)
+          )} has been added !!!`,
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
+    }else{
+        toast({
+          title: 'Error',
+          description: 'Your selected slot is invalid!',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        })
+
+      }
     } else {
       // toast error
       toast({
