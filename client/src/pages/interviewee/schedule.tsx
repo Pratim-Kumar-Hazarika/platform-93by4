@@ -58,11 +58,11 @@ function Schedule(): JSX.Element {
 
   return (
     <Layout
-      loading={
-        authState?.isLoading ||
-        !Boolean(intervieweeState?.bookedSlots) ||
-        !Boolean(intervieweeState?.slots)
-      }
+    // loading={
+    //   authState?.isLoading ||
+    //   !Boolean(intervieweeState?.bookedSlots) ||
+    //   !Boolean(intervieweeState?.slots)
+    // }
     >
       <SEO title="Schedule" />
       <Flex w="full" bg="black.800" p="2rem 2rem" rounded="lg">
