@@ -1,5 +1,5 @@
-import { Flex, Box } from '@chakra-ui/react'
-import { ReactNode } from 'react'
+import { Flex, Box, Center, Spinner } from '@chakra-ui/react'
+import React, { ReactNode } from 'react'
 import Head from 'next/head'
 import { Error, Navbar } from '../'
 import { theme } from '../../themes'
@@ -10,10 +10,12 @@ export function Layout({
   children,
   title,
   flag,
+  loading,
 }: {
   children: ReactNode
   title?: string
   flag?: string
+  loading?: boolean
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -36,7 +38,7 @@ export function Layout({
 
   console.log('Layout', featureFlags)
 
-  return (
+  return !loading ? (
     <Flex
       ref={containerRef}
       background={theme.colors.black['900']}
@@ -61,5 +63,9 @@ export function Layout({
         {featureState ? children : <Error />}
       </Box>
     </Flex>
+  ) : (
+    <Center minH="100vh">
+      <Spinner />
+    </Center>
   )
 }

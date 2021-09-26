@@ -1,8 +1,10 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/layout'
 import { Breadcrumbs, Layout } from '../../components'
 import { InterviewSlot } from '../../components/InterviewSlot/InterviewSlot'
+import withAdminAuth from '../../context/WithAdminAuth'
 import withAuth from '../../context/WithAuth'
 import { getTimeFromLocalString } from '../../utils/getTimeFromLocalString'
+import { policy } from '../../utils/policy'
 
 function InterviewToday() {
   const breadcrumbsLinks = [
@@ -33,4 +35,4 @@ function InterviewToday() {
   )
 }
 
-export default withAuth(InterviewToday)
+export default withAdminAuth(InterviewToday, [policy['interviewer']])
